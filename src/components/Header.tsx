@@ -8,7 +8,7 @@ const Header = () => {
         "my-fights": "내쌈",
         "my-page": "마이 페이지",
     };
-    console.log(router);
+
     return <div>hi</div>;
 };
 
