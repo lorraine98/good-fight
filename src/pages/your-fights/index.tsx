@@ -1,5 +1,5 @@
 const index = () => {
-    return <div>니쌈</div>;
+    return <div></div>;
 };
 
 export default index;

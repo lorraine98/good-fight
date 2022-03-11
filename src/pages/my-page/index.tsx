@@ -1,5 +1,5 @@
 const index = () => {
-    return <div>마이 페이지</div>;
+    return <div></div>;
 };
 
 export default index;
