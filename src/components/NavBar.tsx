@@ -58,12 +58,14 @@ const NavBar = () => {
             <style jsx>{`
                 nav {
                     position: fixed;
-                    bottom: 15px;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
                     margin: 0 auto;
                     display: flex;
                     font-size: 15px;
                     border: 1px solid black;
-                    width: 50vw;
+                    width: 30vw;
                     height: 60px;
                     justify-content: space-evenly;
                     align-items: center;
