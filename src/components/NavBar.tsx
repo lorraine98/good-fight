@@ -27,9 +27,9 @@ const NavBar = () => {
             <Link href="/your-fights">
                 <a>
                     {router.pathname === "/your-fights" ? (
-                        <LibraryBooksIcon fontSize="large" />
+                        <ThumbsUpDownIcon fontSize="large" />
                     ) : (
-                        <LibraryBooksOutlinedIcon fontSize="large" />
+                        <ThumbsUpDownOutlinedIcon fontSize="large" />
                     )}
                     <h3>니쌈</h3>
                 </a>
@@ -38,9 +38,9 @@ const NavBar = () => {
             <Link href="/my-fights">
                 <a>
                     {router.pathname === "/my-fights" ? (
-                        <ThumbsUpDownIcon fontSize="large" />
+                        <LibraryBooksIcon fontSize="large" />
                     ) : (
-                        <ThumbsUpDownOutlinedIcon fontSize="large" />
+                        <LibraryBooksOutlinedIcon fontSize="large" />
                     )}
                     <h3>내쌈</h3>
                 </a>
