@@ -63,7 +63,7 @@ const NavBar = () => {
           height: 60px;
           justify-content: space-around;
           align-items: center;
-          max-width: 42vw;
+          max-width: 30rem;
           background: ${theme.colors.white};
           box-shadow: 0 -1px 3px rgba(57, 63, 72, 0.1);
         }

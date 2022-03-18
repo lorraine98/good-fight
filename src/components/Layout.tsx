@@ -17,7 +17,7 @@ const Layout = ({ children }: AppLayoutProps) => {
       <style jsx global>{`
         body {
           position: relative;
-          max-width: 42vw;
+          max-width: 30rem;
           height: 100vh;
           background: ${theme.colors.background};
           color: ${theme.colors.black};
