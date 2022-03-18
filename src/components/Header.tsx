@@ -3,6 +3,7 @@ import { useState } from "react";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import NotificationsNone from "@mui/icons-material/NotificationsNone";
 import NotificationAdd from "@mui/icons-material/NotificationAdd";
+import { useTheme } from "@emotion/react";
 
 interface Title {
   [key: string]: string;
@@ -21,6 +22,7 @@ const Header = () => {
   };
 
   const currentRoute = title[router.pathname];
+  const theme = useTheme();
 
   return (
     <>
@@ -40,13 +42,13 @@ const Header = () => {
           display: flex;
           margin: 0 auto;
           align-items: center;
-          width: 30vw;
           height: 50px;
           font-size: 1rem;
           font-weight: bold;
           justify-content: space-between;
-          border: 1px solid black;
-          min-width: 500px;
+          width: 100%;
+          background: ${theme.colors.white};
+          box-shadow: 0 1px 3px rgba(57, 63, 72, 0.1);
         }
 
         .header .wrapper {
