@@ -8,50 +8,48 @@ import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import ThumbsUpDownOutlinedIcon from "@mui/icons-material/ThumbsUpDownOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import { useTheme } from "@emotion/react";
 
 const NavBar = () => {
   const router = useRouter();
+  const theme = useTheme();
 
   return (
     <nav>
       <Link href="/">
         <a>
-          {router.pathname === "/" ? (
-            <HomeIcon fontSize="large" />
-          ) : (
-            <HomeOutlinedIcon fontSize="large" />
-          )}
-          <h3>홈</h3>
+          {router.pathname === "/" ? <HomeIcon /> : <HomeOutlinedIcon />}
+          <h3 className="title">홈</h3>
         </a>
       </Link>
       <Link href="/your-fights">
         <a>
           {router.pathname === "/your-fights" ? (
-            <ThumbsUpDownIcon fontSize="large" />
+            <ThumbsUpDownIcon />
           ) : (
-            <ThumbsUpDownOutlinedIcon fontSize="large" />
+            <ThumbsUpDownOutlinedIcon />
           )}
-          <h3>니쌈</h3>
+          <h3 className="title">니쌈</h3>
         </a>
       </Link>
       <Link href="/my-fights">
         <a>
           {router.pathname === "/my-fights" ? (
-            <LibraryBooksIcon fontSize="large" />
+            <LibraryBooksIcon />
           ) : (
-            <LibraryBooksOutlinedIcon fontSize="large" />
+            <LibraryBooksOutlinedIcon />
           )}
-          <h3>내쌈</h3>
+          <h3 className="title">내쌈</h3>
         </a>
       </Link>
       <Link href="/my-page">
         <a>
           {router.pathname === "/my-page" ? (
-            <PersonIcon fontSize="large" />
+            <PersonIcon />
           ) : (
-            <PersonOutlineOutlinedIcon fontSize="large" />
+            <PersonOutlineOutlinedIcon />
           )}
-          <h3>마이페이지</h3>
+          <h3 className="title">마이페이지</h3>
         </a>
       </Link>
       <style jsx>{`
@@ -62,13 +60,12 @@ const NavBar = () => {
           right: 0;
           margin: 0 auto;
           display: flex;
-          font-size: 15px;
-          border: 1px solid black;
-          width: 30vw;
           height: 60px;
           justify-content: space-around;
           align-items: center;
-          min-width: 500px;
+          max-width: 30rem;
+          background: ${theme.colors.white};
+          box-shadow: 0 -1px 3px rgba(57, 63, 72, 0.1);
         }
 
         nav a {
@@ -76,6 +73,11 @@ const NavBar = () => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+        }
+
+        .title {
+          font-size: 0.8rem;
+          margin-top: 5px;
         }
       `}</style>
     </nav>
