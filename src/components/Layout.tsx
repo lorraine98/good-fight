@@ -20,7 +20,7 @@ const Layout = ({ children }: AppLayoutProps) => {
           max-width: 30rem;
           height: 100vh;
           background: ${theme.colors.background};
-          color: ${theme.colors.black};
+          color: ${theme.colors.text};
         }
       `}</style>
     </>
