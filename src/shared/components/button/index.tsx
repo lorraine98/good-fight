@@ -23,7 +23,7 @@ const Button = ({ children, type = "button", onClick, ...props }: Props) => {
         .button {
           background: ${theme.colors.brown};
           width: 100%;
-          height: 2.5rem;
+          height: 2.7rem;
           border: none;
           border-radius: 0.4rem;
           color: ${theme.colors.white};
