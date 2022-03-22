@@ -5,8 +5,9 @@ import Layout from "../components/Layout";
 import "../styles/globals.css";
 import { ThemeProvider } from "@emotion/react";
 import { lightTheme } from "../styles/theme";
+import PrivateRoute from "../route/PrivateRoute";
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
@@ -16,10 +17,14 @@ export default function App({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <ThemeProvider theme={lightTheme}>
           <Layout>
-            <Component {...pageProps} />
+            <PrivateRoute>
+              <Component {...pageProps} />
+            </PrivateRoute>
           </Layout>
         </ThemeProvider>
       </RecoilRoot>
     </>
   );
-}
+};
+
+export default App;
