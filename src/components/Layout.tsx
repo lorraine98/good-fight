@@ -1,19 +1,34 @@
 import Header from "./Header";
 import NavBar from "./NavBar";
 import React, { useState } from "react";
-import { useTheme } from "@emotion/react";
+import { lightTheme as theme } from "../styles/theme";
+import { useRouter } from "next/router";
 
 type AppLayoutProps = {
   children: React.ReactNode;
 };
 
 const Layout = ({ children }: AppLayoutProps) => {
-  const theme = useTheme();
+  const { pathname } = useRouter();
+
+  const showLayoutByPathname = () => {
+    switch (pathname) {
+      case "/auth":
+        return;
+      default:
+        return (
+          <>
+            <Header />
+            <NavBar />
+          </>
+        );
+    }
+  };
+
   return (
     <>
-      <Header />
+      {showLayoutByPathname()}
       <div>{children}</div>
-      <NavBar />
       <style jsx global>{`
         body {
           position: relative;
