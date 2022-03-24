@@ -1,4 +1,4 @@
-import { useTheme } from "@emotion/react";
+import { lightTheme as theme } from "../../../styles/theme";
 import React from "react";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -7,7 +7,6 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = ({ children, type = "button", onClick, ...props }: Props) => {
-  const theme = useTheme();
   return (
     <>
       <button

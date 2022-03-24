@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { lightTheme as theme } from "../styles/theme";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import NotificationsNone from "@mui/icons-material/NotificationsNone";
 import NotificationAdd from "@mui/icons-material/NotificationAdd";
-import { useTheme } from "@emotion/react";
 
 interface Title {
   [key: string]: string;
@@ -22,7 +22,6 @@ const Header = () => {
   };
 
   const currentRoute = title[router.pathname];
-  const theme = useTheme();
 
   return (
     <>

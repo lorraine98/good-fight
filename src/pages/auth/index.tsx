@@ -8,11 +8,10 @@ import Container from "../../shared/components/container";
 import { loginGoogle } from "./api/auth-google-login";
 import logo from "../../shared/img/logo.png";
 import Image from "next/image";
-import { useTheme } from "@emotion/react";
+import { lightTheme as theme } from "../../styles/theme";
 
 export default function AuthPage() {
   const auth = getAuth();
-  const theme = useTheme();
   const { push } = useRouter();
   const setIsAuthenticated = useSetRecoilState(authUserState);
 
@@ -30,7 +29,7 @@ export default function AuthPage() {
       .catch((error) => {
         console.error(error.code);
       });
-  }, [auth]);
+  }, [auth, push, setIsAuthenticated]);
 
   const handleClick = () => {
     loginGoogle();

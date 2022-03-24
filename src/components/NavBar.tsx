@@ -8,11 +8,10 @@ import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import ThumbsUpDownOutlinedIcon from "@mui/icons-material/ThumbsUpDownOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { useTheme } from "@emotion/react";
+import { lightTheme as theme } from "../styles/theme";
 
 const NavBar = () => {
   const router = useRouter();
-  const theme = useTheme();
 
   return (
     <nav>
