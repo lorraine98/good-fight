@@ -1,4 +1,4 @@
-import { lightTheme as theme } from "../../../styles/theme";
+import { useTheme } from "@mui/system";
 import React from "react";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -7,6 +7,8 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = ({ children, type = "button", onClick, ...props }: Props) => {
+  const theme = useTheme();
+
   return (
     <>
       <button
@@ -20,12 +22,12 @@ const Button = ({ children, type = "button", onClick, ...props }: Props) => {
       </button>
       <style jsx>{`
         .button {
-          background: ${theme.colors.brown};
+          background: ${theme.palette.brown};
           width: 100%;
           height: 2.7rem;
           border: none;
           border-radius: 0.4rem;
-          color: ${theme.colors.white};
+          color: ${theme.palette.white};
           font-size: 1rem;
           font-weight: 600;
         }

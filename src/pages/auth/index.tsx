@@ -8,10 +8,11 @@ import Container from "../../shared/components/container";
 import { loginGoogle } from "./api/auth-google-login";
 import logo from "../../shared/img/logo.png";
 import Image from "next/image";
-import { lightTheme as theme } from "../../styles/theme";
+import { useTheme } from "@mui/system";
 
 export default function AuthPage() {
   const auth = getAuth();
+  const theme = useTheme();
   const { push } = useRouter();
   const setIsAuthenticated = useSetRecoilState(authUserState);
 
@@ -75,15 +76,15 @@ export default function AuthPage() {
           animation: 2s infinite;
         }
         .square1 {
-          background-color: ${theme.colors.brown};
+          background-color: ${theme.palette.brown};
           animation-name: rotate-1;
         }
         .square2 {
-          background-color: ${theme.colors.softBrown};
+          background-color: ${theme.palette.softBrown};
           animation-name: rotate-2;
         }
         .square3 {
-          background-color: ${theme.colors.yellow}
+          background-color: ${theme.palette.yellow}
           animation-name: rotate-3;
         }
 

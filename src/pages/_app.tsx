@@ -3,9 +3,9 @@ import { RecoilRoot } from "recoil";
 import Head from "next/head";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
-import { ThemeProvider } from "@emotion/react";
-import { lightTheme } from "../styles/theme";
 import PrivateRoute from "../route/PrivateRoute";
+import { ThemeProvider } from "@mui/material";
+import { getDesignToken } from "../styles/theme";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -15,7 +15,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <title>good fight</title>
       </Head>
       <RecoilRoot>
-        <ThemeProvider theme={lightTheme}>
+        <ThemeProvider theme={getDesignToken("light")}>
           <Layout>
             <PrivateRoute>
               <Component {...pageProps} />
