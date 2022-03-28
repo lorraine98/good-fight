@@ -8,10 +8,11 @@ import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import ThumbsUpDownOutlinedIcon from "@mui/icons-material/ThumbsUpDownOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { lightTheme as theme } from "../styles/theme";
+import { useTheme } from "@mui/material";
 
 const NavBar = () => {
   const router = useRouter();
+  const theme = useTheme();
 
   return (
     <nav>
@@ -63,7 +64,7 @@ const NavBar = () => {
           justify-content: space-around;
           align-items: center;
           max-width: 30rem;
-          background: ${theme.colors.white};
+          background: ${theme.palette.white};
           box-shadow: 0 -1px 3px rgba(57, 63, 72, 0.1);
         }
 

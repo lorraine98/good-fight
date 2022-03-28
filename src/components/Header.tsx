@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { lightTheme as theme } from "../styles/theme";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import NotificationsNone from "@mui/icons-material/NotificationsNone";
 import NotificationAdd from "@mui/icons-material/NotificationAdd";
+import { useTheme } from "@mui/system";
 
 interface Title {
   [key: string]: string;
@@ -11,6 +11,7 @@ interface Title {
 
 const Header = () => {
   const router = useRouter();
+  const theme = useTheme();
   const [notification, setNotification] = useState(false);
   const [isRoot, setIsRoot] = useState(false);
 
@@ -46,7 +47,7 @@ const Header = () => {
           font-weight: bold;
           justify-content: space-between;
           width: 100%;
-          background: ${theme.colors.white};
+          background: ${theme.palette.white};
           box-shadow: 0 1px 3px rgba(57, 63, 72, 0.1);
         }
 

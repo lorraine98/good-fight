@@ -1,8 +1,8 @@
 import Header from "./Header";
 import NavBar from "./NavBar";
 import React, { useState } from "react";
-import { lightTheme as theme } from "../styles/theme";
 import { useRouter } from "next/router";
+import { useTheme } from "@mui/material";
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -10,6 +10,7 @@ type AppLayoutProps = {
 
 const Layout = ({ children }: AppLayoutProps) => {
   const { pathname } = useRouter();
+  const theme = useTheme();
 
   const showLayoutByPathname = () => {
     switch (pathname) {
@@ -34,8 +35,8 @@ const Layout = ({ children }: AppLayoutProps) => {
           position: relative;
           max-width: 30rem;
           height: 100vh;
-          background: ${theme.colors.background};
-          color: ${theme.colors.text};
+          background: ${theme.palette.background};
+          color: ${theme.palette.text};
         }
       `}</style>
     </>
