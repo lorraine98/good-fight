@@ -27,6 +27,12 @@ button {
   background-color: transparent;
 }
 
-input:focus {
+input,
+select {
+  border: none;
+}
+
+input:focus,
+select:focus {
   outline: none;
 }

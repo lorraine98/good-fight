@@ -9,30 +9,36 @@ const MyFightsAdd = () => {
   };
 
   return (
-    <Container>
-      <div className="form-wrapper">
+    <>
+      <Container>
         <p className="title">싸움을 기록해요.</p>
         <p className="subtitle">한 쪽이 억울하지 않도록 함께 적어봐요.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="question-wrapper">
-            <label htmlFor="date">언제 싸웠나요?</label>
-            <input type="date" {...register("date", { required: true })} />
+          <div className="direction-row">
+            <div className="question-wrapper">
+              <label htmlFor="date">언제 싸웠나요?</label>
+              <input type="date" {...register("date", { required: true })} />
+            </div>
+            <div className="spacing" />
+            <div className="question-wrapper">
+              <label htmlFor="status">해결 했나요?</label>
+              <select {...register("status", { required: true })}>
+                <option value="unsolved">해결 안했어요</option>
+                <option value="solved">해결했어요</option>
+                <option value="willSolve">나중에 해결할게요</option>
+              </select>
+            </div>
           </div>
-          <div className="question-wrapper">
-            <label htmlFor="keyword">키워드</label>
-            <input type="text" {...register("keyword", { required: true })} />
-          </div>
-          <div className="question-wrapper">
-            <label htmlFor="target">누가 잘못했나요?</label>
-            <input type="text" {...register("target", { required: true })} />
-          </div>
-          <div className="question-wrapper">
-            <label htmlFor="status">해결 했나요?</label>
-            <select {...register("status", { required: true })}>
-              <option value="unsolved">해결 안했어요</option>
-              <option value="solved">해결했어요</option>
-              <option value="willSolve">나중에 해결할게요</option>
-            </select>
+          <div className="direction-row">
+            <div className="question-wrapper">
+              <label htmlFor="target">누가 잘못했나요?</label>
+              <input type="text" {...register("target", { required: true })} />
+            </div>
+            <div className="spacing" />
+            <div className="question-wrapper">
+              <label htmlFor="keyword">키워드</label>
+              <input type="text" {...register("keyword", { required: true })} />
+            </div>
           </div>
           <div className="question-wrapper">
             <label htmlFor="content">무슨 일로 싸웠나요?</label>
@@ -46,32 +52,49 @@ const MyFightsAdd = () => {
             <label htmlFor="feedback">어떻게 해결하고 싶나요?</label>
             <input type="text" {...register("feedback", { required: true })} />
           </div>
-          <Button type="submit">저장하기</Button>
+          <Button type="submit" style={{ marginTop: "1rem" }}>
+            저장하기
+          </Button>
         </form>
-      </div>
+      </Container>
       <style jsx>{`
-        .form-wrapper {
+        .direction-row {
           display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
         }
         .question-wrapper {
           display: flex;
           flex-direction: column;
+          margin-bottom: 1rem;
+          width: 100%;
+        }
+        .question-wrapper label {
+          margin-bottom: 0.8rem;
+          font-weight: 600;
         }
         .title {
           font-size: 1rem;
           font-weight: 600;
+          margin-top: 3rem;
+          margin-bottom: 0.6rem;
+        }
+        .subtitle {
+          margin-bottom: 3rem;
         }
         input {
-          border: none;
           border-radius: 0.375rem;
-          height: 2.625rem;
+          padding: 0.7rem auto;
+          height: 2.5rem;
+        }
+        select {
+          border-radius: 0.375rem;
+          padding: 0.7rem 0.3rem;
+          height: 2.5rem;
+        }
+        .spacing {
+          padding: 0.25rem;
         }
       `}</style>
-    </Container>
+    </>
   );
 };
 export default MyFightsAdd;
