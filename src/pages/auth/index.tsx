@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { authUserState } from "../../atoms/user";
 import Button from "../../shared/components/button";
 import Container from "../../shared/components/container";
-import { loginGoogle } from "./api/auth-google-login";
+import { loginGoogle } from "../../api/auth-google-login";
 import logo from "../../shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";

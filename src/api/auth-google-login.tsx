@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, getAuth, signInWithRedirect } from "firebase/auth";
-import { app } from "../../../shared/FireBase";
+import { app } from "../shared/FireBase";
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
