@@ -16,7 +16,7 @@ const Header = () => {
   const [isRoot, setIsRoot] = useState(false);
 
   const title: Title = {
-    "/": "홈",
+    "/home": "홈",
     "/your-fights": "니쌈",
     "/my-fights": "내쌈",
     "/my-page": "마이 페이지",

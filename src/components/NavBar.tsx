@@ -8,7 +8,7 @@ import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import ThumbsUpDownOutlinedIcon from "@mui/icons-material/ThumbsUpDownOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { useTheme } from "@mui/material";
+import { useTheme } from "@mui/system";
 
 const NavBar = () => {
   const router = useRouter();
@@ -16,9 +16,9 @@ const NavBar = () => {
 
   return (
     <nav>
-      <Link href="/">
+      <Link href="/home">
         <a>
-          {router.pathname === "/" ? <HomeIcon /> : <HomeOutlinedIcon />}
+          {router.pathname === "/home" ? <HomeIcon /> : <HomeOutlinedIcon />}
           <h3 className="title">홈</h3>
         </a>
       </Link>

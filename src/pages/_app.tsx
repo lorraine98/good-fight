@@ -6,10 +6,12 @@ import "../styles/globals.css";
 import PrivateRoute from "../route/PrivateRoute";
 import { ThemeProvider } from "@mui/material";
 import { getDesignToken } from "../styles/theme";
+import CssBaseLine from "@mui/material/CssBaseline";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
+      <CssBaseLine />
       <Head>
         <link rel="shortcut icon" href="/static/favicon.ico" />
         <title>good fight</title>
