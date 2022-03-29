@@ -1,11 +1,15 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Container from "./../../shared/components/container/index";
 import Button from "./../../shared/components/button/index";
+import { myFightsProps, postMyFightsForm } from "../../api/post-my-fights-form";
+import { useRouter } from "next/router";
 
 const MyFightsAdd = () => {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const { register, handleSubmit } = useForm<myFightsProps>();
+  const { push } = useRouter();
+
+  const onSubmit: SubmitHandler<myFightsProps> = (data) => {
+    postMyFightsForm(data).then(() => push("/my-fights"));
   };
 
   return (
@@ -14,22 +18,22 @@ const MyFightsAdd = () => {
         <p className="title">싸움을 기록해요.</p>
         <p className="subtitle">한 쪽이 억울하지 않도록 함께 적어봐요.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="direction-row">
+          <div className="display-flex">
             <div className="question-wrapper">
               <label htmlFor="date">언제 싸웠나요?</label>
               <input type="date" {...register("date", { required: true })} />
             </div>
             <div className="spacing" />
             <div className="question-wrapper">
-              <label htmlFor="status">해결 했나요?</label>
-              <select {...register("status", { required: true })}>
+              <label htmlFor="solved">해결 했나요?</label>
+              <select {...register("solved", { required: true })}>
                 <option value="unsolved">해결 안했어요</option>
                 <option value="solved">해결했어요</option>
-                <option value="willSolve">나중에 해결할게요</option>
+                <option value="willSolve">나중에 해결할 거예요</option>
               </select>
             </div>
           </div>
-          <div className="direction-row">
+          <div className="display-flex">
             <div className="question-wrapper">
               <label htmlFor="target">누가 잘못했나요?</label>
               <input type="text" {...register("target", { required: true })} />
@@ -58,7 +62,7 @@ const MyFightsAdd = () => {
         </form>
       </Container>
       <style jsx>{`
-        .direction-row {
+        .display-flex {
           display: flex;
         }
         .question-wrapper {
@@ -72,9 +76,9 @@ const MyFightsAdd = () => {
           font-weight: 600;
         }
         .title {
-          font-size: 1rem;
+          font-size: 1.2rem;
           font-weight: 600;
-          margin-top: 3rem;
+          margin-top: 2rem;
           margin-bottom: 0.6rem;
         }
         .subtitle {
