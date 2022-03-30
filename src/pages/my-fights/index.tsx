@@ -5,7 +5,7 @@ const MyFights = () => {
   const { push } = useRouter();
 
   const handleClick = () => {
-    push("my-fights/add");
+    push("my-fights/addForm");
   };
 
   return <AddButton onClick={handleClick} />;
