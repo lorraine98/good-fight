@@ -1,7 +1,10 @@
 import { app } from "../shared/FireBase";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const db = getFirestore(app);
+const auth = getAuth();
+const uid = auth.currentUser?.uid ?? "";
 
 export const postMyFightsForm = async ({
   content,
@@ -13,14 +16,19 @@ export const postMyFightsForm = async ({
   target,
 }: myFightsProps) => {
   try {
-    const docRef = await addDoc(collection(db, "myFights"), {
-      content,
-      date,
-      feedback,
-      keyword,
-      reason,
-      solved,
-      target,
+    await addDoc(collection(db, "myFights"), {
+      user: {
+        uid,
+      },
+      data: {
+        content,
+        date,
+        feedback,
+        keyword,
+        reason,
+        solved,
+        target,
+      },
     });
   } catch (e) {
     console.error("Error adding document: ", e);
