@@ -42,12 +42,12 @@ const YourFightsAddForm = () => {
             name="defaultOption0"
             title="선택지"
             register={register}
-            placeholder="예) A가 잘못했다."
+            placeholder="예) A가 잘못했네!"
           />
           <FormInput
             name="defaultOption1"
             register={register}
-            placeholder="예) B가 잘못했다."
+            placeholder="예) B가 잘못했네!"
           />
           {Array(optionInputCount)
             .fill(true)
@@ -74,7 +74,10 @@ const YourFightsAddForm = () => {
               <AddCircle sx={{ color: theme.palette.gray }} />
             </button>
           )}
-          <Button type="submit" style={{ marginTop: "1rem" }}>
+          <Button
+            type="submit"
+            style={{ marginTop: "1rem", marginBottom: "1rem" }}
+          >
             완료
           </Button>
         </form>
@@ -83,7 +86,7 @@ const YourFightsAddForm = () => {
         .title {
           font-size: 1.2rem;
           font-weight: 600;
-          margin-top: 2rem;
+          padding-top: 5rem;
           margin-bottom: 0.6rem;
         }
         .subtitle {

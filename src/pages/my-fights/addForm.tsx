@@ -72,7 +72,10 @@ const MyFightsAdd = () => {
             placeholder="예) 늦더라도 연락은 미리주자."
             register={register}
           />
-          <Button type="submit" style={{ marginTop: "1rem" }}>
+          <Button
+            type="submit"
+            style={{ marginTop: "1rem", marginBottom: "1rem" }}
+          >
             저장하기
           </Button>
         </form>
@@ -84,7 +87,7 @@ const MyFightsAdd = () => {
         .title {
           font-size: 1.2rem;
           font-weight: 600;
-          margin-top: 2rem;
+          padding-top: 5rem;
           margin-bottom: 0.6rem;
         }
         .subtitle {
