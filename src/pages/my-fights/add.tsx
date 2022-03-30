@@ -3,6 +3,7 @@ import Container from "./../../shared/components/container/index";
 import Button from "./../../shared/components/button/index";
 import { myFightsProps, postMyFightsForm } from "../../api/post-my-fights-form";
 import { useRouter } from "next/router";
+import { getAuth } from "firebase/auth";
 
 const MyFightsAdd = () => {
   const { register, handleSubmit } = useForm<myFightsProps>();
@@ -19,11 +20,10 @@ const MyFightsAdd = () => {
         <p className="subtitle">한 쪽이 억울하지 않도록 함께 적어봐요.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="display-flex">
-            <div className="question-wrapper">
+            <div className="question-wrapper PR-1">
               <label htmlFor="date">언제 싸웠나요?</label>
               <input type="date" {...register("date", { required: true })} />
             </div>
-            <div className="spacing" />
             <div className="question-wrapper">
               <label htmlFor="solved">해결 했나요?</label>
               <select {...register("solved", { required: true })}>
@@ -34,11 +34,10 @@ const MyFightsAdd = () => {
             </div>
           </div>
           <div className="display-flex">
-            <div className="question-wrapper">
+            <div className="question-wrapper PR-1">
               <label htmlFor="target">누가 잘못했나요?</label>
               <input type="text" {...register("target", { required: true })} />
             </div>
-            <div className="spacing" />
             <div className="question-wrapper">
               <label htmlFor="keyword">키워드</label>
               <input type="text" {...register("keyword", { required: true })} />
@@ -94,8 +93,8 @@ const MyFightsAdd = () => {
           padding: 0.7rem 0.3rem;
           height: 2.5rem;
         }
-        .spacing {
-          padding: 0.25rem;
+        .PR-1 {
+          padding-right: 1rem;
         }
       `}</style>
     </>
