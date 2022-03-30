@@ -4,7 +4,7 @@ import { FieldValue, FieldValues, UseFormRegister } from "react-hook-form";
 interface Props {
   register: UseFormRegister<FieldValue<FieldValues>>;
   name: string;
-  title: string;
+  title?: string;
   type?: string;
   placeholder?: string;
   height?: string;
@@ -24,7 +24,7 @@ const FormInput = ({
   return (
     <>
       <div className="question-wrapper" style={{ ...style }}>
-        <label htmlFor={name}>{title}</label>
+        {title && <label htmlFor={name}>{title}</label>}
         {isTextarea ? (
           <textarea
             placeholder={placeholder}
