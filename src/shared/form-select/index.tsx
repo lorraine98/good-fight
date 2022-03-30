@@ -1,7 +1,7 @@
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldValue, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface Props {
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<FieldValue<FieldValues>>;
   name: string;
   title: string;
   options: option[];
@@ -40,8 +40,7 @@ const FormSelect = ({ register, name, title, options }: Props) => {
           border-radius: 0.375rem;
           padding: 0.7rem 0.3rem;
           height: 3rem;
-          font-size: 1rem;
-          font-family: inherit;
+          font-family: initial;
         }
       `}</style>
     </>

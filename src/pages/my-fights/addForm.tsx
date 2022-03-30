@@ -1,10 +1,12 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import Container from "../../shared/components/container/index";
-import Button from "../../shared/components/button/index";
+import Container from "./../../shared/components/container/index";
+import Button from "./../../shared/components/button/index";
 import { myFightsProps, postMyFightsForm } from "../../api/post-my-fights-form";
 import { useRouter } from "next/router";
+import FormInput from "../../shared/components/form-input";
+import FormSelect from "../../shared/form-select";
 
-const MyFightsAddForm = () => {
+const MyFightsAdd = () => {
   const { register, handleSubmit } = useForm<myFightsProps>();
   const { push } = useRouter();
 
@@ -19,41 +21,57 @@ const MyFightsAddForm = () => {
         <p className="subtitle">한 쪽이 억울하지 않도록 함께 적어봐요.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="display-flex">
-            <div className="question-wrapper PR-1">
-              <label htmlFor="date">언제 싸웠나요?</label>
-              <input type="date" {...register("date", { required: true })} />
-            </div>
-            <div className="question-wrapper">
-              <label htmlFor="solved">해결 했나요?</label>
-              <select {...register("solved", { required: true })}>
-                <option value="unsolved">해결 안했어요</option>
-                <option value="solved">해결했어요</option>
-                <option value="willSolve">나중에 해결할 거예요</option>
-              </select>
-            </div>
+            <FormInput
+              name="date"
+              title="언제 싸웠나요?"
+              register={register}
+              type="date"
+              style={{ marginRight: "1rem" }}
+            />
+            <FormSelect
+              register={register}
+              name="solved"
+              title="해결 했나요?"
+              options={[
+                { value: "unsolved", text: "해결 안했어요" },
+                { value: "solved", text: "해결했어요" },
+                { value: "willSolve", text: "나중에 해결할 거예요" },
+              ]}
+            />
           </div>
           <div className="display-flex">
-            <div className="question-wrapper PR-1">
-              <label htmlFor="target">누가 잘못했나요?</label>
-              <input type="text" {...register("target", { required: true })} />
-            </div>
-            <div className="question-wrapper">
-              <label htmlFor="keyword">키워드</label>
-              <input type="text" {...register("keyword", { required: true })} />
-            </div>
+            <FormInput
+              name="target"
+              title="누가 잘못했나요?"
+              placeholder="애칭 또는 이름."
+              register={register}
+              style={{ marginRight: "1rem" }}
+            />
+            <FormInput
+              name="keyword"
+              title="키워드"
+              placeholder="한 단어로 요약."
+              register={register}
+            />
           </div>
-          <div className="question-wrapper">
-            <label htmlFor="content">무슨 일로 싸웠나요?</label>
-            <input type="text" {...register("content", { required: true })} />
-          </div>
-          <div className="question-wrapper">
-            <label htmlFor="reason">왜 싸웠나요?</label>
-            <input type="text" {...register("reason", { required: true })} />
-          </div>
-          <div className="question-wrapper">
-            <label htmlFor="feedback">어떻게 해결하고 싶나요?</label>
-            <input type="text" {...register("feedback", { required: true })} />
-          </div>
+          <FormInput
+            name="content"
+            title="무슨 일로 싸웠나요?"
+            placeholder="예) 00이가 지각했음."
+            register={register}
+          />
+          <FormInput
+            name="reason"
+            title="왜 싸웠나요?"
+            placeholder="예) 연락도 없이 늦어서 짜증이 남."
+            register={register}
+          />
+          <FormInput
+            name="feedback"
+            title="어떻게 해결하고 싶나요?"
+            placeholder="예) 늦더라도 연락은 미리주자."
+            register={register}
+          />
           <Button type="submit" style={{ marginTop: "1rem" }}>
             저장하기
           </Button>
@@ -62,16 +80,6 @@ const MyFightsAddForm = () => {
       <style jsx>{`
         .display-flex {
           display: flex;
-        }
-        .question-wrapper {
-          display: flex;
-          flex-direction: column;
-          margin-bottom: 1rem;
-          width: 100%;
-        }
-        .question-wrapper label {
-          margin-bottom: 0.8rem;
-          font-weight: 600;
         }
         .title {
           font-size: 1.2rem;
@@ -82,21 +90,9 @@ const MyFightsAddForm = () => {
         .subtitle {
           margin-bottom: 3rem;
         }
-        input {
-          border-radius: 0.375rem;
-          padding: 0.7rem auto;
-          height: 2.5rem;
-        }
-        select {
-          border-radius: 0.375rem;
-          padding: 0.7rem 0.3rem;
-          height: 2.5rem;
-        }
-        .PR-1 {
-          padding-right: 1rem;
-        }
       `}</style>
     </>
   );
 };
-export default MyFightsAddForm;
+
+export default MyFightsAdd;

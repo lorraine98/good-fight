@@ -1,26 +1,29 @@
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import { CSSProperties } from "react";
+import { FieldValue, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface Props {
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<FieldValue<FieldValues>>;
   name: string;
   title: string;
   type?: string;
   placeholder?: string;
   height?: string;
   isTextarea?: boolean;
+  style?: CSSProperties;
 }
-export const FormInput = ({
+const FormInput = ({
   register,
   name,
   title,
   type = "text",
   placeholder,
-  height = "2.5rem",
+  height = "3rem",
   isTextarea,
+  style,
 }: Props) => {
   return (
     <>
-      <div className="question-wrapper">
+      <div className="question-wrapper" style={{ ...style }}>
         <label htmlFor={name}>{title}</label>
         {isTextarea ? (
           <textarea
@@ -49,10 +52,14 @@ export const FormInput = ({
         input,
         textarea {
           border-radius: 0.375rem;
-          padding: 0.7rem;
           height: ${height};
-          font-size: 1rem;
-          font-family: inherit;
+          font-family: initial;
+        }
+        textarea {
+          padding: 0.7rem;
+        }
+        input {
+          padding-left: 0.7rem;
         }
       `}</style>
     </>
