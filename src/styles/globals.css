@@ -21,3 +21,18 @@ a {
 * {
   box-sizing: border-box;
 }
+
+button {
+  border: none;
+  background-color: transparent;
+}
+
+input,
+select {
+  border: none;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+}
