@@ -15,16 +15,6 @@ const Board = ({ title, onClick, data }: Props) => {
     fontSize: "1rem",
   };
 
-  const handleLikeButtonClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    alert("likes!");
-  };
-
-  const handleHateButtonClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    alert("Hates!");
-  };
-
   return (
     <>
       <div className="board">
@@ -42,11 +32,11 @@ const Board = ({ title, onClick, data }: Props) => {
                   <p>{list.title}</p>
                   {list.likes && list.hates && (
                     <div className="group">
-                      <div className="box" onClick={handleLikeButtonClick}>
+                      <div className="box">
                         <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
                         <p>{list.likes}</p>
                       </div>
-                      <div className="box" onClick={handleHateButtonClick}>
+                      <div className="box">
                         <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
                         <p>{list.hates}</p>
                       </div>
