@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Container from "src/shared/components/container";
 
 const Banner = () => {
   return (
@@ -10,6 +9,7 @@ const Banner = () => {
           alt="광고"
           layout="fill"
           objectFit="cover"
+          priority={true}
         />
       </div>
       <style jsx>{`

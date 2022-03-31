@@ -1,35 +1,9 @@
-import React from "react";
 import { useTheme } from "@mui/system";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
-import styled from "@emotion/styled";
-import Container from "../../../shared/components/container";
+import StateIcon from "./StateIcon";
+import { StateType } from "../";
 
-type Props = {
-  state: string;
-  title: string;
-};
-
-interface Type {
-  recent: Props;
-}
-
-const StateDiv = styled.div<{ state: string }>`
-  border-radius: 50%;
-  background-color: ${({ state }) => state};
-  padding: 0.2rem;
-`;
-
-const FightBox: React.FC<Type> = ({ recent }) => {
+const FightBox = ({ recent }: StateType) => {
   const theme = useTheme();
-
-  const state =
-    recent.state === "solved"
-      ? `${theme.palette.yellow}`
-      : recent.state === "ongoing"
-      ? `${theme.palette.softBrown}`
-      : `${theme.palette.brown}`;
 
   const iconStyle = {
     fontSize: "3rem",
@@ -39,15 +13,7 @@ const FightBox: React.FC<Type> = ({ recent }) => {
   return (
     <>
       <div className="container">
-        <StateDiv state={state}>
-          {recent.state === "solved" ? (
-            <CheckIcon sx={{ ...iconStyle }} />
-          ) : recent.state === "ongoing" ? (
-            <QuestionMarkIcon sx={{ ...iconStyle }} />
-          ) : (
-            <CloseIcon sx={{ ...iconStyle }} />
-          )}
-        </StateDiv>
+        <StateIcon state={recent.state} style={iconStyle} />
         <div className="issue">
           <p className="label">최근에 싸웠던 일 : </p>
           <p className="title">{recent.title}</p>
