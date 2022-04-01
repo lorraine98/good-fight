@@ -1,8 +1,8 @@
 import { useTheme } from "@mui/system";
 import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
-import { StateType } from "../";
+import { StateType } from "..";
 
-const FightBox = ({ recent }: StateType) => {
+const RecentFightBox = ({ recent }: StateType) => {
   const theme = useTheme();
 
   const iconStyle = {
@@ -45,4 +45,4 @@ const FightBox = ({ recent }: StateType) => {
   );
 };
 
-export default FightBox;
+export default RecentFightBox;

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Container from "src/shared/components/container";
-import FightBox from "./FightBox";
+import RecentFightBox from "./RecentFightBox";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import { useTheme } from "@mui/system";
 import { useState } from "react";
@@ -68,7 +68,7 @@ const Photo = () => {
         )}
         <Container>
           <div className="recent">
-            <FightBox recent={list[1]} />
+            <RecentFightBox recent={list[1]} />
           </div>
         </Container>
       </div>
