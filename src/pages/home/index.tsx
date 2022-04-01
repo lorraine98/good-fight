@@ -27,13 +27,11 @@ const index = () => {
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
   const [myFightsData, setMyFightsData] = useState<FightsInfo[]>([]);
 
-  const handleYourFightClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation();
+  const handleYourFightClick = () => {
     Router.push("/your-fights");
   };
 
-  const handleMyFightClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation();
+  const handleMyFightClick = () => {
     Router.push("/my-fights");
   };
 

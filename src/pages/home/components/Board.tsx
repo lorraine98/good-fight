@@ -1,7 +1,8 @@
 import { ArrFightsInfo } from "../index";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import StateIcon from "./StateIcon";
+import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
+import { useTheme } from "@mui/system";
 
 interface Props {
   title: string;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const Board = ({ title, onClick, data }: Props) => {
+  const theme = useTheme();
   const iconStyle = {
     color: "white",
     fontSize: "1rem",
@@ -45,7 +47,10 @@ const Board = ({ title, onClick, data }: Props) => {
                   {list.state && (
                     <div className="group">
                       <div className="box">
-                        <StateIcon state={list.state} style={iconStyle} />
+                        <MyFightsStatusIcon
+                          state={list.state}
+                          style={iconStyle}
+                        />
                       </div>
                     </div>
                   )}
@@ -73,7 +78,7 @@ const Board = ({ title, onClick, data }: Props) => {
           display: flex;
           flex-direction: column;
           border-radius: 0.375rem;
-          background-color: white;
+          background-color: ${theme.palette.white};
           height: 11rem;
           margin: 1rem 0;
           padding: 1rem;

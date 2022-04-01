@@ -34,11 +34,11 @@ const Photo = () => {
       title: "설거지를 제때 안함",
     },
     {
-      state: "ongoing",
+      state: "willSolve",
       title: "빨래를 제때 안함",
     },
     {
-      state: "unresolved",
+      state: "unsolved",
       title: "청소를 제때 안함",
     },
   ];
@@ -46,7 +46,14 @@ const Photo = () => {
   return (
     <>
       <div className="photo">
-        {!imageSrc && (
+        {imageSrc ? (
+          <Image
+            src={imageSrc}
+            alt="커플사진"
+            layout="fill"
+            objectFit="cover"
+          />
+        ) : (
           <form method="post" encType="multipart/form-data">
             <label htmlFor="file-input">
               <ImageSearchIcon sx={{ ...iconStyle }} />
@@ -58,14 +65,6 @@ const Photo = () => {
               onChange={handleImageChange}
             />
           </form>
-        )}
-        {imageSrc && (
-          <Image
-            src={imageSrc}
-            alt="커플사진"
-            layout="fill"
-            objectFit="cover"
-          />
         )}
         <Container>
           <div className="recent">

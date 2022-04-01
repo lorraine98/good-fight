@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/system";
-import StateIcon from "./StateIcon";
+import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import { StateType } from "../";
 
 const FightBox = ({ recent }: StateType) => {
@@ -13,7 +13,7 @@ const FightBox = ({ recent }: StateType) => {
   return (
     <>
       <div className="container">
-        <StateIcon state={recent.state} style={iconStyle} />
+        <MyFightsStatusIcon state={recent.state} style={iconStyle} />
         <div className="issue">
           <p className="label">최근에 싸웠던 일 : </p>
           <p className="title">{recent.title}</p>
