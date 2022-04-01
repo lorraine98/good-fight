@@ -8,23 +8,23 @@ import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import ThumbsUpDownOutlinedIcon from "@mui/icons-material/ThumbsUpDownOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { useTheme } from "@mui/material";
+import { useTheme } from "@mui/system";
 
 const NavBar = () => {
-  const router = useRouter();
+  const { pathname } = useRouter();
   const theme = useTheme();
 
   return (
     <nav>
-      <Link href="/">
+      <Link href="/home">
         <a>
-          {router.pathname === "/" ? <HomeIcon /> : <HomeOutlinedIcon />}
+          {pathname === "/home" ? <HomeIcon /> : <HomeOutlinedIcon />}
           <h3 className="title">홈</h3>
         </a>
       </Link>
       <Link href="/your-fights">
         <a>
-          {router.pathname === "/your-fights" ? (
+          {pathname === "/your-fights" ? (
             <ThumbsUpDownIcon />
           ) : (
             <ThumbsUpDownOutlinedIcon />
@@ -34,7 +34,7 @@ const NavBar = () => {
       </Link>
       <Link href="/my-fights">
         <a>
-          {router.pathname === "/my-fights" ? (
+          {pathname === "/my-fights" ? (
             <LibraryBooksIcon />
           ) : (
             <LibraryBooksOutlinedIcon />
@@ -44,7 +44,7 @@ const NavBar = () => {
       </Link>
       <Link href="/my-page">
         <a>
-          {router.pathname === "/my-page" ? (
+          {pathname === "/my-page" ? (
             <PersonIcon />
           ) : (
             <PersonOutlineOutlinedIcon />

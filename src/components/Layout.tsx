@@ -29,7 +29,7 @@ const Layout = ({ children }: AppLayoutProps) => {
   return (
     <>
       {showLayoutByPathname()}
-      <div>{children}</div>
+      <div className="main">{children}</div>
       <style jsx global>{`
         body {
           position: relative;
@@ -37,6 +37,16 @@ const Layout = ({ children }: AppLayoutProps) => {
           height: 100vh;
           background: ${theme.palette.background};
           color: ${theme.palette.text};
+        }
+      `}</style>
+      <style jsx>{`
+        .main {
+          height: calc(100vh - 110px);
+          overflow-y: scroll;
+        }
+
+        .main::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
     </>
