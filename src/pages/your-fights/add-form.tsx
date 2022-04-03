@@ -2,10 +2,10 @@ import { AddCircle, Clear } from "@mui/icons-material";
 import { useTheme } from "@mui/system";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { yourFightsProps } from "../../api/post-your-fights-form";
-import Button from "../../shared/components/button";
-import Container from "../../shared/components/container";
-import FormInput from "../../shared/components/form-input";
+import { yourFightsProps } from "src/api/post-your-fights-form";
+import Button from "src/shared/components/button";
+import Container from "src/shared/components/container";
+import FormInput from "src/shared/components/form-input";
 import { v4 as uuidv4 } from "uuid";
 
 interface IOptionInput {

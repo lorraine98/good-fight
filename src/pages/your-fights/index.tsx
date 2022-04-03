@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import AddButton from "../../shared/components/add-button";
+import AddButton from "src/shared/components/add-button";
 
 const YourFights = () => {
   const { push } = useRouter();
