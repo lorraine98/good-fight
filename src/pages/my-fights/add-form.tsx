@@ -1,12 +1,12 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import Container from "./../../shared/components/container/index";
-import Button from "./../../shared/components/button/index";
+import Container from "../../shared/components/container/index";
+import Button from "../../shared/components/button/index";
 import { myFightsProps, postMyFightsForm } from "../../api/post-my-fights-form";
 import { useRouter } from "next/router";
 import FormInput from "../../shared/components/form-input";
 import FormSelect from "../../shared/form-select";
 
-const MyFightsAdd = () => {
+const MyFightsAddForm = () => {
   const { register, handleSubmit } = useForm<myFightsProps>();
   const { push } = useRouter();
 
@@ -98,4 +98,4 @@ const MyFightsAdd = () => {
   );
 };
 
-export default MyFightsAdd;
+export default MyFightsAddForm;
