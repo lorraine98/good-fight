@@ -1,39 +1,53 @@
 import { AddCircle, Clear } from "@mui/icons-material";
 import { useTheme } from "@mui/system";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yourFightsProps } from "src/api/post-your-fights-form";
+import { useRouter } from "next/router";
+import { SubmitHandler, useForm, useFieldArray } from "react-hook-form";
+import { postYourFightsForm } from "src/api/post-your-fights-form";
 import Button from "src/shared/components/button";
 import Container from "src/shared/components/container";
 import FormInput from "src/shared/components/form-input";
-import { v4 as uuidv4 } from "uuid";
 
-interface IOptionInput {
-  uuid: string;
+interface Props {
+  content: string;
+  defaultOption0: string;
+  defaultOption1: string;
+  extraOption: option[];
+}
+
+interface option {
+  name: string;
+  value: string;
 }
 
 const YourFightsAddForm = () => {
-  const { register, unregister, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm<Props>();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "extraOption",
+  });
+
   const theme = useTheme();
-  const [optionInputList, setOptionInputList] = useState<IOptionInput[]>([]);
+  const { push } = useRouter();
 
-  const submitFormData: SubmitHandler<yourFightsProps> = (data) => {
-    console.log(data);
-  };
+  const submitFormData: SubmitHandler<Props> = (data) => {
+    const { content, defaultOption0, defaultOption1, extraOption } = data;
 
-  const addOptionInput = () => {
-    const uuid = uuidv4();
-    setOptionInputList([...optionInputList, { uuid }]);
-  };
+    const optionFactory = (value: string) => ({
+      optionValue: value,
+      votes: 0,
+    });
 
-  const removeOptionInput = (e: React.MouseEvent<SVGElement>) => {
-    const eventTarget = e.target as HTMLElement;
-    const inputId =
-      eventTarget.closest<HTMLElement>(".extraOption")?.dataset?.id ?? "";
-    setOptionInputList(
-      optionInputList.filter((optionInput) => optionInput.uuid !== inputId),
+    const optionList = [
+      optionFactory(defaultOption0),
+      optionFactory(defaultOption1),
+      ...extraOption.map((option) => optionFactory(option.value)),
+    ];
+
+    const likes = { like: 0, hate: 0 };
+
+    postYourFightsForm({ content, optionList, likes }).then(() =>
+      push("/your-fights"),
     );
-    unregister(inputId);
   };
 
   return (
@@ -61,20 +75,16 @@ const YourFightsAddForm = () => {
             register={register}
             placeholder="예) B가 잘못했네!"
           />
-          {optionInputList.map((optionInput) => {
+          {fields.map((field, index) => {
             return (
-              <div
-                data-id={optionInput.uuid}
-                key={optionInput.uuid}
-                className="extraOption"
-              >
+              <div key={field.id} className="extraOption">
                 <FormInput
-                  name={optionInput.uuid}
+                  name={`extraOption.${index}.value`}
                   register={register}
                   placeholder="추가 선택지예요."
                 />
                 <Clear
-                  onClick={removeOptionInput}
+                  onClick={() => remove(index)}
                   sx={{
                     color: theme.palette.gray,
                     position: "absolute",
@@ -85,8 +95,11 @@ const YourFightsAddForm = () => {
               </div>
             );
           })}
-          {optionInputList.length < 3 && (
-            <button className="optionButton" onClick={addOptionInput}>
+          {fields.length < 3 && (
+            <button
+              className="optionButton"
+              onClick={() => append({ name: "" })} //name 필요하지 않아서 빈 값 넣어줌.
+            >
               <AddCircle sx={{ color: theme.palette.gray }} />
             </button>
           )}
