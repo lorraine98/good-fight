@@ -6,22 +6,34 @@ import { yourFightsProps } from "../../api/post-your-fights-form";
 import Button from "../../shared/components/button";
 import Container from "../../shared/components/container";
 import FormInput from "../../shared/components/form-input";
+import { v4 as uuidv4 } from "uuid";
+
+interface IOptionInput {
+  uuid: string;
+}
 
 const YourFightsAddForm = () => {
-  const { register, handleSubmit } = useForm<yourFightsProps>();
+  const { register, unregister, handleSubmit } = useForm();
   const theme = useTheme();
-  const [optionInputCount, setOptionInputCount] = useState(0);
+  const [optionInputList, setOptionInputList] = useState<IOptionInput[]>([]);
 
   const submitFormData: SubmitHandler<yourFightsProps> = (data) => {
     console.log(data);
   };
 
   const addOptionInput = () => {
-    setOptionInputCount(optionInputCount + 1);
+    const uuid = uuidv4();
+    setOptionInputList([...optionInputList, { uuid }]);
   };
 
-  const removeOptionInput = () => {
-    setOptionInputCount(optionInputCount - 1);
+  const removeOptionInput = (e: React.MouseEvent<SVGElement>) => {
+    const eventTarget = e.target as HTMLElement;
+    const inputId =
+      eventTarget.closest<HTMLElement>(".extraOption")?.dataset?.id ?? "";
+    setOptionInputList(
+      optionInputList.filter((optionInput) => optionInput.uuid !== inputId),
+    );
+    unregister(inputId);
   };
 
   return (
@@ -49,12 +61,15 @@ const YourFightsAddForm = () => {
             register={register}
             placeholder="예) B가 잘못했네!"
           />
-          {Array(optionInputCount)
-            .fill(true)
-            .map((_, i) => (
-              <div key={i} className="extraOption">
+          {optionInputList.map((optionInput) => {
+            return (
+              <div
+                data-id={optionInput.uuid}
+                key={optionInput.uuid}
+                className="extraOption"
+              >
                 <FormInput
-                  name={`extraOption${i}`}
+                  name={optionInput.uuid}
                   register={register}
                   placeholder="추가 선택지예요."
                 />
@@ -68,8 +83,9 @@ const YourFightsAddForm = () => {
                   }}
                 />
               </div>
-            ))}
-          {optionInputCount < 3 && (
+            );
+          })}
+          {optionInputList.length < 3 && (
             <button className="optionButton" onClick={addOptionInput}>
               <AddCircle sx={{ color: theme.palette.gray }} />
             </button>
@@ -78,7 +94,7 @@ const YourFightsAddForm = () => {
             type="submit"
             style={{ marginTop: "1rem", marginBottom: "1rem" }}
           >
-            완료
+            게시하기
           </Button>
         </form>
       </Container>
@@ -96,7 +112,7 @@ const YourFightsAddForm = () => {
           display: flex;
           justify-content: center;
           width: 100%;
-          margin-bottom: 3rem;
+          margin-bottom: 2rem;
         }
         .extraOption {
           position: relative;
