@@ -49,8 +49,6 @@ const Header = () => {
           width: 100%;
           background: ${theme.palette.white};
           box-shadow: 0 1px 3px rgba(57, 63, 72, 0.1);
-          position: fixed;
-          top: 0;
           max-width: 30rem;
         }
 

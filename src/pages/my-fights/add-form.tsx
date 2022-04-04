@@ -16,7 +16,7 @@ const MyFightsAddForm = () => {
 
   return (
     <>
-      <Container>
+      <Container marginX={2}>
         <p className="title">싸움을 기록해요.</p>
         <p className="subtitle">한 쪽이 억울하지 않도록 함께 적어봐요.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -87,7 +87,6 @@ const MyFightsAddForm = () => {
         .title {
           font-size: 1.2rem;
           font-weight: 600;
-          padding-top: 5rem;
           margin-bottom: 0.6rem;
         }
         .subtitle {

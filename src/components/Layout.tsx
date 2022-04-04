@@ -41,7 +41,7 @@ const Layout = ({ children }: AppLayoutProps) => {
       `}</style>
       <style jsx>{`
         .main {
-          height: calc(100vh - 60px);
+          height: calc(100vh - 110px);
           overflow-y: scroll;
         }
 

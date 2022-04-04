@@ -52,7 +52,7 @@ const YourFightsAddForm = () => {
 
   return (
     <>
-      <Container>
+      <Container marginX={2}>
         <p className="title">왜 싸웠나요?</p>
         <p className="subtitle">객관적으로 적어야 좋은 판단이 가능해요.</p>
         <form onSubmit={handleSubmit(submitFormData)}>
@@ -115,7 +115,6 @@ const YourFightsAddForm = () => {
         .title {
           font-size: 1.2rem;
           font-weight: 600;
-          padding-top: 5rem;
           margin-bottom: 0.6rem;
         }
         .subtitle {
