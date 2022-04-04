@@ -28,11 +28,16 @@ button {
 }
 
 input,
-select {
+select,
+textarea {
   border: none;
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   outline: none;
+}
+textarea {
+  resize: none;
 }
