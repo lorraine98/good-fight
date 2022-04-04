@@ -1,5 +1,11 @@
+import OrderBy from "./components/OrderBy";
+
 const index = () => {
-    return <div></div>;
+  return (
+    <>
+      <OrderBy />
+    </>
+  );
 };
 
 export default index;
