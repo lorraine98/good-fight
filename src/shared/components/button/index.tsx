@@ -30,6 +30,7 @@ const Button = ({ children, type = "button", onClick, ...props }: Props) => {
           color: ${theme.palette.white};
           font-size: 1rem;
           font-weight: 600;
+          cursor: pointer;
         }
       `}</style>
     </>
