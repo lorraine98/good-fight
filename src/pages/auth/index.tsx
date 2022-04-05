@@ -1,7 +1,7 @@
-import Button from "../../shared/components/button";
-import Container from "../../shared/components/container";
-import { loginGoogle } from "../../api/auth-google-login";
-import logo from "../../shared/img/logo.png";
+import Button from "src/shared/components/button";
+import Container from "src/shared/components/container";
+import { loginGoogle } from "src/api/auth-google-login";
+import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";
 
