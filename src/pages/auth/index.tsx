@@ -1,8 +1,3 @@
-import { getAuth, getRedirectResult } from "firebase/auth";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
-import { authUserState } from "../../atoms/user";
 import Button from "../../shared/components/button";
 import Container from "../../shared/components/container";
 import { loginGoogle } from "../../api/auth-google-login";
@@ -11,26 +6,7 @@ import Image from "next/image";
 import { useTheme } from "@mui/system";
 
 export default function AuthPage() {
-  const auth = getAuth();
   const theme = useTheme();
-  const { push } = useRouter();
-  const setIsAuthenticated = useSetRecoilState(authUserState);
-
-  if (!auth) {
-    setIsAuthenticated(false);
-  }
-
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then((result) => {
-        const user = result?.user;
-        setIsAuthenticated(true);
-        user && push("/");
-      })
-      .catch((error) => {
-        console.error(error.code);
-      });
-  }, [auth, push, setIsAuthenticated]);
 
   const handleClick = () => {
     loginGoogle();
