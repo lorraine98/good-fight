@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { useTheme } from "@mui/system";
 import CheckIcon from "@mui/icons-material/Check";
-import { useState } from "react";
 import styled from "@emotion/styled";
 
 const StyledP = styled.p<{ color: string }>`
@@ -21,7 +21,7 @@ const OrderBy = () => {
 
   const iconUnselectedStyle = {
     ...iconDefaultStyle,
-    stroke: `${theme.palette.gray}`,
+    stroke: `${theme.palette.custom.gray}`,
   };
 
   const iconSelectedStyle = {
@@ -53,7 +53,9 @@ const OrderBy = () => {
             ) : (
               <CheckIcon sx={{ ...iconUnselectedStyle }} />
             )}
-            <StyledP color={latestSelected ? "black" : `${theme.palette.gray}`}>
+            <StyledP
+              color={latestSelected ? "black" : `${theme.palette.custom.gray}`}
+            >
               최신순
             </StyledP>
           </div>
@@ -64,7 +66,9 @@ const OrderBy = () => {
               <CheckIcon sx={{ ...iconUnselectedStyle }} />
             )}
             <StyledP
-              color={popularitySelected ? "black" : `${theme.palette.gray}`}
+              color={
+                popularitySelected ? "black" : `${theme.palette.custom.gray}`
+              }
             >
               인기순
             </StyledP>
@@ -76,7 +80,7 @@ const OrderBy = () => {
           display: flex;
           width: 100%;
           height: 2.5rem;
-          background-color: ${theme.palette.white};
+          background-color: ${theme.palette.custom.white};
           margin-top: 0.2rem;
           padding: 0 1rem;
           box-shadow: 0 1px 3px rgba(57, 63, 72, 0.1);

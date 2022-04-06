@@ -61,7 +61,7 @@ const Header = () => {
           font-weight: bold;
           justify-content: space-between;
           width: 100%;
-          background: ${theme.palette.white};
+          background: ${theme.palette.custom.white};
           box-shadow: 0 1px 3px rgba(57, 63, 72, 0.1);
         }
 

@@ -76,15 +76,15 @@ export default function AuthPage() {
           animation: 2s infinite;
         }
         .square1 {
-          background-color: ${theme.palette.brown};
+          background-color: ${theme.palette.custom.brown};
           animation-name: rotate-1;
         }
         .square2 {
-          background-color: ${theme.palette.softBrown};
+          background-color: ${theme.palette.custom.softBrown};
           animation-name: rotate-2;
         }
         .square3 {
-          background-color: ${theme.palette.yellow}
+          background-color: ${theme.palette.custom.yellow}
           animation-name: rotate-3;
         }
 
