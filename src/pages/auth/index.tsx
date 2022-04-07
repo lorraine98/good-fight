@@ -1,38 +1,17 @@
-import { getAuth, getRedirectResult } from "firebase/auth";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
-import { authUserState } from "../../atoms/user";
-import Button from "../../shared/components/button";
-import Container from "../../shared/components/container";
-import { loginGoogle } from "../../api/auth-google-login";
-import logo from "../../shared/img/logo.png";
+import Button from "src/shared/components/button";
+import Container from "src/shared/components/container";
+import { loginGoogle } from "src/api/auth-google-login";
+import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";
+import { useState } from "react";
 
 export default function AuthPage() {
-  const auth = getAuth();
   const theme = useTheme();
-  const { push } = useRouter();
-  const setIsAuthenticated = useSetRecoilState(authUserState);
-
-  if (!auth) {
-    setIsAuthenticated(false);
-  }
-
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then((result) => {
-        const user = result?.user;
-        setIsAuthenticated(true);
-        user && push("/");
-      })
-      .catch((error) => {
-        console.error(error.code);
-      });
-  }, [auth, push, setIsAuthenticated]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
+    setIsLoading(true); //단순히 여기서만 true로 처리하고 넘어가도 될지?
     loginGoogle();
   };
 
@@ -52,7 +31,9 @@ export default function AuthPage() {
           />
         </div>
         <div className="spacing" />
-        <Button onClick={handleClick}>구글로 로그인하기</Button>
+        <Button onClick={handleClick} isLoading={isLoading}>
+          구글로 로그인하기
+        </Button>
       </Container>
       <style jsx>{`
         .spacing {

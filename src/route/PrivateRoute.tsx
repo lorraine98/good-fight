@@ -1,8 +1,6 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useRecoilValue } from "recoil";
-import { authUserState } from "../atoms/user";
+import { useAuth } from "src/pages/auth/hook/useAuth";
 import AuthPage from "../pages/auth";
 
 interface Props {
@@ -10,18 +8,21 @@ interface Props {
 }
 
 const PrivateRoute = ({ children }: Props) => {
-  const isAuthenticated = useRecoilValue(authUserState);
-  const { pathname, push } = useRouter();
+  const { pathname } = useRouter();
+  const isAuthorized = useAuth();
 
   const isloginRequiredPage =
-    pathname === "/my-fights" || pathname === "/my-page";
+    pathname !== "/home" && pathname !== "/your-fights";
 
-  if (!isAuthenticated && isloginRequiredPage) {
-    push("/auth");
+  if (!isAuthorized && isloginRequiredPage) {
     return <AuthPage />;
   }
 
-  return <>{children}</>;
+  if (isAuthorized || (!isAuthorized && !isloginRequiredPage)) {
+    return <>{children}</>;
+  }
+
+  return <h1>is loading...</h1>;
 };
 
 export default PrivateRoute;

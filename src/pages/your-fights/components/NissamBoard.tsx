@@ -7,22 +7,9 @@ import LinearProgress, {
 } from "@mui/material/LinearProgress";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-
-interface Props {
-  data: Array<ArrayType>;
-}
-
-type ArrayType = {
-  content: string;
-  like: number;
-  hate: number;
-  options: Array<OptionType>;
-};
-
-type OptionType = {
-  value: string;
-  votes: number;
-};
+import getRandomNickname from "src/api/get-random-nickname";
+import getYourFights from "src/api/get-your-fights";
+import { useEffect } from "react";
 
 const StyledPath = styled.path<{ currentColor: string }>`
   fill: ${({ currentColor }) => currentColor};
@@ -43,9 +30,20 @@ const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const NissamBoard = ({ data }: Props) => {
+const NissamBoard = () => {
   const theme = useTheme();
-  const total = data[0].options[0].votes + data[0].options[1].votes;
+
+  const iconStyle = {
+    fontSize: "1.2rem",
+    cursor: "pointer",
+  };
+
+  useEffect(() => {
+    const getNickname = async () => {
+      const result = await getRandomNickname();
+      const r2 = await getYourFights();
+    };
+  }, []);
 
   return (
     <>
@@ -74,38 +72,32 @@ const NissamBoard = ({ data }: Props) => {
               <div className="date">2주 전</div>
             </div>
           </div>
-          <div className="content">{data[0].content}</div>
+          <div className="content"></div>
           <div className="votes">
             <div className="option">
-              <BorderLinearProgress
-                variant="determinate"
-                value={data[0].options[0].votes}
-              />
-              <p className="value">{data[0].options[0].value}</p>
+              <BorderLinearProgress variant="determinate" value={0} />
+              <p className="value"></p>
               <p className="percentage">
-                {Math.round((data[0].options[0].votes * 100) / total)}%
+                {/* {Math.round(].votes * 100) / total)}% */}
               </p>
             </div>
             <div className="option">
-              <BorderLinearProgress
-                variant="determinate"
-                value={data[0].options[1].votes}
-              />
-              <p className="value">{data[0].options[1].value}</p>
+              <BorderLinearProgress variant="determinate" value={0} />
+              <p className="value"></p>
               <p className="percentage">
-                {Math.round((data[0].options[1].votes * 100) / total)}%
+                {/* {Math.round(].votes * 100) / total)}% */}
               </p>
             </div>
-            <div className="total">{total}명 투표</div>
+            <div className="total">명 투표</div>
           </div>
           <div className="empathy">
             <div className="like">
-              <ThumbUpOffAltIcon sx={{ fontSize: "1.2rem" }} />
-              <p>{data[0].like}</p>
+              <ThumbUpOffAltIcon sx={{ ...iconStyle }} />
+              <p></p>
             </div>
             <div className="hate">
-              <ThumbDownOffAltIcon sx={{ fontSize: "1.2rem" }} />
-              <p>{data[0].hate}</p>
+              <ThumbDownOffAltIcon sx={{ ...iconStyle }} />
+              <p></p>
             </div>
             <div className="hate"></div>
           </div>

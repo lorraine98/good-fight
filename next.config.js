@@ -10,6 +10,14 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/nickname:path*",
+        destination: "https://nickname.hwanmoo.kr/:path*",
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
