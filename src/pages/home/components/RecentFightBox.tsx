@@ -1,19 +1,11 @@
-import { useTheme } from "@mui/system";
 import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import { StateType } from "..";
 
 const RecentFightBox = ({ recent }: StateType) => {
-  const theme = useTheme();
-
-  const iconStyle = {
-    fontSize: "3rem",
-    color: `${theme.palette.white}`,
-  };
-
   return (
     <>
       <div className="container">
-        <MyFightsStatusIcon state={recent.state} style={iconStyle} />
+        <MyFightsStatusIcon size="medium" state={recent.state} />
         <div className="issue">
           <p className="label">최근에 싸웠던 일 : </p>
           <p className="title">{recent.title}</p>

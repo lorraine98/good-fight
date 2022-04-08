@@ -12,10 +12,6 @@ interface Props {
 
 const Board = ({ title, onClick, data }: Props) => {
   const theme = useTheme();
-  const iconStyle = {
-    color: "white",
-    fontSize: "1rem",
-  };
 
   return (
     <>
@@ -47,10 +43,7 @@ const Board = ({ title, onClick, data }: Props) => {
                   {list.state && (
                     <div className="group">
                       <div className="box">
-                        <MyFightsStatusIcon
-                          state={list.state}
-                          style={iconStyle}
-                        />
+                        <MyFightsStatusIcon size="small" state={list.state} />
                       </div>
                     </div>
                   )}

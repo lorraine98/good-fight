@@ -4,17 +4,18 @@ import Banner from "./components/Banner";
 import Board from "./components/Board";
 import Router from "next/router";
 import { useEffect, useState } from "react";
+import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 
 type Props = {
   title: string;
-  state: string;
+  state: fightStatusType;
 };
 
 interface FightsInfo {
   title: string;
   likes: number | null;
   hates: number | null;
-  state: string | null;
+  state: fightStatusType | null;
 }
 
 export interface StateType {
