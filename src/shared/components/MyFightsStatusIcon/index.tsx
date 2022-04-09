@@ -29,16 +29,16 @@ const MyFightsStatusIcon = ({ state, size }: Props) => {
   const getColor = () => {
     switch (state) {
       case "solved":
-        return `${theme.palette.yellow}`;
+        return `${theme.palette.custom.yellow}`;
 
       case "willSolve":
-        return `${theme.palette.softBrown}`;
+        return `${theme.palette.custom.softBrown}`;
 
       case "unsolved":
-        return `${theme.palette.brown}`;
+        return `${theme.palette.custom.brown}`;
 
       default:
-        return `${theme.palette.white}`;
+        return `${theme.palette.custom.white}`;
     }
   };
 

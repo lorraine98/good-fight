@@ -36,12 +36,12 @@ const Button = ({
       </button>
       <style jsx>{`
         .button {
-          background: ${theme.palette.brown};
+          background: ${theme.palette.custom.brown};
           width: 100%;
           height: 2.7rem;
           border: none;
           border-radius: 0.4rem;
-          color: ${theme.palette.white};
+          color: ${theme.palette.custom.white};
           font-size: 1rem;
           font-weight: 600;
           cursor: pointer;

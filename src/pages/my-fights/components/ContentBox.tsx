@@ -1,10 +1,22 @@
 import { MoreVert } from "@mui/icons-material";
+import { IconButton, Menu, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/system";
+import { useState } from "react";
 import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import Tag from "./Tag";
 
 const ContentBox = () => {
   const theme = useTheme();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -19,7 +31,28 @@ const ContentBox = () => {
             <span>2022.02.08</span>
           </div>
         </div>
-        <MoreVert sx={{ position: "absolute", right: 12, top: 16 }} />
+        <IconButton
+          onClick={handleClick}
+          aria-label="more"
+          id="long-button"
+          aria-controls={open ? "long-menu" : undefined}
+          aria-expanded={open ? "true" : undefined}
+          aria-haspopup="true"
+        >
+          <MoreVert sx={{ position: "absolute", right: 12, top: 16 }} />
+        </IconButton>
+        <Menu
+          id="long-menu"
+          MenuListProps={{
+            "aria-labelledby": "long-button",
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        >
+          <MenuItem>수정</MenuItem>
+          <MenuItem>삭제</MenuItem>
+        </Menu>
         <div className="lowerInfo">
           <h1 className="content">설거지를 제때 안함</h1>
           <p>설거지를 제때 해야 벌레가 안생김</p>

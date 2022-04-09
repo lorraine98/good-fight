@@ -71,7 +71,7 @@ const Board = ({ title, onClick, data }: Props) => {
           display: flex;
           flex-direction: column;
           border-radius: 0.375rem;
-          background-color: ${theme.palette.white};
+          background-color: ${theme.palette.custom.white};
           height: 11rem;
           margin: 1rem 0;
           padding: 1rem;

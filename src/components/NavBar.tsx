@@ -64,7 +64,7 @@ const NavBar = () => {
           justify-content: space-around;
           align-items: center;
           max-width: 30rem;
-          background: ${theme.palette.white};
+          background: ${theme.palette.custom.white};
           box-shadow: 0 -1px 3px rgba(57, 63, 72, 0.1);
         }
 
