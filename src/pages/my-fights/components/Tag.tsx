@@ -13,9 +13,9 @@ const Tag = ({ text, type, style }: Props) => {
   const getBorderColor = () => {
     switch (type) {
       case "keyword":
-        return `${theme.palette.brown}`;
+        return `${theme.palette.custom.brown}`;
       case "target":
-        return `${theme.palette.softBrown}`;
+        return `${theme.palette.custom.softBrown}`;
     }
   };
 

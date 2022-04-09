@@ -61,7 +61,7 @@ const ContentBox = () => {
       </div>
       <style jsx>{`
         .wrapper {
-          background: ${theme.palette.white};
+          background: ${theme.palette.custom.white};
           border-radius: 0.375rem;
           padding: 1rem 1rem 0.5rem 1rem;
           position: relative;

@@ -46,19 +46,23 @@ const MyFightsStatusIcon = ({ state, size }: Props) => {
     switch (state) {
       case "solved":
         return (
-          <CheckIcon sx={{ fill: theme.palette.white, fontSize: "inherit" }} />
+          <CheckIcon
+            sx={{ fill: theme.palette.custom.white, fontSize: "inherit" }}
+          />
         );
 
       case "willSolve":
         return (
           <QuestionMarkIcon
-            sx={{ fill: theme.palette.white, fontSize: "inherit" }}
+            sx={{ fill: theme.palette.custom.white, fontSize: "inherit" }}
           />
         );
 
       case "unsolved":
         return (
-          <CloseIcon sx={{ fill: theme.palette.white, fontSize: "inherit" }} />
+          <CloseIcon
+            sx={{ fill: theme.palette.custom.white, fontSize: "inherit" }}
+          />
         );
     }
   };

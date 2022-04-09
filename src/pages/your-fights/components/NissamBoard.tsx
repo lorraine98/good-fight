@@ -146,7 +146,7 @@ const NissamBoard = () => {
 
         .date {
           font-size: 0.9rem;
-          color: ${theme.palette.gray};
+          color: ${theme.palette.custom.gray};
         }
 
         .content {

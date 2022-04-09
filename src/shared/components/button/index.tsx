@@ -28,7 +28,11 @@ const Button = ({
       >
         {isLoading ? (
           <div className="spinner-wrapper">
-            <TailSpin color={theme.palette.white} height={25} width={25} />
+            <TailSpin
+              color={theme.palette.custom.white}
+              height={25}
+              width={25}
+            />
           </div>
         ) : (
           children
