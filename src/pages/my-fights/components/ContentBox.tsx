@@ -7,11 +7,11 @@ import Tag from "./Tag";
 
 const ContentBox = () => {
   const theme = useTheme();
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(e.currentTarget);
   };
 
   const handleClose = () => {
@@ -33,23 +33,11 @@ const ContentBox = () => {
         </div>
         <IconButton
           onClick={handleClick}
-          aria-label="more"
-          id="long-button"
-          aria-controls={open ? "long-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
-          aria-haspopup="true"
+          sx={{ position: "absolute", right: 12, top: 16 }}
         >
-          <MoreVert sx={{ position: "absolute", right: 12, top: 16 }} />
+          <MoreVert />
         </IconButton>
-        <Menu
-          id="long-menu"
-          MenuListProps={{
-            "aria-labelledby": "long-button",
-          }}
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-        >
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
           <MenuItem>수정</MenuItem>
           <MenuItem>삭제</MenuItem>
         </Menu>
