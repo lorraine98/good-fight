@@ -2,7 +2,7 @@ import Header from "./Header";
 import NavBar from "./NavBar";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { useTheme } from "@mui/material";
+import { useTheme } from "@mui/system";
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -35,8 +35,8 @@ const Layout = ({ children }: AppLayoutProps) => {
           position: relative;
           max-width: 30rem;
           height: 100vh;
-          background: ${theme.palette.background};
-          color: ${theme.palette.text};
+          background: ${theme.palette.custom.background};
+          color: ${theme.palette.custom.text};
         }
       `}</style>
       <style jsx>{`

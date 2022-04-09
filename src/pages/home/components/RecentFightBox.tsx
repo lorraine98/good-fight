@@ -7,7 +7,7 @@ const RecentFightBox = ({ recent }: StateType) => {
 
   const iconStyle = {
     fontSize: "3rem",
-    color: `${theme.palette.white}`,
+    color: `${theme.palette.custom.white}`,
   };
 
   return (

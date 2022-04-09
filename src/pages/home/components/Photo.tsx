@@ -98,7 +98,7 @@ const Photo = () => {
           bottom: 1rem;
           width: calc(100% - 2rem);
           height: 5rem;
-          background-color: ${theme.palette.white};
+          background-color: ${theme.palette.custom.white};
           border-radius: 0.375rem;
           align-items: center;
           cursor: pointer;

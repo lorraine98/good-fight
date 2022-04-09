@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import NotificationsNone from "@mui/icons-material/NotificationsNone";
 import NotificationAdd from "@mui/icons-material/NotificationAdd";
@@ -10,7 +10,7 @@ interface Title {
 }
 
 const Header = () => {
-  const router = useRouter();
+  const { pathname } = useRouter();
   const theme = useTheme();
   const [notification, setNotification] = useState(false);
   const [isRoot, setIsRoot] = useState(false);
@@ -22,7 +22,21 @@ const Header = () => {
     "/my-page": "마이 페이지",
   };
 
-  const currentRoute = title[router.pathname];
+  const currentRoute = title[pathname];
+
+  useEffect(() => {
+    switch (pathname) {
+      case "/home":
+      case "/your-fights":
+      case "/my-fights":
+      case "/my-page":
+        setIsRoot(true);
+        break;
+
+      default:
+        setIsRoot(false);
+    }
+  }, []);
 
   return (
     <>
@@ -47,7 +61,7 @@ const Header = () => {
           font-weight: bold;
           justify-content: space-between;
           width: 100%;
-          background: ${theme.palette.white};
+          background: ${theme.palette.custom.white};
           box-shadow: 0 1px 3px rgba(57, 63, 72, 0.1);
           max-width: 30rem;
         }
