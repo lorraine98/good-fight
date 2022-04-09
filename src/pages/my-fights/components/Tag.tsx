@@ -31,6 +31,7 @@ const Tag = ({ text, type, style }: Props) => {
           border: 1px solid ${getBorderColor()};
           border-radius: 0.375rem;
           font-weight: 600;
+          margin-right: 1rem;
         }
       `}</style>
     </>

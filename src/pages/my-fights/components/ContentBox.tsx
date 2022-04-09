@@ -13,11 +13,7 @@ const ContentBox = () => {
           <MyFightsStatusIcon state="solved" size="large" />
           <div className="upperInfo">
             <div className="upperInfo-tags">
-              <Tag
-                text="설거지"
-                type="keyword"
-                style={{ marginRight: "1rem" }}
-              />
+              <Tag text="설거지" type="keyword" />
               <Tag text="아무개" type="target" />
             </div>
             <span>2022.02.08</span>
