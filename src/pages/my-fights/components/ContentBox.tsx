@@ -2,11 +2,25 @@ import { MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useState } from "react";
-import { postMyFightsProps } from "src/api/post-my-fights-form";
-import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
+import MyFightsStatusIcon, {
+  fightStatusType,
+} from "src/shared/components/MyFightsStatusIcon";
 import Tag from "./Tag";
 
+interface Props {
+  docId: string;
+  content: string;
+  date: string;
+  feedback: string;
+  keyword: string;
+  reason: string;
+  solved: fightStatusType;
+  target: string;
+  deleteContent: (id: string) => void;
+}
+
 const ContentBox = ({
+  docId,
   content,
   date,
   feedback,
@@ -14,7 +28,8 @@ const ContentBox = ({
   reason,
   solved,
   target,
-}: postMyFightsProps) => {
+  deleteContent,
+}: Props) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const open = Boolean(anchorEl);
@@ -29,7 +44,7 @@ const ContentBox = ({
 
   return (
     <>
-      <div className="wrapper">
+      <div className="wrapper" data-id={docId}>
         <div className="upperInfo-wrapper">
           <MyFightsStatusIcon state={solved} size="large" />
           <div className="upperInfo">
@@ -48,7 +63,7 @@ const ContentBox = ({
         </IconButton>
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
           <MenuItem>수정</MenuItem>
-          <MenuItem>삭제</MenuItem>
+          <MenuItem onClick={() => deleteContent(docId)}>삭제</MenuItem>
         </Menu>
         <div className="lowerInfo">
           <h1 className="content">{content}</h1>

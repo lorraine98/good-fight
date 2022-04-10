@@ -1,7 +1,7 @@
-import { app } from "../shared/FireBase";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
+import { app } from "src/shared/FireBase";
 
 const db = getFirestore(app);
 const auth = getAuth();

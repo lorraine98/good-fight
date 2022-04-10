@@ -1,10 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Container from "src/shared/components/container/index";
 import Button from "src/shared/components/button/index";
-import {
-  postMyFightsProps,
-  postMyFightsForm,
-} from "src/api/post-my-fights-form";
+import { postMyFightsProps, postMyFightsForm } from "./api/post-my-fights-form";
 import { useRouter } from "next/router";
 import FormInput from "src/shared/components/form-input";
 import FormSelect from "src/shared/form-select";

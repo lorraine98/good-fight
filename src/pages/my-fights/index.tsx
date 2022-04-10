@@ -1,20 +1,26 @@
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import getMyFightsData, { getMyFightsProps } from "src/api/get-my-fights-data";
+import getMyFightsData, { getMyFightsProps } from "./api/get-my-fights-data";
 import AddButton from "src/shared/components/add-button";
 import Container from "src/shared/components/container";
 import ContentBox from "./components/ContentBox";
 import Spinner from "src/shared/spinner";
+import deleteMyFightsData from "./api/delete-my-fights-data";
 
 const MyFights = () => {
   const { push } = useRouter();
-  const { isLoading, data: myFightsData } = useQuery<getMyFightsProps[]>(
+  const { isLoading, data, refetch } = useQuery<getMyFightsProps[]>(
     "myFightsData",
     getMyFightsData,
   );
 
-  const handleClick = () => {
+  const pushToForm = () => {
     push("my-fights/add-form");
+  };
+
+  const deleteContent = async (id: string) => {
+    await deleteMyFightsData(id);
+    refetch();
   };
 
   return (
@@ -22,12 +28,15 @@ const MyFights = () => {
       {isLoading ? (
         <Spinner size={50} />
       ) : (
-        myFightsData?.map((res: getMyFightsProps) => {
+        data?.map((res: getMyFightsProps) => {
+          const { docId } = res;
           const { content, date, feedback, keyword, reason, solved, target } =
             res.data;
+
           return (
             <ContentBox
-              key={keyword}
+              key={docId}
+              docId={docId}
               content={content}
               date={date}
               feedback={feedback}
@@ -35,11 +44,12 @@ const MyFights = () => {
               reason={reason}
               solved={solved}
               target={target}
+              deleteContent={deleteContent}
             />
           );
         })
       )}
-      <AddButton onClick={handleClick} />
+      <AddButton onClick={pushToForm} />
     </Container>
   );
 };
