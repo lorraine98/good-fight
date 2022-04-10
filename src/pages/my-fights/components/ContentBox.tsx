@@ -2,10 +2,19 @@ import { MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useState } from "react";
+import { myFightsProps } from "src/api/post-my-fights-form";
 import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import Tag from "./Tag";
 
-const ContentBox = () => {
+const ContentBox = ({
+  content,
+  date,
+  feedback,
+  keyword,
+  reason,
+  solved,
+  target,
+}: myFightsProps) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const open = Boolean(anchorEl);
@@ -22,13 +31,13 @@ const ContentBox = () => {
     <>
       <div className="wrapper">
         <div className="upperInfo-wrapper">
-          <MyFightsStatusIcon state="solved" size="large" />
+          <MyFightsStatusIcon state={solved} size="large" />
           <div className="upperInfo">
             <div className="upperInfo-tags">
-              <Tag text="설거지" type="keyword" />
-              <Tag text="아무개" type="target" />
+              <Tag text={keyword} type="keyword" />
+              <Tag text={target} type="target" />
             </div>
-            <span>2022.02.08</span>
+            <span>{date}</span>
           </div>
         </div>
         <IconButton
@@ -42,9 +51,9 @@ const ContentBox = () => {
           <MenuItem>삭제</MenuItem>
         </Menu>
         <div className="lowerInfo">
-          <h1 className="content">설거지를 제때 안함</h1>
-          <p>설거지를 제때 해야 벌레가 안생김</p>
-          <p>정해진 날짜에 맞춰 설거지 꼭 하자!</p>
+          <h1 className="content">{content}</h1>
+          <p>{reason}</p>
+          <p>{feedback}</p>
         </div>
       </div>
       <style jsx>{`
@@ -53,6 +62,7 @@ const ContentBox = () => {
           border-radius: 0.375rem;
           padding: 1rem 1rem 0.5rem 1rem;
           position: relative;
+          margin-bottom: 1rem;
         }
         .upperInfo-wrapper {
           display: flex;

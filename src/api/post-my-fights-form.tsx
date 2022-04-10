@@ -1,6 +1,7 @@
 import { app } from "../shared/FireBase";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 
 const db = getFirestore(app);
 const auth = getAuth();
@@ -41,6 +42,6 @@ export interface myFightsProps {
   feedback: string;
   keyword: string;
   reason: string;
-  solved: string;
+  solved: fightStatusType;
   target: string;
 }
