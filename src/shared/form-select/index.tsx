@@ -5,6 +5,7 @@ interface Props {
   name: string;
   title: string;
   options: option[];
+  defaultValue?: string;
 }
 
 interface option {
@@ -12,12 +13,21 @@ interface option {
   text: string;
 }
 
-const FormSelect = ({ register, name, title, options }: Props) => {
+const FormSelect = ({
+  register,
+  name,
+  title,
+  options,
+  defaultValue,
+}: Props) => {
   return (
     <>
       <div className="question-wrapper">
         <label htmlFor={name}>{title}</label>
-        <select {...register(name, { required: true })}>
+        <select
+          {...register(name, { required: true })}
+          defaultValue={defaultValue}
+        >
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.text}

@@ -7,7 +7,7 @@ const db = getFirestore(app);
 const auth = getAuth();
 const uid = auth.currentUser?.uid ?? "";
 
-export const postMyFightsForm = async ({
+export const postMyFightsData = async ({
   content,
   date,
   feedback,

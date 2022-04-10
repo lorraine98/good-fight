@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import getMyFightsData, { getMyFightsProps } from "./api/get-my-fights-data";
+import { getMyFightsAllData, getMyFightsProps } from "./api/get-my-fights-data";
 import AddButton from "src/shared/components/add-button";
 import Container from "src/shared/components/container";
 import ContentBox from "./components/ContentBox";
@@ -10,8 +10,8 @@ import deleteMyFightsData from "./api/delete-my-fights-data";
 const MyFights = () => {
   const { push } = useRouter();
   const { isLoading, data, refetch } = useQuery<getMyFightsProps[]>(
-    "myFightsData",
-    getMyFightsData,
+    "myFightsAllData",
+    getMyFightsAllData,
   );
 
   const pushToForm = () => {
@@ -21,6 +21,10 @@ const MyFights = () => {
   const deleteContent = async (id: string) => {
     await deleteMyFightsData(id);
     refetch();
+  };
+
+  const updateContent = (id: string) => {
+    push({ pathname: "my-fights/update-form", query: { docId: id } });
   };
 
   return (
@@ -45,6 +49,7 @@ const MyFights = () => {
               solved={solved}
               target={target}
               deleteContent={deleteContent}
+              updateContent={updateContent}
             />
           );
         })

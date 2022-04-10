@@ -1,17 +1,20 @@
 import {
+  doc,
+  getDoc,
   collection,
   getFirestore,
   getDocs,
   orderBy,
   query,
   CollectionReference,
+  DocumentReference,
 } from "firebase/firestore";
 import { app } from "src/shared/FireBase";
-import { postMyFightsProps } from "./post-my-fights-form";
+import { postMyFightsProps } from "./post-my-fights-data";
 
 const db = getFirestore(app);
 
-const getMyFightsData = async (): Promise<getMyFightsProps[]> => {
+export const getMyFightsAllData = async (): Promise<getMyFightsProps[]> => {
   const myFightsRef = collection(
     db,
     "myFights",
@@ -23,7 +26,12 @@ const getMyFightsData = async (): Promise<getMyFightsProps[]> => {
   return result.docs.map((doc) => ({ ...doc.data(), docId: doc.id }));
 };
 
-export default getMyFightsData;
+export const getMyFightsData = async (id: string) => {
+  const myFightsRef = doc(db, "myFights", id);
+  const result = await getDoc(myFightsRef);
+
+  return result.data();
+};
 
 export interface getMyFightsProps {
   user: {

@@ -17,6 +17,7 @@ interface Props {
   solved: fightStatusType;
   target: string;
   deleteContent: (id: string) => void;
+  updateContent: (id: string) => void;
 }
 
 const ContentBox = ({
@@ -29,6 +30,7 @@ const ContentBox = ({
   solved,
   target,
   deleteContent,
+  updateContent,
 }: Props) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
@@ -62,7 +64,7 @@ const ContentBox = ({
           <MoreVert />
         </IconButton>
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          <MenuItem>수정</MenuItem>
+          <MenuItem onClick={() => updateContent(docId)}>수정</MenuItem>
           <MenuItem onClick={() => deleteContent(docId)}>삭제</MenuItem>
         </Menu>
         <div className="lowerInfo">
