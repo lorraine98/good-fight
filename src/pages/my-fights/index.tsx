@@ -12,7 +12,6 @@ const MyFights = () => {
     "myFightsData",
     getMyFightsData,
   );
-  console.log(myFightsData);
 
   const handleClick = () => {
     push("my-fights/add-form");

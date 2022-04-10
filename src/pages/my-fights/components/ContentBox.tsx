@@ -2,7 +2,7 @@ import { MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useState } from "react";
-import { myFightsProps } from "src/api/post-my-fights-form";
+import { postMyFightsProps } from "src/api/post-my-fights-form";
 import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import Tag from "./Tag";
 
@@ -14,7 +14,7 @@ const ContentBox = ({
   reason,
   solved,
   target,
-}: myFightsProps) => {
+}: postMyFightsProps) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const open = Boolean(anchorEl);

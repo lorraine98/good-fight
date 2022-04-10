@@ -7,7 +7,7 @@ import {
   query,
   CollectionReference,
 } from "firebase/firestore";
-import { myFightsProps } from "./post-my-fights-form";
+import { postMyFightsProps } from "./post-my-fights-form";
 
 const db = getFirestore(app);
 
@@ -31,5 +31,5 @@ export interface getMyFightsProps {
   user: {
     uid: string;
   };
-  data: myFightsProps;
+  data: postMyFightsProps;
 }

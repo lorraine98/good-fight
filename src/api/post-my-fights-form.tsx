@@ -15,7 +15,7 @@ export const postMyFightsForm = async ({
   reason,
   solved,
   target,
-}: myFightsProps) => {
+}: postMyFightsProps) => {
   try {
     await addDoc(collection(db, "myFights"), {
       user: {
@@ -36,7 +36,7 @@ export const postMyFightsForm = async ({
   }
 };
 
-export interface myFightsProps {
+export interface postMyFightsProps {
   content: string;
   date: string;
   feedback: string;
