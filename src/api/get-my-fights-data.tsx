@@ -1,16 +1,35 @@
 import { app } from "../shared/FireBase";
-import { collection, getFirestore, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getFirestore,
+  getDocs,
+  orderBy,
+  query,
+  CollectionReference,
+} from "firebase/firestore";
+import { myFightsProps } from "./post-my-fights-form";
 
 const db = getFirestore(app);
 
-const getMyFightsData = async () => {
-  try {
-    const result = await getDocs(collection(db, "myFights"));
+const getMyFightsData = async (): Promise<getMyFightsProps[]> => {
+  const myFightsRef = collection(
+    db,
+    "myFights",
+  ) as CollectionReference<getMyFightsProps>;
 
-    return result.docs.map((doc) => ({ ...doc.data() }));
-  } catch (e) {
-    console.error("Error get collection!", e);
-  }
+  const myFightsQuery = query(myFightsRef, orderBy("data.date", "desc"));
+  const result = await getDocs(myFightsQuery);
+
+  return result.docs.map((doc) => ({ ...doc.data() }));
+
+  //todo: handle error
 };
 
 export default getMyFightsData;
+
+export interface getMyFightsProps {
+  user: {
+    uid: string;
+  };
+  data: myFightsProps;
+}
