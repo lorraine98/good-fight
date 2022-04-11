@@ -10,6 +10,7 @@ interface Props {
   height?: string;
   isTextarea?: boolean;
   style?: CSSProperties;
+  defaultValue?: string;
 }
 const FormInput = ({
   register,
@@ -20,6 +21,7 @@ const FormInput = ({
   height = "3rem",
   isTextarea,
   style,
+  defaultValue,
 }: Props) => {
   return (
     <>
@@ -32,6 +34,7 @@ const FormInput = ({
           />
         ) : (
           <input
+            defaultValue={defaultValue}
             type={type}
             placeholder={placeholder}
             {...register(name, { required: true })}

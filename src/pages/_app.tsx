@@ -7,9 +7,11 @@ import PrivateRoute from "../route/PrivateRoute";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { getDesignToken } from "../styles/theme";
 import CssBaseLine from "@mui/material/CssBaseline";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const theme = createTheme(getDesignToken("light"));
+  const queryClient = new QueryClient();
 
   return (
     <>
@@ -20,11 +22,13 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
       <RecoilRoot>
         <ThemeProvider theme={theme}>
-          <Layout>
-            <PrivateRoute>
-              <Component {...pageProps} />
-            </PrivateRoute>
-          </Layout>
+          <QueryClientProvider client={queryClient}>
+            <Layout>
+              <PrivateRoute>
+                <Component {...pageProps} />
+              </PrivateRoute>
+            </Layout>
+          </QueryClientProvider>
         </ThemeProvider>
       </RecoilRoot>
     </>

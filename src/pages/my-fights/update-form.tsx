@@ -1,24 +1,43 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import Container from "src/shared/components/container/index";
-import Button from "src/shared/components/button/index";
-import { postMyFightsProps, postMyFightsData } from "./api/post-my-fights-data";
+import { DocumentData } from "firebase/firestore";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import Button from "src/shared/components/button";
+import Container from "src/shared/components/container";
 import FormInput from "src/shared/components/form-input";
 import FormSelect from "src/shared/form-select";
+import { getMyFightsData, getMyFightsProps } from "./api/get-my-fights-data";
+import { postMyFightsProps } from "./api/post-my-fights-data";
+import { updateMyFightsData } from "./api/update-my-fights-data";
 
-const MyFightsAddForm = () => {
+const MyFightsUpdateForm = () => {
   const { register, handleSubmit } = useForm<postMyFightsProps>();
-  const { push } = useRouter();
+  const [myFightsData, setMyFightsData] = useState<
+    getMyFightsProps | DocumentData
+  >();
+  const { query, push } = useRouter();
+  const { docId } = query;
+
+  useEffect(() => {
+    async function fetchMyFightsData() {
+      const res = await getMyFightsData(docId);
+      setMyFightsData(res);
+    }
+    fetchMyFightsData();
+  }, []);
+
+  const { content, date, feedback, keyword, reason, solved, target } =
+    myFightsData?.data ?? {};
 
   const onSubmit: SubmitHandler<postMyFightsProps> = (data) => {
-    postMyFightsData(data).then(() => push("/my-fights"));
+    updateMyFightsData({ ...data, docId }).then(() => push("/my-fights"));
   };
 
   return (
     <>
       <Container marginX={2}>
-        <p className="title">싸움을 기록해요.</p>
-        <p className="subtitle">한 쪽이 억울하지 않도록 함께 적어봐요.</p>
+        <p className="title">변화가 생겼나요?</p>
+        <p className="subtitle">좋은 싸움이 되었길 바랄게요.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="display-flex">
             <FormInput
@@ -26,12 +45,14 @@ const MyFightsAddForm = () => {
               title="언제 싸웠나요?"
               register={register}
               type="date"
+              defaultValue={date}
               style={{ marginRight: "1rem" }}
             />
             <FormSelect
               register={register}
               name="solved"
               title="해결 했나요?"
+              defaultValue={solved}
               options={[
                 { value: "unsolved", text: "해결 안했어요" },
                 { value: "solved", text: "해결했어요" },
@@ -43,34 +64,34 @@ const MyFightsAddForm = () => {
             <FormInput
               name="target"
               title="누가 잘못했나요?"
-              placeholder="애칭 또는 이름."
               register={register}
+              defaultValue={target}
               style={{ marginRight: "1rem" }}
             />
             <FormInput
               name="keyword"
               title="키워드"
-              placeholder="한 단어로 요약."
               register={register}
+              defaultValue={keyword}
             />
           </div>
           <FormInput
             name="content"
             title="무슨 일로 싸웠나요?"
-            placeholder="예) 00이가 지각했음."
             register={register}
+            defaultValue={content}
           />
           <FormInput
             name="reason"
             title="왜 싸웠나요?"
-            placeholder="예) 연락도 없이 늦어서 짜증이 남."
             register={register}
+            defaultValue={reason}
           />
           <FormInput
             name="feedback"
             title="어떻게 해결하고 싶나요?"
-            placeholder="예) 늦더라도 연락은 미리주자."
             register={register}
+            defaultValue={feedback}
           />
           <Button
             type="submit"
@@ -97,4 +118,4 @@ const MyFightsAddForm = () => {
   );
 };
 
-export default MyFightsAddForm;
+export default MyFightsUpdateForm;

@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.5.0",
     "@mui/material": "^5.5.3",
+    "@types/react-query": "^1.2.9",
     "axios": "^0.26.1",
     "babel-plugin-styled-components": "^2.0.6",
     "eslint-plugin-react-hooks": "^4.3.0",

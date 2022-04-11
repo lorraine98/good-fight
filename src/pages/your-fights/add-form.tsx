@@ -86,7 +86,7 @@ const YourFightsAddForm = () => {
                 <Clear
                   onClick={() => remove(index)}
                   sx={{
-                    color: theme.palette.gray,
+                    color: theme.palette.custom.gray,
                     position: "absolute",
                     right: 12,
                     top: 12,
@@ -100,7 +100,7 @@ const YourFightsAddForm = () => {
               className="optionButton"
               onClick={() => append({ name: "" })} //name 필요하지 않아서 빈 값 넣어줌.
             >
-              <AddCircle sx={{ color: theme.palette.gray }} />
+              <AddCircle sx={{ color: theme.palette.custom.gray }} />
             </button>
           )}
           <Button

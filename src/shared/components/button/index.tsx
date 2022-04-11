@@ -1,6 +1,6 @@
 import { useTheme } from "@mui/system";
 import React from "react";
-import { TailSpin } from "react-loader-spinner";
+import Spinner from "src/shared/spinner";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -27,9 +27,7 @@ const Button = ({
         {...props}
       >
         {isLoading ? (
-          <div className="spinner-wrapper">
-            <TailSpin color={theme.palette.white} height={25} width={25} />
-          </div>
+          <Spinner size={25} color={theme.palette.custom.white} />
         ) : (
           children
         )}
@@ -45,10 +43,6 @@ const Button = ({
           font-size: 1rem;
           font-weight: 600;
           cursor: pointer;
-        }
-        .spinner-wrapper {
-          display: flex;
-          justify-content: center;
         }
       `}</style>
     </>

@@ -1,12 +1,13 @@
-import { app } from "../shared/FireBase";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
+import { app } from "src/shared/FireBase";
 
 const db = getFirestore(app);
 const auth = getAuth();
 const uid = auth.currentUser?.uid ?? "";
 
-export const postMyFightsForm = async ({
+export const postMyFightsData = async ({
   content,
   date,
   feedback,
@@ -14,7 +15,7 @@ export const postMyFightsForm = async ({
   reason,
   solved,
   target,
-}: myFightsProps) => {
+}: postMyFightsProps) => {
   try {
     await addDoc(collection(db, "myFights"), {
       user: {
@@ -35,12 +36,12 @@ export const postMyFightsForm = async ({
   }
 };
 
-export interface myFightsProps {
+export interface postMyFightsProps {
   content: string;
   date: string;
   feedback: string;
   keyword: string;
   reason: string;
-  solved: string;
+  solved: fightStatusType;
   target: string;
 }
