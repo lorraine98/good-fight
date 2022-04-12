@@ -1,11 +1,20 @@
+import { useRouter } from "next/router";
 import OrderBy from "./components/OrderBy";
-import NissamBoard from "./components/NissamBoard";
+import YourFightsBoard from "./components/YourFightsBoard";
+import AddButton from "src/shared/components/add-button";
 
 const YourFights = () => {
+  const {push} = useRouter();
+  
+  const pushToForm = () => {
+    push("your-fights/add-form");
+  }
+
   return (
     <>
       <OrderBy />
-      <NissamBoard />
+      <YourFightsBoard />
+      <AddButton onClick={pushToForm}/>
     </>
   );
 };

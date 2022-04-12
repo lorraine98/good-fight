@@ -7,9 +7,9 @@ import LinearProgress, {
 } from "@mui/material/LinearProgress";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import getRandomNickname from "src/api/get-random-nickname";
 import getYourFights from "src/api/get-your-fights";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { IDocType } from "src/api/get-your-fights";
 
 const StyledPath = styled.path<{ currentColor: string }>`
   fill: ${({ currentColor }) => currentColor};
@@ -30,8 +30,9 @@ const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const NissamBoard = () => {
+const YourFightsBoard = () => {
   const theme = useTheme();
+  const [yourFights, setYourFights] = useState<IDocType>([]);
 
   const iconStyle = {
     fontSize: "1.2rem",
@@ -39,69 +40,79 @@ const NissamBoard = () => {
   };
 
   useEffect(() => {
-    const getNickname = async () => {
-      const result = await getRandomNickname();
-      const r2 = await getYourFights();
+    const getAllYourFights = async () => {
+      const result = await getYourFights();
+
+      if (!result) {
+        return;
+      }
+
+      setYourFights(result);
     };
+
+    getAllYourFights();
   }, []);
+
+  const recentlyYourFights = () => {};
 
   return (
     <>
       <Container marginX={1}>
-        <div className="board">
-          <div className="profile">
-            <div className="avatar">
-              <svg
-                className="icon"
-                focusable="false"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                data-testid="PersonIcon"
-              >
-                <StyledPath
-                  className="path"
-                  currentColor={
-                    "#" + Math.floor(Math.random() * 16777215).toString(16)
-                  }
-                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                ></StyledPath>
-              </svg>
+        {yourFights.map((fight) => {
+          const { data, user } = fight;
+          const { content, optionList, likes } = data;
+          const { nickname } = user;
+
+          return (
+            <div className="board" key={nickname}>
+              <div className="profile">
+                <div className="avatar">
+                  <svg
+                    className="icon"
+                    focusable="false"
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    data-testid="PersonIcon"
+                  >
+                    <StyledPath
+                      className="path"
+                      currentColor={
+                        "#" + Math.floor(Math.random() * 16777215).toString(16)
+                      }
+                      d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                    ></StyledPath>
+                  </svg>
+                </div>
+                <div className="wrapper">
+                  <div className="nickname">{nickname}</div>
+                  <div className="date">2주 전</div>
+                </div>
+              </div>
+              <div className="content">{content}</div>
+              <div className="votes">
+                {optionList.map((option, index) => (
+                  <div className="option" key={index}>
+                    <BorderLinearProgress variant="determinate" value={index} />
+                    <p className="value">{option.optionValue}</p>
+                    <p className="percentage"></p>
+                  </div>
+                ))}
+                <div className="total">명 투표</div>
+              </div>
+              <div className="empathy">
+                <div className="like">
+                  <ThumbUpOffAltIcon sx={{ ...iconStyle }} />
+                  <p>{likes.like}</p>
+                </div>
+                <div className="hate">
+                  <ThumbDownOffAltIcon sx={{ ...iconStyle }} />
+                  <p>{likes.hate}</p>
+                </div>
+                <div className="hate"></div>
+              </div>
             </div>
-            <div className="wrapper">
-              <div className="nickname">저주받은 프로도</div>
-              <div className="date">2주 전</div>
-            </div>
-          </div>
-          <div className="content"></div>
-          <div className="votes">
-            <div className="option">
-              <BorderLinearProgress variant="determinate" value={0} />
-              <p className="value"></p>
-              <p className="percentage">
-                {/* {Math.round(].votes * 100) / total)}% */}
-              </p>
-            </div>
-            <div className="option">
-              <BorderLinearProgress variant="determinate" value={0} />
-              <p className="value"></p>
-              <p className="percentage">
-                {/* {Math.round(].votes * 100) / total)}% */}
-              </p>
-            </div>
-            <div className="total">명 투표</div>
-          </div>
-          <div className="empathy">
-            <div className="like">
-              <ThumbUpOffAltIcon sx={{ ...iconStyle }} />
-              <p></p>
-            </div>
-            <div className="hate">
-              <ThumbDownOffAltIcon sx={{ ...iconStyle }} />
-              <p></p>
-            </div>
-            <div className="hate"></div>
-          </div>
-        </div>
+          );
+        })}
       </Container>
       <style jsx>{`
         .board {
@@ -111,6 +122,7 @@ const NissamBoard = () => {
           border-radius: 0.375rem;
           width: 100%;
           padding: 1rem;
+          margin-bottom: 1rem;
         }
 
         .profile {
@@ -146,7 +158,7 @@ const NissamBoard = () => {
 
         .date {
           font-size: 0.9rem;
-          color: ${theme.palette.custom.gray};
+          color: ${theme.palette.gray};
         }
 
         .content {
@@ -204,4 +216,4 @@ const NissamBoard = () => {
   );
 };
 
-export default NissamBoard;
+export default YourFightsBoard;

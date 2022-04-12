@@ -1,6 +1,7 @@
 import { app } from "../shared/FireBase";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import getRandomNickname from "./get-random-nickname";
 
 const db = getFirestore(app);
 const auth = getAuth();
@@ -12,9 +13,12 @@ export const postYourFightsForm = async ({
   likes,
 }: Props) => {
   try {
+    const nickname = await getRandomNickname();
+
     await addDoc(collection(db, "yourFights"), {
       user: {
         uid,
+        nickname,
       },
       data: {
         content,

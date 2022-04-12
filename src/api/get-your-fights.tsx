@@ -1,16 +1,51 @@
 import { app } from "../shared/FireBase";
 import { collection, getFirestore, getDocs } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+
+type LikesType = {
+  like: number;
+  hate: number;
+};
+
+type OptionListType = {
+  optionValue: string;
+  votes: number;
+};
+
+type UserType = {
+  uid: string;
+  nickname: string;
+};
+
+type DataType = {
+  content: string;
+  likes: LikesType;
+  optionList: Array<OptionListType>;
+};
+
+interface DocType {
+  data: DataType;
+  user: UserType;
+}
+
+export interface IDocType extends Array<DocType> {}
 
 const db = getFirestore(app);
 
 const getYourFights = async () => {
   try {
-    const result = await getDocs(collection(db, "yourFights"));
+    const data = await getDocs(collection(db, "yourFights"));
+    const result: IDocType = [];
 
-    result.forEach((doc) => {
-      console.log(doc.id, doc.data());
+    data.forEach((doc) => {
+      const { data, user } = doc.data();
+
+      result.push({
+        data,
+        user,
+      });
     });
+
+    return result;
   } catch (e) {
     console.error("Error get collection!", e);
   }
