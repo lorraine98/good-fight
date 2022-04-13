@@ -19,7 +19,7 @@ type UserType = {
 type DataType = {
   content: string;
   likes: LikesType;
-  optionList: Array<OptionListType>;
+  optionList: IOptionListType;
 };
 
 interface DocType {
@@ -27,6 +27,7 @@ interface DocType {
   user: UserType;
 }
 
+export interface IOptionListType extends Array<OptionListType> {}
 export interface IDocType extends Array<DocType> {}
 
 const db = getFirestore(app);

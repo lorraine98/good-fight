@@ -67,48 +67,12 @@ const MyFightsStatusIcon = ({ state, size }: Props) => {
     }
   };
 
-  const getSize = () => {
-    switch (size) {
-      case "large": {
-        return {
-          width: "3.625rem",
-          height: "3.625rem",
-        };
-      }
-      case "medium": {
-        return {
-          width: "2.625rem",
-          height: "2.625rem",
-        };
-      }
-      case "small":
-      default: {
-        return {
-          width: "1.2rem",
-          height: "1.2rem",
-        };
-      }
-    }
-  };
-
-  const getFontSize = () => {
-    switch (size) {
-      case "large": {
-        return "3rem";
-      }
-      case "medium": {
-        return "2rem";
-      }
-      case "small":
-      default: {
-        return "1rem";
-      }
-    }
-  };
-
   return (
-    <div style={getSize()}>
-      <StateDiv color={getColor()} fontSize={getFontSize()}>
+    <div style={theme.palette.custom.iconSize[size]}>
+      <StateDiv
+        color={getColor()}
+        fontSize={theme.palette.custom.fontSize[size]}
+      >
         {getIcon()}
       </StateDiv>
     </div>
