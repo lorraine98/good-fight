@@ -7,7 +7,7 @@ import {
   orderBy,
   query,
   CollectionReference,
-  DocumentReference,
+  limit,
 } from "firebase/firestore";
 import { app } from "src/shared/FireBase";
 import { postMyFightsProps } from "./post-my-fights-data";
@@ -24,6 +24,24 @@ export const getMyFightsAllData = async (): Promise<getMyFightsProps[]> => {
   const result = await getDocs(myFightsQuery);
 
   return result.docs.map((doc) => ({ ...doc.data(), docId: doc.id }));
+};
+
+export const getMyFightsLimitData = async (count: number) => {
+  const myFightsRef = collection(
+    db,
+    "myFights",
+  ) as CollectionReference<getMyFightsProps>;
+
+  const myFightsQuery = query(
+    myFightsRef,
+    orderBy("data.date", "desc"),
+    limit(count),
+  );
+  const result = await getDocs(myFightsQuery);
+
+  return result.docs.map((doc) => ({
+    ...doc.data().data,
+  }));
 };
 
 export const getMyFightsData = async (id: string) => {

@@ -5,28 +5,30 @@ import Board from "./components/Board";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
+import { useQuery } from "react-query";
+import { getMyFightsLimitData } from "../my-fights/api/get-my-fights-data";
 
 type Props = {
-  title: string;
+  content: string;
   state: fightStatusType;
 };
 
-interface FightsInfo {
-  title: string;
-  likes: number | null;
-  hates: number | null;
-  state: fightStatusType | null;
+export interface FightsInfo {
+  content: string;
+  likes?: number;
+  hates?: number;
+  state?: fightStatusType;
 }
 
 export interface StateType {
   recent: Props;
 }
 
-export interface ArrFightsInfo extends Array<FightsInfo> {}
-
 const index = () => {
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
-  const [myFightsData, setMyFightsData] = useState<FightsInfo[]>([]);
+  const { isLoading, data: myFightsData } = useQuery("myFightsLimitData", () =>
+    getMyFightsLimitData(3),
+  );
 
   const handleYourFightClick = () => {
     Router.push("/your-fights");
@@ -40,19 +42,19 @@ const index = () => {
   const getYourFightsData = () => {
     const data = [
       {
-        title: "늦잠 자서 약속에 늦은 여자친구, 어떻게 할까요?",
+        content: "늦잠 자서 약속에 늦은 여자친구, 어떻게 할까요?",
         likes: 14,
         hates: 1,
         state: null,
       },
       {
-        title: "늦잠 자서 약속에 늦은 남자친구, 어떻게 할까요?",
+        content: "늦잠 자서 약속에 늦은 남자친구, 어떻게 할까요?",
         likes: 11,
         hates: 3,
         state: null,
       },
       {
-        title: "늦잠 자서 약속에 늦은 외국인친구, 어떻게 할까요?",
+        content: "늦잠 자서 약속에 늦은 외국인친구, 어떻게 할까요?",
         likes: 8,
         hates: 5,
         state: null,
@@ -63,33 +65,14 @@ const index = () => {
   };
 
   const getMyFightsData = () => {
-    const data = [
-      {
-        title: "늦잠 자서 약속에 늦은 여자친구, 어떻게 할까요?",
-        likes: null,
-        hates: null,
-        state: "solved",
-      },
-      {
-        title: "늦잠 자서 약속에 늦은 남자친구, 어떻게 할까요?",
-        likes: null,
-        hates: null,
-        state: "willSolve",
-      },
-      {
-        title: "늦잠 자서 약속에 늦은 외국인친구, 어떻게 할까요?",
-        likes: null,
-        hates: null,
-        state: "unsolved",
-      },
-    ];
-
-    return data;
+    return myFightsData?.map((item) => ({
+      content: item.content,
+      state: item.solved,
+    }));
   };
 
   useEffect(() => {
-    setYourFightsData(getYourFightsData());
-    setMyFightsData(getMyFightsData());
+    setYourFightsData(getYourFightsData()); //type에러 니쌈 통신할 때 챙기기
   }, []);
 
   return (
@@ -98,11 +81,16 @@ const index = () => {
         <Photo />
         <Banner />
         <Board
-          title="니쌈"
+          content="니쌈"
           onClick={handleYourFightClick}
           data={yourFightsData}
         />
-        <Board title="내쌈" onClick={handleMyFightClick} data={myFightsData} />
+        <Board
+          content="내쌈"
+          onClick={handleMyFightClick}
+          data={getMyFightsData()}
+          isLoading={isLoading}
+        />
       </Container>
     </>
   );
