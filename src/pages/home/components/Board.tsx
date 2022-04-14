@@ -4,6 +4,7 @@ import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import { useTheme } from "@mui/system";
 import Spinner from "src/shared/spinner";
 import { FightsInfo } from "..";
+import { useAuth } from "src/pages/auth/hook/useAuth";
 
 interface Props {
   content: string;
@@ -14,6 +15,7 @@ interface Props {
 
 const Board = ({ content, onClick, data, isLoading }: Props) => {
   const theme = useTheme();
+  const isAuthorized = useAuth();
 
   return (
     <>
@@ -22,40 +24,49 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           <p className="content">{content}</p>
           <div className="more-btn">더보기 &gt;</div>
         </div>
-        <div className="board-list">
-          <ul className="ul">
-            {isLoading ? (
-              <Spinner size={50} />
-            ) : (
-              data?.map((list, index) => (
-                <li key={index}>
-                  <div className="wrapper">
-                    <p>{list.content}</p>
-                    {list.likes && list.hates && (
-                      <div className="group">
-                        <div className="box">
-                          <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
-                          <p>{list.likes}</p>
+        {!isAuthorized && content === "내쌈" ? (
+          <div className="login-wrapper" onClick={onClick}>
+            <span className="login-text">로그인 하기</span>
+          </div>
+        ) : (
+          <div className="board-list">
+            <ul className="ul">
+              {isLoading ? (
+                <Spinner size={50} />
+              ) : (
+                data?.map((list, index) => (
+                  <li key={index}>
+                    <div className="wrapper">
+                      <p>{list.content}</p>
+                      {list.likes && list.hates && (
+                        <div className="group">
+                          <div className="box">
+                            <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
+                            <p>{list.likes}</p>
+                          </div>
+                          <div className="box">
+                            <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
+                            <p>{list.hates}</p>
+                          </div>
                         </div>
-                        <div className="box">
-                          <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
-                          <p>{list.hates}</p>
+                      )}
+                      {list.state && (
+                        <div className="group">
+                          <div className="box">
+                            <MyFightsStatusIcon
+                              size="small"
+                              state={list.state}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {list.state && (
-                      <div className="group">
-                        <div className="box">
-                          <MyFightsStatusIcon size="small" state={list.state} />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
+                      )}
+                    </div>
+                  </li>
+                ))
+              )}
+            </ul>
+          </div>
+        )}
       </div>
       <style jsx>{`
         p {
@@ -116,6 +127,17 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           margin: 0 auto;
           justify-content: center;
           align-items: center;
+        }
+
+        .login-wrapper {
+          text-align: center;
+          margin-top: 2.3rem;
+          color: ${theme.palette.custom.gray};
+          cursor: pointer;
+        }
+
+        .login-text {
+          text-decoration: underline;
         }
       `}</style>
     </>
