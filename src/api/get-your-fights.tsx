@@ -1,5 +1,13 @@
 import { app } from "../shared/FireBase";
-import { collection, getFirestore, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getFirestore,
+  getDocs,
+  doc,
+  query,
+  orderBy,
+} from "firebase/firestore";
+import { useState, useEffect } from "react";
 
 export type LikesType = {
   like: number;
@@ -23,6 +31,7 @@ type DataType = {
 };
 
 interface DocType {
+  createdAt: Date;
   data: DataType;
   user: UserType;
 }
@@ -32,15 +41,17 @@ export interface IDocType extends Array<DocType> {}
 
 const db = getFirestore(app);
 
-const getYourFights = async () => {
+export const getYourFightsOrderByDate = async () => {
   try {
-    const data = await getDocs(collection(db, "yourFights"));
+    const q = query(collection(db, "yourFights"), orderBy("createdAt", "desc"));
+    const data = await getDocs(q);
     const result: IDocType = [];
 
     data.forEach((doc) => {
-      const { data, user } = doc.data();
+      const { createdAt, data, user } = doc.data();
 
       result.push({
+        createdAt: new Date(createdAt),
         data,
         user,
       });
@@ -48,8 +59,31 @@ const getYourFights = async () => {
 
     return result;
   } catch (e) {
-    console.error("Error get collection!", e);
+    console.error("Error to get data ordered by date!", e);
   }
 };
 
-export default getYourFights;
+export const getYourFightsOrderByPopularity = async () => {
+  try {
+    const q = query(
+      collection(db, "yourFights"),
+      orderBy("data.likes.like", "desc"),
+    );
+    const data = await getDocs(q);
+    const result: IDocType = [];
+
+    data.forEach((doc) => {
+      const { createdAt, data, user } = doc.data();
+
+      result.push({
+        createdAt: new Date(createdAt),
+        data,
+        user,
+      });
+    });
+
+    return result;
+  } catch (e) {
+    console.error("Error to get data ordered by popularity!", e);
+  }
+};

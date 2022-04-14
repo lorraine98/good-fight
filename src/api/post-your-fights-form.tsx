@@ -16,6 +16,7 @@ export const postYourFightsForm = async ({
     const nickname = await getRandomNickname();
 
     await addDoc(collection(db, "yourFights"), {
+      createdAt: Date.now(),
       user: {
         uid,
         nickname,

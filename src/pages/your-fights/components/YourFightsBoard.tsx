@@ -7,9 +7,15 @@ import { styled as mStyled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
-import getYourFights from "src/api/get-your-fights";
 import { useEffect, useState } from "react";
-import { IOptionListType, IDocType, LikesType } from "src/api/get-your-fights";
+import {
+  getYourFightsOrderByDate,
+  getYourFightsOrderByPopularity,
+  IOptionListType,
+  IDocType,
+  LikesType,
+} from "src/api/get-your-fights";
+import DateFormat from "src/shared/functions/DateFormat";
 
 const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
   width: "100%",
@@ -24,6 +30,10 @@ const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "light" ? "#dbeffe" : "#308fe8",
   },
 }));
+
+interface Props {
+  selected: string;
+}
 
 const StyledPath = styled.path<{ currentColor: string }>`
   fill: ${({ currentColor }) => currentColor};
@@ -129,23 +139,26 @@ const EmpathyWrapper = styled.div`
   }
 `;
 
-const YourFightsBoard = () => {
+const YourFightsBoard = ({ selected }: Props) => {
   const theme = useTheme();
   const [yourFightsOrderByDate, setYourFightsOrderByDate] = useState<IDocType>(
     [],
   );
-  const [yourFightsOrderByPopular, setYourFightsOrderByPopular] =
+  const [yourFightsOrderByPopularity, setYourFightsOrderByPopularity] =
     useState<IDocType>([]);
 
   useEffect(() => {
     const getAllYourFights = async () => {
-      const result = await getYourFights();
+      const resultsOrderByDate = await getYourFightsOrderByDate();
+      const resultsOrderByPopularity = await getYourFightsOrderByPopularity();
 
-      if (!result) {
-        return;
+      if (resultsOrderByDate) {
+        setYourFightsOrderByDate(resultsOrderByDate);
       }
 
-      setYourFightsOrderByDate(result);
+      if (resultsOrderByPopularity) {
+        setYourFightsOrderByPopularity(resultsOrderByPopularity);
+      }
     };
 
     getAllYourFights();
@@ -190,9 +203,9 @@ const YourFightsBoard = () => {
     );
   };
 
-  const recentlyYourFights = () => {
-    return yourFightsOrderByDate.map((fight, index) => {
-      const { data, user } = fight;
+  const getYourFights = (yourFights: IDocType) => {
+    return yourFights.map((fight, index) => {
+      const { createdAt, data, user } = fight;
       const { content, optionList, likes } = data;
       const { uid, nickname } = user;
 
@@ -211,7 +224,7 @@ const YourFightsBoard = () => {
             </Avatar>
             <Wrapper>
               <Nickname>{nickname}</Nickname>
-              <Date color={theme.palette.gray}>??</Date>
+              <Date color={theme.palette.gray}>{DateFormat(createdAt)}</Date>
             </Wrapper>
           </Profile>
           <Content>{content}</Content>
@@ -224,7 +237,13 @@ const YourFightsBoard = () => {
 
   return (
     <>
-      <Container marginX={1}>{recentlyYourFights()}</Container>
+      <Container marginX={1}>
+        {getYourFights(
+          selected === "latest"
+            ? yourFightsOrderByDate
+            : yourFightsOrderByPopularity,
+        )}
+      </Container>
       <style jsx>{`
         .board {
           display: flex;
