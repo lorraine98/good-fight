@@ -32,7 +32,7 @@ const AddButton = ({ onClick }: Props) => {
           width: 66px;
           height: 66px;
           border-radius: 50%;
-          filter: drop-shadow(0px 8px 3px rgb(0 0 0 / 40%));
+          filter: drop-shadow(2px 4px 1px rgb(0 0 0 / 40%));
         }
       `}</style>
     </>

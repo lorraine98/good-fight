@@ -1,15 +1,15 @@
 import Container from "src/shared/components/container";
+import ThumbsUpIcon from "src/shared/components/ThumbsUpIcon";
+import ThumbsDownIcon from "src/shared/components/ThumbsDownIcon";
 import { useTheme } from "@mui/system";
 import styled from "@emotion/styled";
 import { styled as mStyled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import getYourFights from "src/api/get-your-fights";
 import { useEffect, useState } from "react";
-import { IOptionListType, IDocType } from "src/api/get-your-fights";
+import { IOptionListType, IDocType, LikesType } from "src/api/get-your-fights";
 
 const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
   width: "100%",
@@ -86,7 +86,7 @@ const OptionBox = styled.div`
   display: flex;
   position: relative;
   width: 100%;
-  margin: 1rem 0;
+  margin-bottom: 0.5rem;
   align-items: center;
 `;
 
@@ -105,8 +105,10 @@ const Percentage = styled.p`
 `;
 
 const Total = styled.div<{ color: string }>`
+  display: flex;
+  align-items: center;
   font-size: 0.9rem;
-  margin-left: 0.7rem;
+  margin-left: 0.3rem;
   color: ${({ color }) => color};
   font-weight: 450;
 `;
@@ -114,7 +116,17 @@ const Total = styled.div<{ color: string }>`
 const Empathy = styled.div`
   display: flex;
   align-items: center;
-  margin: 1rem 0;
+  margin-top: 1rem;
+`;
+
+const EmpathyWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+
+  & > p {
+    margin: 0 1rem 0 0.5rem;
+  }
 `;
 
 const YourFightsBoard = () => {
@@ -124,11 +136,6 @@ const YourFightsBoard = () => {
   );
   const [yourFightsOrderByPopular, setYourFightsOrderByPopular] =
     useState<IDocType>([]);
-
-  const iconStyle = {
-    fontSize: "1.2rem",
-    cursor: "pointer",
-  };
 
   useEffect(() => {
     const getAllYourFights = async () => {
@@ -144,6 +151,21 @@ const YourFightsBoard = () => {
     getAllYourFights();
   }, []);
 
+  const getEmpathy = (likes: LikesType) => {
+    return (
+      <Empathy>
+        <EmpathyWrapper>
+          <ThumbsUpIcon size="1.7rem" />
+          <p>{likes.like}</p>
+        </EmpathyWrapper>
+        <EmpathyWrapper>
+          <ThumbsDownIcon size="1.7rem" />
+          <p>{likes.hate}</p>
+        </EmpathyWrapper>
+      </Empathy>
+    );
+  };
+
   const getOptionList = (optionList: IOptionListType) => {
     const total = optionList.reduce((acc, curr) => (acc += curr.votes), 0);
 
@@ -151,12 +173,13 @@ const YourFightsBoard = () => {
       <Wrapper>
         {optionList.map((option, index) => {
           const { optionValue, votes } = option;
+          const result = (Math.round(votes / total) || 0) * 100;
 
           return (
             <OptionBox key={index}>
-              <BorderLinearProgress variant="determinate" value={index} />
+              <BorderLinearProgress variant="determinate" value={result} />
               <Value>{optionValue}</Value>
-              <Percentage>{Math.round(votes / total) || 0}%</Percentage>
+              <Percentage>{result}%</Percentage>
             </OptionBox>
           );
         })}
@@ -193,19 +216,11 @@ const YourFightsBoard = () => {
           </Profile>
           <Content>{content}</Content>
           {getOptionList(optionList)}
+          {getEmpathy(likes)}
         </Board>
       );
     });
   };
-
-  // <div className="like">
-  //                 <ThumbUpOffAltIcon sx={{ ...iconStyle }} />
-  //                 <p>{likes.like}</p>
-  //               </div>
-  //               <div className="hate">
-  //                 <ThumbDownOffAltIcon sx={{ ...iconStyle }} />
-  //                 <p>{likes.hate}</p>
-  //               </div>
 
   return (
     <>

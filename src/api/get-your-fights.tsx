@@ -1,7 +1,7 @@
 import { app } from "../shared/FireBase";
 import { collection, getFirestore, getDocs } from "firebase/firestore";
 
-type LikesType = {
+export type LikesType = {
   like: number;
   hate: number;
 };
