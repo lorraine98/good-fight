@@ -16,6 +16,7 @@
     "@types/react-query": "^1.2.9",
     "axios": "^0.26.1",
     "babel-plugin-styled-components": "^2.0.6",
+    "boring-avatars": "^1.6.3",
     "eslint-plugin-react-hooks": "^4.3.0",
     "firebase": "^9.6.8",
     "http-proxy-middleware": "^2.0.4",

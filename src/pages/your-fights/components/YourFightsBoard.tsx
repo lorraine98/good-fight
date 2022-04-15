@@ -16,6 +16,7 @@ import {
   LikesType,
 } from "src/api/get-your-fights";
 import DateFormat from "src/shared/functions/DateFormat";
+import Avatar from "boring-avatars";
 
 const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
   width: "100%",
@@ -52,22 +53,6 @@ const Board = styled.div<{ backgroundColor: string }>`
 
 const Profile = styled.div`
   display: flex;
-`;
-
-const Avatar = styled.div`
-  display: flex;
-  width: 40px;
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  margin-right: 1rem;
-  background-color: skyBlue;
-`;
-
-const Svg = styled.svg`
-  width: 75%;
-  height: 75%;
 `;
 
 const Wrapper = styled.div`
@@ -212,17 +197,13 @@ const YourFightsBoard = ({ selected }: Props) => {
       return (
         <Board key={index} backgroundColor={theme.palette.custom.white}>
           <Profile>
-            <Avatar>
-              <Svg focusable="false" aria-hidden="true" viewBox="0 0 24 24">
-                <StyledPath
-                  currentColor={
-                    "#" + Math.floor(Math.random() * 16777215).toString(16)
-                  }
-                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                ></StyledPath>
-              </Svg>
-            </Avatar>
-            <Wrapper>
+            <Avatar
+              size={40}
+              variant="beam"
+              name={nickname}
+              colors={["#064789", "#427AA1", "#EBF2FA", "#679436", "#A5BE00"]}
+            />
+            <Wrapper style={{ marginLeft: "0.8rem" }}>
               <Nickname>{nickname}</Nickname>
               <Date color={theme.palette.gray}>{DateFormat(createdAt)}</Date>
             </Wrapper>
