@@ -1,6 +1,6 @@
 import Button from "src/shared/components/button";
 import Container from "src/shared/components/container";
-import { loginGoogle } from "src/pages/auth/api/auth-google-login";
+import { loginGoogle } from "src/api/auth-google-login";
 import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";

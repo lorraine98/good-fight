@@ -2,13 +2,16 @@ import { DocumentData } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  getMyFightsData,
+  getMyFightsProps,
+  postMyFightsProps,
+  updateMyFightsData,
+} from "src/api/my-fights";
 import Button from "src/shared/components/button";
 import Container from "src/shared/components/container";
 import FormInput from "src/shared/components/form-input";
 import FormSelect from "src/shared/form-select";
-import { getMyFightsData, getMyFightsProps } from "./api/get-my-fights-data";
-import { postMyFightsProps } from "./api/post-my-fights-data";
-import { updateMyFightsData } from "./api/update-my-fights-data";
 
 const MyFightsUpdateForm = () => {
   const { register, handleSubmit } = useForm<postMyFightsProps>();

@@ -6,7 +6,7 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { useQuery } from "react-query";
-import { getMyFightsLimitData } from "../my-fights/api/get-my-fights-data";
+import { getMyFightsLimitData } from "src/api/my-fights";
 
 type Props = {
   content: string;
