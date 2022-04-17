@@ -1,11 +1,14 @@
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import { getMyFightsAllData, getMyFightsProps } from "./api/get-my-fights-data";
 import AddButton from "src/shared/components/add-button";
 import Container from "src/shared/components/container";
 import ContentBox from "./components/ContentBox";
 import Spinner from "src/shared/spinner";
-import deleteMyFightsData from "./api/delete-my-fights-data";
+import {
+  deleteMyFightsData,
+  getMyFightsAllData,
+  getMyFightsProps,
+} from "src/api/my-fights";
 
 const MyFights = () => {
   const { push } = useRouter();
