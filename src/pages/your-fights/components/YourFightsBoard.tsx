@@ -171,7 +171,7 @@ const YourFightsBoard = ({ selected }: Props) => {
       <Wrapper>
         {optionList.map((option, index) => {
           const { optionValue, votes } = option;
-          const result = (Math.round(votes / total) || 0) * 100;
+          const result = total === 0 ? 0 : Math.round((votes / total) * 100);
 
           return (
             <OptionBox key={index}>
