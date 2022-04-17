@@ -10,6 +10,7 @@ interface Title {
 }
 
 const Header = () => {
+  const router = useRouter();
   const { pathname } = useRouter();
   const theme = useTheme();
   const [notification, setNotification] = useState(false);
@@ -18,6 +19,7 @@ const Header = () => {
   const title: Title = {
     "/home": "홈",
     "/your-fights": "니쌈",
+    "/your-fights/add-form": "질문하기",
     "/my-fights": "내쌈",
     "/my-page": "마이 페이지",
   };
@@ -36,13 +38,15 @@ const Header = () => {
       default:
         setIsRoot(false);
     }
-  }, []);
+  }, [pathname]);
 
   return (
     <>
       <div className="header">
         <div className="wrapper">
-          <div className="backbutton">{isRoot ? "" : <ArrowBack />}</div>
+          <div className="backbutton" onClick={() => router.back()}>
+            {isRoot ? "" : <ArrowBack />}
+          </div>
           <div className="route">{currentRoute}</div>
         </div>
         <div className="wrapper">
@@ -73,6 +77,10 @@ const Header = () => {
 
         .header .wrapper div {
           margin: 0 0.5rem;
+        }
+
+        .backbutton {
+          cursor: pointer;
         }
       `}</style>
     </>
