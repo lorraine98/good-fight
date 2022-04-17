@@ -1,57 +1,72 @@
-import { ArrFightsInfo } from "../index";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import { useTheme } from "@mui/system";
+import Spinner from "src/shared/spinner";
+import { FightsInfo } from "..";
+import { useAuth } from "src/pages/auth/hook/useAuth";
 
 interface Props {
-  title: string;
+  content: string;
   onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-  data: ArrFightsInfo;
+  data?: FightsInfo[];
+  isLoading?: boolean;
 }
 
-const Board = ({ title, onClick, data }: Props) => {
+const Board = ({ content, onClick, data, isLoading }: Props) => {
   const theme = useTheme();
+  const isAuthorized = useAuth();
 
   return (
     <>
-      <div className="board">
+      <div className="board" onClick={onClick}>
         <div className="board-header">
-          <p className="title">{title}</p>
-          <div className="more-btn" onClick={onClick}>
-            더보기 &gt;
+          <p className="content">{content}</p>
+          <div className="more-btn">더보기 &gt;</div>
+        </div>
+        {!isAuthorized && content === "내쌈" ? (
+          <div className="login-wrapper" onClick={onClick}>
+            <span className="login-text">로그인 하기</span>
           </div>
-        </div>
-        <div className="board-list">
-          <ul className="ul">
-            {data.map((list, index) => (
-              <li key={index}>
-                <div className="wrapper">
-                  <p>{list.title}</p>
-                  {list.likes && list.hates && (
-                    <div className="group">
-                      <div className="box">
-                        <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
-                        <p>{list.likes}</p>
-                      </div>
-                      <div className="box">
-                        <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
-                        <p>{list.hates}</p>
-                      </div>
+        ) : (
+          <div className="board-list">
+            <ul className="ul">
+              {isLoading ? (
+                <Spinner size={50} />
+              ) : (
+                data?.map((list, index) => (
+                  <li key={index}>
+                    <div className="wrapper">
+                      <p>{list.content}</p>
+                      {list.likes && list.hates && (
+                        <div className="group">
+                          <div className="box">
+                            <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
+                            <p>{list.likes}</p>
+                          </div>
+                          <div className="box">
+                            <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
+                            <p>{list.hates}</p>
+                          </div>
+                        </div>
+                      )}
+                      {list.state && (
+                        <div className="group">
+                          <div className="box">
+                            <MyFightsStatusIcon
+                              size="small"
+                              state={list.state}
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                  {list.state && (
-                    <div className="group">
-                      <div className="box">
-                        <MyFightsStatusIcon size="small" state={list.state} />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+                  </li>
+                ))
+              )}
+            </ul>
+          </div>
+        )}
       </div>
       <style jsx>{`
         p {
@@ -85,7 +100,7 @@ const Board = ({ title, onClick, data }: Props) => {
           margin-bottom: 0.5rem;
         }
 
-        .title {
+        .content {
           font-weight: bold;
           font-size: 1.3rem;
         }
@@ -112,6 +127,17 @@ const Board = ({ title, onClick, data }: Props) => {
           margin: 0 auto;
           justify-content: center;
           align-items: center;
+        }
+
+        .login-wrapper {
+          text-align: center;
+          margin-top: 2.3rem;
+          color: ${theme.palette.custom.gray};
+          cursor: pointer;
+        }
+
+        .login-text {
+          text-decoration: underline;
         }
       `}</style>
     </>
