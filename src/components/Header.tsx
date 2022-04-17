@@ -21,6 +21,7 @@ const Header = () => {
     "/your-fights": "니쌈",
     "/your-fights/add-form": "질문하기",
     "/my-fights": "내쌈",
+    "/my-fights/update-form": "수정하기",
     "/my-page": "마이 페이지",
   };
 
