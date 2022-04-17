@@ -14,7 +14,7 @@ import {
   IOptionListType,
   IDocType,
   LikesType,
-} from "src/api/get-your-fights";
+} from "src/api/your-fights";
 import DateFormat from "src/shared/functions/DateFormat";
 import Avatar from "boring-avatars";
 
