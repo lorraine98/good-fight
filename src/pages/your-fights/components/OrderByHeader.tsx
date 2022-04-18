@@ -13,7 +13,7 @@ const StyledP = styled.p<{ color: string }>`
   margin: 0 0.3rem;
 `;
 
-const OrderBy = ({
+const OrderByHeader = ({
   selected,
   onClickLatestButton,
   onClickPopularityButton,
@@ -99,4 +99,4 @@ const OrderBy = ({
   );
 };
 
-export default OrderBy;
+export default OrderByHeader;

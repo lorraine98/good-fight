@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import OrderBy from "./components/OrderBy";
+import OrderByHeader from "./components/OrderByHeader";
 import YourFightsBoard from "./components/YourFightsBoard";
 import AddButton from "src/shared/components/add-button";
 import { useState } from "react";
@@ -27,7 +27,7 @@ const YourFights = () => {
 
   return (
     <>
-      <OrderBy
+      <OrderByHeader
         selected={selected}
         onClickLatestButton={handleClickLatestButton}
         onClickPopularityButton={handleClickPopularityButton}
