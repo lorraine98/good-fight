@@ -36,11 +36,6 @@ interface Props {
   selected: string;
 }
 
-const StyledPath = styled.path<{ currentColor: string }>`
-  fill: ${({ currentColor }) => currentColor};
-  stroke: ${({ currentColor }) => currentColor};
-`;
-
 const Board = styled.div<{ backgroundColor: string }>`
   display: flex;
   flex-direction: column;
@@ -171,13 +166,17 @@ const YourFightsBoard = ({ selected }: Props) => {
       <Wrapper>
         {optionList.map((option, index) => {
           const { optionValue, votes } = option;
-          const result = total === 0 ? 0 : Math.round((votes / total) * 100);
+          const numberOfVotes =
+            total === 0 ? 0 : Math.round((votes / total) * 100);
 
           return (
             <OptionBox key={index}>
-              <BorderLinearProgress variant="determinate" value={result} />
+              <BorderLinearProgress
+                variant="determinate"
+                value={numberOfVotes}
+              />
               <Value>{optionValue}</Value>
-              <Percentage>{result}%</Percentage>
+              <Percentage>{numberOfVotes}%</Percentage>
             </OptionBox>
           );
         })}

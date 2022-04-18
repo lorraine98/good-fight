@@ -11,6 +11,7 @@ export const getDesignToken = (mode: PaletteMode) => ({
       yellow: "#F4BB6C",
       white: "#FFFFFF",
       gray: "#868B94",
+      lightGreen: "#27c255",
       iconSize: {
         large: {
           width: "3.625rem",

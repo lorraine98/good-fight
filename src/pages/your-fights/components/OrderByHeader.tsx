@@ -33,7 +33,7 @@ const OrderByHeader = ({
 
   const iconSelectedStyle = {
     ...iconDefaultStyle,
-    stroke: "#27c255",
+    stroke: theme.palette.custom.lightGreen,
   };
 
   return (
