@@ -13,19 +13,19 @@ import { useTheme } from "@mui/system";
 const NavBar = () => {
   const { pathname } = useRouter();
   const theme = useTheme();
-  const filteredPathName = pathname.split("/").filter((path) => path !== "");
+  const parentPath = pathname.split("/").filter((path) => path !== "")[0];
 
   return (
     <nav>
       <Link href="/home">
         <a>
-          {filteredPathName[0] === "home" ? <HomeIcon /> : <HomeOutlinedIcon />}
+          {parentPath === "home" ? <HomeIcon /> : <HomeOutlinedIcon />}
           <h3 className="title">홈</h3>
         </a>
       </Link>
       <Link href="/your-fights">
         <a>
-          {filteredPathName[0] === "your-fights" ? (
+          {parentPath === "your-fights" ? (
             <ThumbsUpDownIcon />
           ) : (
             <ThumbsUpDownOutlinedIcon />
@@ -35,7 +35,7 @@ const NavBar = () => {
       </Link>
       <Link href="/my-fights">
         <a>
-          {filteredPathName[0] === "my-fights" ? (
+          {parentPath === "my-fights" ? (
             <LibraryBooksIcon />
           ) : (
             <LibraryBooksOutlinedIcon />
@@ -45,7 +45,7 @@ const NavBar = () => {
       </Link>
       <Link href="/my-page">
         <a>
-          {filteredPathName[0] === "my-page" ? (
+          {parentPath === "my-page" ? (
             <PersonIcon />
           ) : (
             <PersonOutlineOutlinedIcon />

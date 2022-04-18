@@ -14,12 +14,6 @@ const db = getFirestore(app);
 const auth = getAuth();
 const uid = auth.currentUser?.uid ?? "";
 
-interface Props {
-  content: string;
-  optionList: option[];
-  likes: LikesType;
-}
-
 interface option {
   optionValue: string;
   votes: number;
@@ -54,6 +48,12 @@ interface DocType {
 
 export interface IOptionListType extends Array<OptionListType> {}
 export interface IDocType extends Array<DocType> {}
+
+interface Props {
+  content: string;
+  optionList: option[];
+  likes: LikesType;
+}
 
 export const postYourFightsForm = async ({
   content,
