@@ -1,17 +1,24 @@
-import { useState } from "react";
 import { useTheme } from "@mui/system";
 import CheckIcon from "@mui/icons-material/Check";
 import styled from "@emotion/styled";
+
+interface Props {
+  selected: string;
+  onClickLatestButton: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onClickPopularityButton: (event: React.MouseEvent<HTMLDivElement>) => void;
+}
 
 const StyledP = styled.p<{ color: string }>`
   color: ${({ color }) => color};
   margin: 0 0.3rem;
 `;
 
-const OrderBy = () => {
+const OrderByHeader = ({
+  selected,
+  onClickLatestButton,
+  onClickPopularityButton,
+}: Props) => {
   const theme = useTheme();
-  const [latestSelected, setLatestSelected] = useState(true);
-  const [popularitySelected, setPopularitySelected] = useState(false);
 
   const iconDefaultStyle = {
     fontSize: "1rem",
@@ -26,48 +33,38 @@ const OrderBy = () => {
 
   const iconSelectedStyle = {
     ...iconDefaultStyle,
-    stroke: "#27c255",
-  };
-
-  const handleClickLatestButton = () => {
-    if (!latestSelected) {
-      setLatestSelected(true);
-      setPopularitySelected(false);
-    }
-  };
-
-  const handleClickPopularityButton = () => {
-    if (!popularitySelected) {
-      setPopularitySelected(true);
-      setLatestSelected(false);
-    }
+    stroke: theme.palette.custom.lightGreen,
   };
 
   return (
     <>
       <div className="bar">
         <div className="category">
-          <div className="latest" onClick={handleClickLatestButton}>
-            {latestSelected ? (
-              <CheckIcon sx={{ ...iconSelectedStyle }} />
-            ) : (
-              <CheckIcon sx={{ ...iconUnselectedStyle }} />
-            )}
-            <StyledP
-              color={latestSelected ? "black" : `${theme.palette.custom.gray}`}
-            >
-              최신순
-            </StyledP>
-          </div>
-          <div className="popularity" onClick={handleClickPopularityButton}>
-            {popularitySelected ? (
+          <div className="latest" onClick={onClickLatestButton}>
+            {selected === "latest" ? (
               <CheckIcon sx={{ ...iconSelectedStyle }} />
             ) : (
               <CheckIcon sx={{ ...iconUnselectedStyle }} />
             )}
             <StyledP
               color={
-                popularitySelected ? "black" : `${theme.palette.custom.gray}`
+                selected === "latest" ? "black" : `${theme.palette.custom.gray}`
+              }
+            >
+              최신순
+            </StyledP>
+          </div>
+          <div className="popularity" onClick={onClickPopularityButton}>
+            {selected === "popularity" ? (
+              <CheckIcon sx={{ ...iconSelectedStyle }} />
+            ) : (
+              <CheckIcon sx={{ ...iconUnselectedStyle }} />
+            )}
+            <StyledP
+              color={
+                selected === "popularity"
+                  ? "black"
+                  : `${theme.palette.custom.gray}`
               }
             >
               인기순
@@ -102,4 +99,4 @@ const OrderBy = () => {
   );
 };
 
-export default OrderBy;
+export default OrderByHeader;

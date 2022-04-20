@@ -2,7 +2,7 @@ import { AddCircle, Clear } from "@mui/icons-material";
 import { useTheme } from "@mui/system";
 import { useRouter } from "next/router";
 import { SubmitHandler, useForm, useFieldArray } from "react-hook-form";
-import { postYourFightsForm } from "src/api/post-your-fights-form";
+import { postYourFightsForm } from "src/api/your-fights";
 import Button from "src/shared/components/button";
 import Container from "src/shared/components/container";
 import FormInput from "src/shared/components/form-input";

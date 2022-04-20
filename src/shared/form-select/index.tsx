@@ -26,15 +26,10 @@ const FormSelect = ({
         <label htmlFor={name}>{title}</label>
         <select
           {...register(name, { required: true })}
-          // todo: defaultValue 안됨.
-          // defaultValue={defaultValue}
+          defaultValue={defaultValue}
         >
           {options.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              selected={defaultValue === option.value}
-            >
+            <option key={option.value} value={option.value}>
               {option.text}
             </option>
           ))}
