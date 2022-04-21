@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import { useState } from "react";
+import { postImageToStorage, postImageUrlWithUID } from "src/api/home";
 
 const Photo = () => {
   const [imageSrc, setImageSrc] = useState<string>("");
@@ -10,7 +11,6 @@ const Photo = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    cursor: "pointer",
     fontSize: "5rem",
   };
 
@@ -21,6 +21,7 @@ const Photo = () => {
 
     const file = event.target.files[0];
 
+    postImageToStorage(file);
     setImageSrc(URL.createObjectURL(file));
   };
 
@@ -38,13 +39,13 @@ const Photo = () => {
           <form method="post" encType="multipart/form-data">
             <label htmlFor="file-input">
               <ImageSearchIcon sx={{ ...iconStyle }} />
+              <input
+                type="file"
+                accept="image/*"
+                id="file-input"
+                onChange={handleImageChange}
+              />
             </label>
-            <input
-              type="file"
-              accept="image/*"
-              id="file-input"
-              onChange={handleImageChange}
-            />
           </form>
         )}
       </div>
@@ -56,7 +57,9 @@ const Photo = () => {
         }
 
         input {
-          visibility: hidden;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
         }
 
         .photo {

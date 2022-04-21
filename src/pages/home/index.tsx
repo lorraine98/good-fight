@@ -67,7 +67,7 @@ const index = () => {
   };
 
   useEffect(() => {
-    setYourFightsData(getYourFightsData()); //type에러 니쌈 통신할 때 챙기기
+    setYourFightsData(getYourFightsData());
   }, []);
 
   return (
