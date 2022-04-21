@@ -1,20 +1,37 @@
-import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
-import { StateType } from "..";
+import { useTheme } from "@mui/system";
+import { CSSProperties } from "react";
+import MyFightsStatusIcon, {
+  fightStatusType,
+} from "src/shared/components/MyFightsStatusIcon";
 
-const RecentFightBox = ({ recent }: StateType) => {
+interface Props {
+  content: string;
+  solved: fightStatusType;
+  style: CSSProperties;
+}
+
+const RecentFightBox = ({ content, solved, style }: Props) => {
+  const theme = useTheme();
+
   return (
     <>
-      <div className="container">
-        <MyFightsStatusIcon size="medium" state={recent.state} />
+      <div className="container" style={style}>
+        <MyFightsStatusIcon size="medium" state={solved} />
         <div className="issue">
           <p className="label">최근에 싸웠던 일 : </p>
-          <p className="title">{recent.title}</p>
+          <p className="content">{content}</p>
         </div>
       </div>
       <style jsx>{`
         .container {
           display: flex;
+          align-items: center;
           margin: 1rem;
+          background-color: ${theme.palette.custom.white};
+          border-radius: 0.375rem;
+          width: calc(100% - 2rem);
+          height: 5rem;
+          padding: 1rem;
         }
 
         .issue {
@@ -27,9 +44,10 @@ const RecentFightBox = ({ recent }: StateType) => {
         .label {
           font-weight: bold;
           font-size: 1.2rem;
+          padding-bottom: 0.3rem;
         }
 
-        .title {
+        .content {
           font-size: 1.1rem;
         }
       `}</style>

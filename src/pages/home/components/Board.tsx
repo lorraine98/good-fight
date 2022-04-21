@@ -50,12 +50,12 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
                           </div>
                         </div>
                       )}
-                      {list.state && (
+                      {list.solved && (
                         <div className="group">
                           <div className="box">
                             <MyFightsStatusIcon
                               size="small"
-                              state={list.state}
+                              state={list.solved}
                             />
                           </div>
                         </div>

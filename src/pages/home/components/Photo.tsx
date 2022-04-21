@@ -1,13 +1,9 @@
 import Image from "next/image";
-import Container from "src/shared/components/container";
-import RecentFightBox from "./RecentFightBox";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
-import { useTheme } from "@mui/system";
 import { useState } from "react";
 
 const Photo = () => {
   const [imageSrc, setImageSrc] = useState<string>("");
-  const theme = useTheme();
 
   const iconStyle = {
     position: "absolute",
@@ -27,21 +23,6 @@ const Photo = () => {
 
     setImageSrc(URL.createObjectURL(file));
   };
-
-  const list = [
-    {
-      state: "solved",
-      title: "설거지를 제때 안함",
-    },
-    {
-      state: "willSolve",
-      title: "빨래를 제때 안함",
-    },
-    {
-      state: "unsolved",
-      title: "청소를 제때 안함",
-    },
-  ];
 
   return (
     <>
@@ -66,11 +47,6 @@ const Photo = () => {
             />
           </form>
         )}
-        <Container>
-          <div className="recent">
-            <RecentFightBox recent={list[1]} />
-          </div>
-        </Container>
       </div>
       <style jsx>{`
         form {
@@ -90,18 +66,6 @@ const Photo = () => {
           background-color: rgba(0, 0, 0, 0.5);
           border-radius: 0.375rem;
           overflow: hidden;
-        }
-
-        .recent {
-          position: absolute;
-          display: flex;
-          bottom: 1rem;
-          width: calc(100% - 2rem);
-          height: 5rem;
-          background-color: ${theme.palette.custom.white};
-          border-radius: 0.375rem;
-          align-items: center;
-          cursor: pointer;
         }
       `}</style>
     </>

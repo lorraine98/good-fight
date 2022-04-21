@@ -1,34 +1,29 @@
 import Container from "../../shared/components/container";
 import Photo from "./components/Photo";
-import Banner from "./components/Banner";
 import Board from "./components/Board";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { useQuery } from "react-query";
 import { getMyFightsLimitData } from "src/api/my-fights";
-
-type Props = {
-  content: string;
-  state: fightStatusType;
-};
+import RecentFightBox from "./components/RecentFightBox";
+import Ad from "./components/Ad";
+import { useTheme } from "@mui/system";
 
 export interface FightsInfo {
   content: string;
   likes?: number;
   hates?: number;
-  state?: fightStatusType;
-}
-
-export interface StateType {
-  recent: Props;
+  solved?: fightStatusType;
 }
 
 const index = () => {
+  const theme = useTheme();
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
   const { isLoading, data: myFightsData } = useQuery("myFightsLimitData", () =>
     getMyFightsLimitData(3),
   );
+  const recentMyFightsData = Object.values(myFightsData ?? "")[0];
 
   const handleYourFightClick = () => {
     Router.push("/your-fights");
@@ -67,7 +62,7 @@ const index = () => {
   const getMyFightsData = () => {
     return myFightsData?.map((item) => ({
       content: item.content,
-      state: item.solved,
+      solved: item.solved,
     }));
   };
 
@@ -78,8 +73,15 @@ const index = () => {
   return (
     <>
       <Container marginX={1}>
-        <Photo />
-        <Banner />
+        <div style={{ position: "relative" }}>
+          <Photo />
+          <RecentFightBox
+            style={{ position: "absolute", bottom: "0" }}
+            content={recentMyFightsData?.content}
+            solved={recentMyFightsData?.solved}
+          />
+        </div>
+        <Ad />
         <Board
           content="니쌈"
           onClick={handleYourFightClick}
