@@ -1,10 +1,14 @@
 import Image from "next/image";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
-import { useState } from "react";
-import { postImageToStorage, postImageUrlWithUID } from "src/api/home";
+import { getHomeBannerImageByUID, postImageToStorage } from "src/api/home";
+import { useQuery } from "react-query";
 
 const Photo = () => {
-  const [imageSrc, setImageSrc] = useState<string>("");
+  const { data, refetch } = useQuery(
+    "homeBannerImage",
+    getHomeBannerImageByUID,
+  );
+  console.log(data);
 
   const iconStyle = {
     position: "absolute",
@@ -21,20 +25,14 @@ const Photo = () => {
 
     const file = event.target.files[0];
 
-    postImageToStorage(file);
-    setImageSrc(URL.createObjectURL(file));
+    postImageToStorage(file).then(() => refetch());
   };
 
   return (
     <>
       <div className="photo">
-        {imageSrc ? (
-          <Image
-            src={imageSrc}
-            alt="커플사진"
-            layout="fill"
-            objectFit="cover"
-          />
+        {data ? (
+          <Image src={data} alt="커플사진" layout="fill" objectFit="cover" />
         ) : (
           <form method="post" encType="multipart/form-data">
             <label htmlFor="file-input">
