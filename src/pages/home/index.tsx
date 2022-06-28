@@ -1,13 +1,14 @@
-import Container from "../../shared/components/container";
-import Photo from "./components/Photo";
-import Board from "./components/Board";
+import Container from "src/shared/components/container";
+import Photo from "src/components/home/Photo";
+import Board from "src/components/home/Board";
 import Router from "next/router";
+import Ad from "src/components/home/Ad";
+import RecentFightBox from "src/components/home/RecentFightBox";
+
 import { useEffect, useState } from "react";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { useQuery } from "react-query";
 import { getMyFightsLimitData } from "src/api/my-fights";
-import RecentFightBox from "./components/RecentFightBox";
-import Ad from "./components/Ad";
 import { useTheme } from "@mui/system";
 
 export interface FightsInfo {
