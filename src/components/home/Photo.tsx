@@ -8,7 +8,6 @@ const Photo = () => {
     "homeBannerImage",
     getHomeBannerImageByUID,
   );
-  console.log(data);
 
   const iconStyle = {
     position: "absolute",

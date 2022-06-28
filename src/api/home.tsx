@@ -36,27 +36,23 @@ export const postImageUrlWithUID = async (file: string) => {
   }
 };
 
-export const getHomeBannerImageByUID = async () => {
+export const getHomeBannerImageByUID: () => Promise<
+  string | undefined
+> = async () => {
   const uid = auth.currentUser?.uid ?? "";
   const homeBannerImageRef = collection(db, "homeBannerImage");
   const q = query(homeBannerImageRef, where("uid", "==", uid));
   const querySnapshot = await getDocs(q);
 
-  querySnapshot.forEach((doc) => {
-    console.log(doc.data().file);
-    getDownloadURL(ref(storage, doc.data().file))
-      .then((url) => {
-        const xhr = new XMLHttpRequest();
-        xhr.responseType = "blob";
-        xhr.onload = (event) => {
-          const blob = xhr.response;
-          console.log(blob);
-        };
-        xhr.open("GET", url);
-        xhr.send();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  });
+  const docDataList = querySnapshot.docs
+    .map((doc) => doc.data())
+    .filter((docData) => docData?.date)
+    .sort((d1, d2) => d2.date - d1.date);
+
+  if (!docDataList.length) {
+    return;
+  }
+  const recentDocData = docDataList[0];
+
+  return getDownloadURL(ref(storage, recentDocData.file));
 };

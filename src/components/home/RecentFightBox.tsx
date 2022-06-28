@@ -32,6 +32,7 @@ const RecentFightBox = ({ content, solved, style }: Props) => {
           width: calc(100% - 2rem);
           height: 5rem;
           padding: 1rem;
+          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         }
 
         .issue {
