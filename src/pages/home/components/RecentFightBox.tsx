@@ -8,7 +8,7 @@ const RecentFightBox = ({ recent }: StateType) => {
         <MyFightsStatusIcon size="medium" state={recent.state} />
         <div className="issue">
           <p className="label">최근에 싸웠던 일 : </p>
-          <p className="title">{recent.title}</p>
+          <p className="title">{recent.content}</p>
         </div>
       </div>
       <style jsx>{`

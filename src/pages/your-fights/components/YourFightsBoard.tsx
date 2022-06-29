@@ -11,6 +11,10 @@ import { useEffect, useState } from "react";
 import {
   getYourFightsOrderByDate,
   getYourFightsOrderByPopularity,
+  postLike,
+  postHate,
+  postCancelLike,
+  postCancelHate,
   IOptionListType,
   IDocType,
   LikesType,
@@ -31,10 +35,6 @@ const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "light" ? "#dbeffe" : "#308fe8",
   },
 }));
-
-interface Props {
-  selected: string;
-}
 
 const Board = styled.div<{ backgroundColor: string }>`
   display: flex;
@@ -119,7 +119,17 @@ const EmpathyWrapper = styled.div`
   }
 `;
 
-const YourFightsBoard = ({ selected }: Props) => {
+interface Props {
+  selected: string;
+  resultsOrderByDate: IDocType;
+  resultsOrderByPopularity: IDocType;
+}
+
+const YourFightsBoard = ({
+  selected,
+  resultsOrderByDate,
+  resultsOrderByPopularity,
+}: Props) => {
   const theme = useTheme();
   const [yourFightsOrderByDate, setYourFightsOrderByDate] = useState<IDocType>(
     [],
@@ -128,31 +138,50 @@ const YourFightsBoard = ({ selected }: Props) => {
     useState<IDocType>([]);
 
   useEffect(() => {
-    const getAllYourFights = async () => {
-      const resultsOrderByDate = await getYourFightsOrderByDate();
-      const resultsOrderByPopularity = await getYourFightsOrderByPopularity();
+    if (resultsOrderByDate) {
+      setYourFightsOrderByDate(resultsOrderByDate);
+    }
 
-      if (resultsOrderByDate) {
-        setYourFightsOrderByDate(resultsOrderByDate);
-      }
-
-      if (resultsOrderByPopularity) {
-        setYourFightsOrderByPopularity(resultsOrderByPopularity);
-      }
-    };
-
-    getAllYourFights();
+    if (resultsOrderByPopularity) {
+      setYourFightsOrderByPopularity(resultsOrderByPopularity);
+    }
   }, []);
 
-  const getEmpathy = (likes: LikesType) => {
+  const handleClickLike = async (isLike: boolean, isHate: boolean) => {
+    if (isHate) {
+      await postCancelHate();
+    }
+
+    if (isLike) {
+      await postCancelLike();
+    } else {
+      await postLike();
+    }
+  };
+
+  const handleClickHate = async (isLike: boolean, isHate: boolean) => {
+    if (isLike) {
+      await postCancelLike();
+    }
+  };
+
+  const getEmpathy = (likes: LikesType, isLike: boolean, isHate: boolean) => {
     return (
       <Empathy>
-        <EmpathyWrapper>
-          <ThumbsUpIcon size="1.7rem" />
+        <EmpathyWrapper onClick={() => handleClickLike(isLike, isHate)}>
+          {isLike ? (
+            <ThumbsUpIcon size="1.7rem" color={theme.palette.blue} />
+          ) : (
+            <ThumbsUpIcon size="1.7rem" />
+          )}
           <p>{likes.like}</p>
         </EmpathyWrapper>
-        <EmpathyWrapper>
-          <ThumbsDownIcon size="1.7rem" />
+        <EmpathyWrapper onClick={() => handleClickHate(isLike, isHate)}>
+          {isHate ? (
+            <ThumbsDownIcon size="1.7rem" color={theme.palette.blue} />
+          ) : (
+            <ThumbsDownIcon size="1.7rem" />
+          )}
           <p>{likes.hate}</p>
         </EmpathyWrapper>
       </Empathy>
@@ -189,9 +218,9 @@ const YourFightsBoard = ({ selected }: Props) => {
 
   const getYourFights = (yourFights: IDocType) => {
     return yourFights.map((fight, index) => {
-      const { createdAt, data, user } = fight;
+      const { createdAt, data, writer, isLike, isHate } = fight;
       const { content, optionList, likes } = data;
-      const { uid, nickname } = user;
+      const { uid, nickname } = writer;
 
       return (
         <Board key={index} backgroundColor={theme.palette.custom.white}>
@@ -209,7 +238,7 @@ const YourFightsBoard = ({ selected }: Props) => {
           </Profile>
           <Content>{content}</Content>
           {getOptionList(optionList)}
-          {getEmpathy(likes)}
+          {getEmpathy(likes, isLike, isHate)}
         </Board>
       );
     });

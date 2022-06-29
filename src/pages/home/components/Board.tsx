@@ -38,18 +38,19 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
                   <li key={index}>
                     <div className="wrapper">
                       <p>{list.content}</p>
-                      {list.likes && list.hates && (
-                        <div className="group">
-                          <div className="box">
-                            <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
-                            <p>{list.likes}</p>
+                      {typeof list.likes === "number" &&
+                        typeof list.hates === "number" && (
+                          <div className="group">
+                            <div className="box">
+                              <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
+                              <p>{list.likes}</p>
+                            </div>
+                            <div className="box">
+                              <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
+                              <p>{list.hates}</p>
+                            </div>
                           </div>
-                          <div className="box">
-                            <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
-                            <p>{list.hates}</p>
-                          </div>
-                        </div>
-                      )}
+                        )}
                       {list.state && (
                         <div className="group">
                           <div className="box">

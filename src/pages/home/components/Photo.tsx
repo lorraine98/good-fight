@@ -31,15 +31,15 @@ const Photo = () => {
   const list = [
     {
       state: "solved",
-      title: "설거지를 제때 안함",
+      content: "설거지를 제때 안함",
     },
     {
       state: "willSolve",
-      title: "빨래를 제때 안함",
+      content: "빨래를 제때 안함",
     },
     {
       state: "unsolved",
-      title: "청소를 제때 안함",
+      content: "청소를 제때 안함",
     },
   ];
 

@@ -3,8 +3,22 @@ import OrderByHeader from "./components/OrderByHeader";
 import YourFightsBoard from "./components/YourFightsBoard";
 import AddButton from "src/shared/components/add-button";
 import { useState } from "react";
+import { GetStaticProps } from "next";
+import {
+  getYourFightsOrderByDate,
+  getYourFightsOrderByPopularity,
+  IDocType,
+} from "src/api/your-fights";
 
-const YourFights = () => {
+interface Props {
+  resultsOrderByDate: IDocType;
+  resultsOrderByPopularity: IDocType;
+}
+
+const YourFights = ({
+  resultsOrderByDate,
+  resultsOrderByPopularity,
+}: Props) => {
   const { push } = useRouter();
 
   const [selected, setSelected] = useState<string>("latest");
@@ -32,10 +46,26 @@ const YourFights = () => {
         onClickLatestButton={handleClickLatestButton}
         onClickPopularityButton={handleClickPopularityButton}
       />
-      <YourFightsBoard selected={selected} />
+      <YourFightsBoard
+        selected={selected}
+        resultsOrderByDate={resultsOrderByDate}
+        resultsOrderByPopularity={resultsOrderByPopularity}
+      />
       <AddButton onClick={pushToForm} />
     </>
   );
 };
 
 export default YourFights;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const resultsOrderByDate = await getYourFightsOrderByDate();
+  const resultsOrderByPopularity = await getYourFightsOrderByPopularity();
+
+  return {
+    props: {
+      resultsOrderByDate,
+      resultsOrderByPopularity,
+    },
+  };
+};

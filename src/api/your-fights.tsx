@@ -6,6 +6,8 @@ import {
   getDocs,
   query,
   orderBy,
+  CollectionReference,
+  limit,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import getRandomNickname from "./get-random-nickname";
@@ -29,7 +31,7 @@ type OptionListType = {
   votes: number;
 };
 
-type UserType = {
+type WriterType = {
   uid: string;
   nickname: string;
 };
@@ -41,13 +43,22 @@ type DataType = {
 };
 
 interface DocType {
-  createdAt: Date;
+  createdAt: string;
   data: DataType;
-  user: UserType;
+  writer: WriterType;
+  isLike: boolean;
+  isHate: boolean;
+}
+
+interface LimitedDataType {
+  content: string;
+  likes: number;
+  hates: number;
 }
 
 export interface IOptionListType extends Array<OptionListType> {}
 export interface IDocType extends Array<DocType> {}
+export interface ILimitedDataType extends Array<LimitedDataType> {}
 
 interface Props {
   content: string;
@@ -65,7 +76,7 @@ export const postYourFightsForm = async ({
 
     await addDoc(collection(db, "yourFights"), {
       createdAt: Date.now(),
-      user: {
+      writer: {
         uid,
         nickname,
       },
@@ -74,6 +85,8 @@ export const postYourFightsForm = async ({
         optionList,
         likes,
       },
+      likingUser: {},
+      hatingUser: {},
     });
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -87,12 +100,16 @@ export const getYourFightsOrderByDate = async () => {
     const result: IDocType = [];
 
     data.forEach((doc) => {
-      const { createdAt, data, user } = doc.data();
+      const { createdAt, data, writer, likingUser, hatingUser } = doc.data();
+      const isLike = likingUser.hasOwnProperty(uid);
+      const isHate = hatingUser.hasOwnProperty(uid);
 
       result.push({
-        createdAt: new Date(createdAt),
+        createdAt,
         data,
-        user,
+        writer,
+        isLike,
+        isHate,
       });
     });
 
@@ -102,7 +119,7 @@ export const getYourFightsOrderByDate = async () => {
   }
 };
 
-export const getYourFightsOrderByPopularity = async () => {
+export const getYourFightsOrderByPopularity = async (count?: number) => {
   try {
     const q = query(
       collection(db, "yourFights"),
@@ -112,17 +129,56 @@ export const getYourFightsOrderByPopularity = async () => {
     const result: IDocType = [];
 
     data.forEach((doc) => {
-      const { createdAt, data, user } = doc.data();
+      const { createdAt, data, writer, likingUser, hatingUser } = doc.data();
+      const isLike = likingUser.hasOwnProperty(uid);
+      const isHate = hatingUser.hasOwnProperty(uid);
 
       result.push({
-        createdAt: new Date(createdAt),
+        createdAt,
         data,
-        user,
+        writer,
+        isLike,
+        isHate,
       });
     });
 
-    return result;
+    return count ? result.slice(0, count) : result;
   } catch (e) {
     console.error("Error to get data ordered by popularity!", e);
   }
 };
+
+export const getYourFightsLimitData = async (count: number) => {
+  try {
+    const q = query(
+      collection(db, "yourFights"),
+      orderBy("data.likes.like", "desc"),
+      limit(count),
+    );
+    const data = await getDocs(q);
+    const result: ILimitedDataType = [];
+
+    data.forEach((doc) => {
+      const { data } = doc.data();
+      const { content, likes } = data;
+
+      result.push({
+        content,
+        likes: likes.like,
+        hates: likes.hate,
+      });
+    });
+    console.log(result);
+    return result;
+  } catch (e) {
+    console.error("Error to get limited data!", e);
+  }
+};
+
+export const postLike = async () => {};
+
+export const postHate = async () => {};
+
+export const postCancelLike = async () => {};
+
+export const postCancelHate = async () => {};
