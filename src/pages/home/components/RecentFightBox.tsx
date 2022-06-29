@@ -1,20 +1,21 @@
 import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
-import { StateType } from "..";
+import { IRecentFightInfo } from "../components/Photo";
 
-const RecentFightBox = ({ recent }: StateType) => {
+const RecentFightBox = ({ content, state }: IRecentFightInfo) => {
   return (
     <>
       <div className="container">
-        <MyFightsStatusIcon size="medium" state={recent.state} />
+        <MyFightsStatusIcon size="medium" state={state} />
         <div className="issue">
           <p className="label">최근에 싸웠던 일 : </p>
-          <p className="title">{recent.content}</p>
+          <p className="title">{content}</p>
         </div>
       </div>
       <style jsx>{`
         .container {
           display: flex;
           margin: 1rem;
+          width: 100%;
         }
 
         .issue {

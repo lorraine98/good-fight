@@ -4,8 +4,16 @@ import RecentFightBox from "./RecentFightBox";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import { useTheme } from "@mui/system";
 import { useState } from "react";
+import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
+import Spinner from "src/shared/spinner";
 
-const Photo = () => {
+export interface IRecentFightInfo {
+  isLoading?: boolean;
+  content?: string;
+  state?: fightStatusType;
+}
+
+const Photo = ({ isLoading, content, state }: IRecentFightInfo) => {
   const [imageSrc, setImageSrc] = useState<string>("");
   const theme = useTheme();
 
@@ -27,21 +35,6 @@ const Photo = () => {
 
     setImageSrc(URL.createObjectURL(file));
   };
-
-  const list = [
-    {
-      state: "solved",
-      content: "설거지를 제때 안함",
-    },
-    {
-      state: "willSolve",
-      content: "빨래를 제때 안함",
-    },
-    {
-      state: "unsolved",
-      content: "청소를 제때 안함",
-    },
-  ];
 
   return (
     <>
@@ -67,8 +60,15 @@ const Photo = () => {
           </form>
         )}
         <Container>
-          <div className="recent">
-            <RecentFightBox recent={list[1]} />
+          <div
+            className="recent"
+            style={isLoading ? { justifyContent: "center" } : {}}
+          >
+            {isLoading ? (
+              <Spinner size={50} />
+            ) : (
+              <RecentFightBox content={content} state={state} />
+            )}
           </div>
         </Container>
       </div>

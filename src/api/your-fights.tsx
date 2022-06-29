@@ -168,7 +168,7 @@ export const getYourFightsLimitData = async (count: number) => {
         hates: likes.hate,
       });
     });
-    console.log(result);
+
     return result;
   } catch (e) {
     console.error("Error to get limited data!", e);

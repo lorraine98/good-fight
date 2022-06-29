@@ -16,6 +16,12 @@ import {
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { app } from "src/shared/FireBase";
 
+interface LimitedDataType {
+  content: string;
+  state: fightStatusType;
+}
+export interface ILimitedDataType extends Array<LimitedDataType> {}
+
 const db = getFirestore(app);
 const auth = getAuth();
 const uid = auth.currentUser?.uid ?? "";
@@ -37,21 +43,34 @@ export const getMyFightsAllData = async (): Promise<getMyFightsProps[]> => {
 };
 
 export const getMyFightsLimitData = async (count: number) => {
-  const myFightsRef = collection(
-    db,
-    "myFights",
-  ) as CollectionReference<getMyFightsProps>;
+  try {
+    const myFightsRef = collection(
+      db,
+      "myFights",
+    ) as CollectionReference<getMyFightsProps>;
 
-  const myFightsQuery = query(
-    myFightsRef,
-    orderBy("data.date", "desc"),
-    limit(count),
-  );
-  const result = await getDocs(myFightsQuery);
+    const myFightsQuery = query(
+      myFightsRef,
+      orderBy("data.date", "desc"),
+      limit(count),
+    );
+    const data = await getDocs(myFightsQuery);
+    const result: ILimitedDataType = [];
 
-  return result.docs.map((doc) => ({
-    ...doc.data().data,
-  }));
+    data.forEach((doc) => {
+      const { data } = doc.data();
+      const { content, solved } = data;
+
+      result.push({
+        content,
+        state: solved,
+      });
+    });
+
+    return result;
+  } catch (e) {
+    console.error("Error to get limited data!", e);
+  }
 };
 
 export const getMyFightsData = async (id: string) => {
