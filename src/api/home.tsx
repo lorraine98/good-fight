@@ -1,4 +1,3 @@
-import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
@@ -9,12 +8,12 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { app } from "src/shared/FireBase";
+import { getUID } from "./auth-google-login";
 
 const db = getFirestore(app);
 const storage = getStorage();
-const auth = getAuth();
 
-export const postImageToStorage = async (file: Blob) => {
+export const postImageToStorage = async (file: File) => {
   const storage = getStorage();
   const storageRef = ref(storage, `homeBannerImage/${file.name + Date.now()}`);
 
@@ -24,7 +23,7 @@ export const postImageToStorage = async (file: Blob) => {
 };
 
 export const postImageUrlWithUID = async (file: string) => {
-  const uid = auth.currentUser?.uid ?? "";
+  const uid = getUID();
   try {
     await addDoc(collection(db, "homeBannerImage"), {
       uid,
@@ -39,7 +38,7 @@ export const postImageUrlWithUID = async (file: string) => {
 export const getHomeBannerImageByUID: () => Promise<
   string | undefined
 > = async () => {
-  const uid = auth.currentUser?.uid ?? "";
+  const uid = getUID();
   const homeBannerImageRef = collection(db, "homeBannerImage");
   const q = query(homeBannerImageRef, where("uid", "==", uid));
   const querySnapshot = await getDocs(q);

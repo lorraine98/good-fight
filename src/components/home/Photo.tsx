@@ -1,24 +1,25 @@
 import Image from "next/image";
-import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import { getHomeBannerImageByUID, postImageToStorage } from "src/api/home";
 import { useQuery } from "react-query";
+import { FileUpload } from "@mui/icons-material";
+import { useAuth } from "src/pages/auth/hook/useAuth";
+import { useRouter } from "next/router";
 
 const Photo = () => {
+  const { push } = useRouter();
+  const isAuthorized = useAuth();
   const { data, refetch } = useQuery(
     "homeBannerImage",
     getHomeBannerImageByUID,
   );
 
-  const iconStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    fontSize: "5rem",
-  };
-
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
+      return;
+    }
+
+    if (!isAuthorized) {
+      push("/auth");
       return;
     }
 
@@ -35,7 +36,10 @@ const Photo = () => {
         ) : (
           <form method="post" encType="multipart/form-data">
             <label htmlFor="file-input">
-              <ImageSearchIcon sx={{ ...iconStyle }} />
+              <div className="icon">
+                <FileUpload fontSize="large" />
+                <p>대표 사진을 등록해보세요.</p>
+              </div>
               <input
                 type="file"
                 accept="image/*"
@@ -66,6 +70,15 @@ const Photo = () => {
           background-color: rgba(0, 0, 0, 0.5);
           border-radius: 0.375rem;
           overflow: hidden;
+        }
+
+        .icon {
+          display: flex;
+          align-items: center;
+          position: absolute;
+          top: 40%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
       `}</style>
     </>

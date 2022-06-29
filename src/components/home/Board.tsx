@@ -3,8 +3,9 @@ import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import { useTheme } from "@mui/system";
 import Spinner from "src/shared/spinner";
-import { FightsInfo } from "..";
+
 import { useAuth } from "src/pages/auth/hook/useAuth";
+import { FightsInfo } from "src/pages/home";
 
 interface Props {
   content: string;
