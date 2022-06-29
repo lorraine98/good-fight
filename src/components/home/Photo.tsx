@@ -3,10 +3,8 @@ import { getHomeBannerImageByUID, postImageToStorage } from "src/api/home";
 import { useQuery } from "react-query";
 import { FileUpload } from "@mui/icons-material";
 import { useAuth } from "src/pages/auth/hook/useAuth";
-import { useRouter } from "next/router";
 
 const Photo = () => {
-  const { push } = useRouter();
   const isAuthorized = useAuth();
   const { data, refetch } = useQuery(
     "homeBannerImage",
@@ -15,11 +13,6 @@ const Photo = () => {
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
-      return;
-    }
-
-    if (!isAuthorized) {
-      push("/auth");
       return;
     }
 
@@ -40,12 +33,14 @@ const Photo = () => {
                 <FileUpload fontSize="large" />
                 <p>대표 사진을 등록해보세요.</p>
               </div>
-              <input
-                type="file"
-                accept="image/*"
-                id="file-input"
-                onChange={handleImageChange}
-              />
+              {isAuthorized && (
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="file-input"
+                  onChange={handleImageChange}
+                />
+              )}
             </label>
           </form>
         )}
@@ -79,6 +74,10 @@ const Photo = () => {
           top: 40%;
           left: 50%;
           transform: translate(-50%, -50%);
+        }
+
+        .icon p {
+          user-select: none;
         }
       `}</style>
     </>

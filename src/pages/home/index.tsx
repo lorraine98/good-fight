@@ -10,6 +10,8 @@ import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { useQuery } from "react-query";
 import { getMyFightsLimitData } from "src/api/my-fights";
 import { useTheme } from "@mui/system";
+import { useAuth } from "../auth/hook/useAuth";
+import LoginTextButton from "src/components/common/LoginTextButton";
 
 export interface FightsInfo {
   content: string;
@@ -20,10 +22,13 @@ export interface FightsInfo {
 
 const index = () => {
   const theme = useTheme();
+  const isAuthorized = useAuth();
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
-  const { isLoading, data: myFightsData } = useQuery("myFightsLimitData", () =>
-    getMyFightsLimitData(3),
-  );
+  const {
+    isLoading,
+    data: myFightsData,
+    refetch,
+  } = useQuery("myFightsLimitData", () => getMyFightsLimitData(3));
   const recentMyFightsData = Object.values(myFightsData ?? "")[0];
 
   const handleYourFightClick = () => {
@@ -33,6 +38,12 @@ const index = () => {
   const handleMyFightClick = () => {
     Router.push("/my-fights");
   };
+
+  useEffect(() => {
+    if (isAuthorized) {
+      refetch();
+    }
+  }, [isAuthorized]);
 
   // API async await 필요
   const getYourFightsData = () => {
@@ -74,12 +85,25 @@ const index = () => {
   return (
     <>
       <Container marginX={1}>
-        <div style={{ position: "relative" }}>
+        {!isAuthorized && (
+          <LoginTextButton
+            style={{
+              position: "absolute",
+              top: "240px",
+              left: "200px",
+              color: "black",
+            }}
+          />
+        )}
+        <div
+          className={isAuthorized ? "" : "overlay"}
+          style={{ position: "relative" }}
+        >
           <Photo />
           <RecentFightBox
             style={{ position: "absolute", bottom: "0" }}
-            content={recentMyFightsData?.content}
-            solved={recentMyFightsData?.solved}
+            content={recentMyFightsData?.content || "로그인해서 확인하기."}
+            solved={recentMyFightsData?.solved || "willSolve"}
           />
         </div>
         <Ad />
@@ -95,6 +119,12 @@ const index = () => {
           isLoading={isLoading}
         />
       </Container>
+      <style jsx>{`
+        .overlay {
+          height: 21rem;
+          filter: blur(4px);
+        }
+      `}</style>
     </>
   );
 };

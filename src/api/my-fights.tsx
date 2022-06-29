@@ -12,13 +12,14 @@ import {
   limit,
   addDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { app } from "src/shared/FireBase";
+import { getUID } from "./auth-google-login";
 
 const db = getFirestore(app);
-const auth = getAuth();
-const uid = auth.currentUser?.uid ?? "";
+const uid = getUID();
 
 export const deleteMyFightsData = (id: string) => {
   return deleteDoc(doc(db, "myFights", id));
@@ -30,7 +31,11 @@ export const getMyFightsAllData = async (): Promise<getMyFightsProps[]> => {
     "myFights",
   ) as CollectionReference<getMyFightsProps>;
 
-  const myFightsQuery = query(myFightsRef, orderBy("data.date", "desc"));
+  const myFightsQuery = query(
+    myFightsRef,
+    orderBy("data.date", "desc"),
+    where("uid", "==", uid),
+  );
   const result = await getDocs(myFightsQuery);
 
   return result.docs.map((doc) => ({ ...doc.data(), docId: doc.id }));
@@ -44,6 +49,7 @@ export const getMyFightsLimitData = async (count: number) => {
 
   const myFightsQuery = query(
     myFightsRef,
+    where("uid", "==", uid),
     orderBy("data.date", "desc"),
     limit(count),
   );

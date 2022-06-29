@@ -6,6 +6,7 @@ import Spinner from "src/shared/spinner";
 
 import { useAuth } from "src/pages/auth/hook/useAuth";
 import { FightsInfo } from "src/pages/home";
+import LoginTextButton from "../common/LoginTextButton";
 
 interface Props {
   content: string;
@@ -26,9 +27,7 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           <div className="more-btn">더보기 &gt;</div>
         </div>
         {!isAuthorized && content === "내쌈" ? (
-          <div className="login-wrapper" onClick={onClick}>
-            <span className="login-text">로그인 하기</span>
-          </div>
+          <LoginTextButton style={{ marginTop: "2.3rem" }} />
         ) : (
           <div className="board-list">
             <ul className="ul">
@@ -128,17 +127,6 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           margin: 0 auto;
           justify-content: center;
           align-items: center;
-        }
-
-        .login-wrapper {
-          text-align: center;
-          margin-top: 2.3rem;
-          color: ${theme.palette.custom.gray};
-          cursor: pointer;
-        }
-
-        .login-text {
-          text-decoration: underline;
         }
       `}</style>
     </>
