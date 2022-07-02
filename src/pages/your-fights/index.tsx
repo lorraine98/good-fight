@@ -4,11 +4,7 @@ import YourFightsBoard from "./components/YourFightsBoard";
 import AddButton from "src/shared/components/add-button";
 import { useState } from "react";
 import { GetStaticProps } from "next";
-import {
-  getYourFightsOrderByDate,
-  getYourFightsOrderByPopularity,
-  IDocType,
-} from "src/api/your-fights";
+import { getYourFightsOrderByDate, IDocType } from "src/api/your-fights";
 
 interface Props {
   resultsOrderByDate: IDocType;
@@ -60,7 +56,9 @@ export default YourFights;
 
 export const getStaticProps: GetStaticProps = async () => {
   const resultsOrderByDate = await getYourFightsOrderByDate();
-  const resultsOrderByPopularity = await getYourFightsOrderByPopularity();
+  const resultsOrderByPopularity = resultsOrderByDate?.sort(
+    (a, b) => b.data.likes.like - a.data.likes.like,
+  );
 
   return {
     props: {
