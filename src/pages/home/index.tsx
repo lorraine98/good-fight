@@ -1,34 +1,35 @@
-import Container from "../../shared/components/container";
-import Photo from "./components/Photo";
-import Banner from "./components/Banner";
-import Board from "./components/Board";
+import Container from "src/shared/components/container";
+import Photo from "src/components/home/Photo";
+import Board from "src/components/home/Board";
 import Router from "next/router";
+import Ad from "src/components/home/Ad";
+import RecentFightBox from "src/components/home/RecentFightBox";
+
 import { useEffect, useState } from "react";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { useQuery } from "react-query";
 import { getMyFightsLimitData } from "src/api/my-fights";
-
-type Props = {
-  content: string;
-  state: fightStatusType;
-};
+import { useTheme } from "@mui/system";
+import { useAuth } from "../auth/hook/useAuth";
+import LoginTextButton from "src/components/common/LoginTextButton";
 
 export interface FightsInfo {
   content: string;
   likes?: number;
   hates?: number;
-  state?: fightStatusType;
-}
-
-export interface StateType {
-  recent: Props;
+  solved?: fightStatusType;
 }
 
 const index = () => {
+  const theme = useTheme();
+  const isAuthorized = useAuth();
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
-  const { isLoading, data: myFightsData } = useQuery("myFightsLimitData", () =>
-    getMyFightsLimitData(3),
-  );
+  const {
+    isLoading,
+    data: myFightsData,
+    refetch,
+  } = useQuery("myFightsLimitData", () => getMyFightsLimitData(3));
+  const recentMyFightsData = Object.values(myFightsData ?? "")[0];
 
   const handleYourFightClick = () => {
     Router.push("/your-fights");
@@ -37,6 +38,12 @@ const index = () => {
   const handleMyFightClick = () => {
     Router.push("/my-fights");
   };
+
+  useEffect(() => {
+    if (isAuthorized) {
+      refetch();
+    }
+  }, [isAuthorized]);
 
   // API async await 필요
   const getYourFightsData = () => {
@@ -67,19 +74,39 @@ const index = () => {
   const getMyFightsData = () => {
     return myFightsData?.map((item) => ({
       content: item.content,
-      state: item.solved,
+      solved: item.solved,
     }));
   };
 
   useEffect(() => {
-    setYourFightsData(getYourFightsData()); //type에러 니쌈 통신할 때 챙기기
+    setYourFightsData(getYourFightsData());
   }, []);
 
   return (
     <>
       <Container marginX={1}>
-        <Photo />
-        <Banner />
+        {!isAuthorized && (
+          <LoginTextButton
+            style={{
+              position: "absolute",
+              top: "240px",
+              left: "200px",
+              color: "black",
+            }}
+          />
+        )}
+        <div
+          className={isAuthorized ? "" : "overlay"}
+          style={{ position: "relative" }}
+        >
+          <Photo />
+          <RecentFightBox
+            style={{ position: "absolute", bottom: "0" }}
+            content={recentMyFightsData?.content || "로그인해서 확인하기."}
+            solved={recentMyFightsData?.solved || "willSolve"}
+          />
+        </div>
+        <Ad />
         <Board
           content="니쌈"
           onClick={handleYourFightClick}
@@ -92,6 +119,12 @@ const index = () => {
           isLoading={isLoading}
         />
       </Container>
+      <style jsx>{`
+        .overlay {
+          height: 21rem;
+          filter: blur(4px);
+        }
+      `}</style>
     </>
   );
 };
