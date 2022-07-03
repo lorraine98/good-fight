@@ -38,22 +38,12 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
                   <li key={index}>
                     <div className="wrapper">
                       <p>{list.content}</p>
-                      {typeof list.likes === "number" &&
-                        typeof list.hates === "number" && (
-                          <div className="group">
-                            <div className="box">
-                              <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
-                              <p>{list.likes}</p>
-                            </div>
-                            <div className="box">
-                              <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
-                              <p>{list.hates}</p>
-                            </div>
+                      {list.likes && list.hates && (
+                        <div className="group">
+                          <div className="box">
+                            <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
+                            <p>{list.likes}</p>
                           </div>
-<<<<<<< HEAD:src/pages/home/components/Board.tsx
-                        )}
-                      {list.state && (
-=======
                           <div className="box">
                             <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
                             <p>{list.hates}</p>
@@ -61,7 +51,6 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
                         </div>
                       )}
                       {list.solved && (
->>>>>>> ce26b9ca01496e2f330655301993ff6431ba8bcc:src/components/home/Board.tsx
                         <div className="group">
                           <div className="box">
                             <MyFightsStatusIcon
@@ -86,13 +75,11 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-
         li {
           margin: 0.5rem 0;
           height: 2rem;
           cursor: pointer;
         }
-
         .board {
           display: flex;
           flex-direction: column;
@@ -103,36 +90,30 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           padding: 1rem;
           box-sizing: border-box;
         }
-
         .board-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 0.5rem;
         }
-
         .content {
           font-weight: bold;
           font-size: 1.3rem;
         }
-
         .more-btn {
           font-size: 1rem;
           cursor: pointer;
         }
-
         .wrapper {
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
-
         .group {
           display: flex;
           width: 5rem;
           justify-content: center;
         }
-
         .box {
           display: flex;
           margin: 0 auto;
