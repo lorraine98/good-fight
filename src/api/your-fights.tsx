@@ -1,6 +1,8 @@
 import { app } from "../shared/FireBase";
 import {
   addDoc,
+  updateDoc,
+  doc,
   collection,
   getFirestore,
   getDocs,
@@ -8,9 +10,11 @@ import {
   orderBy,
   CollectionReference,
   limit,
+  where,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import getRandomNickname from "./get-random-nickname";
+import { getUID } from "./auth-google-login";
 
 const db = getFirestore(app);
 const auth = getAuth();
@@ -43,7 +47,8 @@ type DataType = {
 };
 
 interface DocType {
-  createdAt: string;
+  documentID: string;
+  createdAt: number;
   data: DataType;
   writer: WriterType;
   isLike: boolean;
@@ -105,6 +110,7 @@ export const getYourFightsOrderByDate = async () => {
       const isHate = hatingUser.hasOwnProperty(uid);
 
       result.push({
+        documentID: doc.id,
         createdAt,
         data,
         writer,
@@ -134,6 +140,7 @@ export const getYourFightsOrderByPopularity = async (count?: number) => {
       const isHate = hatingUser.hasOwnProperty(uid);
 
       result.push({
+        documentID: doc.id,
         createdAt,
         data,
         writer,
@@ -175,10 +182,19 @@ export const getYourFightsLimitData = async (count: number) => {
   }
 };
 
-export const postLike = async () => {};
+export const postLike = async (documentID: string) => {
+  try {
+    const uid = getUID();
+    const documentRef = doc(db, "yourFights", documentID);
 
-export const postHate = async () => {};
+    await updateDoc(documentRef, {});
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-export const postCancelLike = async () => {};
+export const postHate = async (documentID: string) => {};
 
-export const postCancelHate = async () => {};
+export const postCancelLike = async (documentID: string) => {};
+
+export const postCancelHate = async (documentID: string) => {};

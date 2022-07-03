@@ -6,3 +6,11 @@ export const loginGoogle = () => {
   const auth = getAuth(app);
   signInWithRedirect(auth, provider);
 };
+
+export const getUID = () => {
+  try {
+    return getAuth(app).currentUser?.uid;
+  } catch (error) {
+    console.log(error);
+  }
+};

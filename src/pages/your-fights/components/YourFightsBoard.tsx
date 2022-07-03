@@ -147,28 +147,49 @@ const YourFightsBoard = ({
     }
   }, []);
 
-  const handleClickLike = async (isLike: boolean, isHate: boolean) => {
+  const handleClickLike = async (
+    documentID: string,
+    isLike: boolean,
+    isHate: boolean,
+  ) => {
     if (isHate) {
-      await postCancelHate();
+      await postCancelHate(documentID);
     }
 
     if (isLike) {
-      await postCancelLike();
+      await postCancelLike(documentID);
     } else {
-      await postLike();
+      await postLike(documentID);
     }
   };
 
-  const handleClickHate = async (isLike: boolean, isHate: boolean) => {
+  const handleClickHate = async (
+    documentID: string,
+    isLike: boolean,
+    isHate: boolean,
+  ) => {
     if (isLike) {
-      await postCancelLike();
+      await postCancelLike(documentID);
+    }
+
+    if (isHate) {
+      await postCancelHate(documentID);
+    } else {
+      await postHate(documentID);
     }
   };
 
-  const getEmpathy = (likes: LikesType, isLike: boolean, isHate: boolean) => {
+  const getEmpathy = (
+    documentID: string,
+    likes: LikesType,
+    isLike: boolean,
+    isHate: boolean,
+  ) => {
     return (
       <Empathy>
-        <EmpathyWrapper onClick={() => handleClickLike(isLike, isHate)}>
+        <EmpathyWrapper
+          onClick={() => handleClickLike(documentID, isLike, isHate)}
+        >
           {isLike ? (
             <ThumbsUpIcon size="1.7rem" color={theme.palette.blue} />
           ) : (
@@ -176,7 +197,9 @@ const YourFightsBoard = ({
           )}
           <p>{likes.like}</p>
         </EmpathyWrapper>
-        <EmpathyWrapper onClick={() => handleClickHate(isLike, isHate)}>
+        <EmpathyWrapper
+          onClick={() => handleClickHate(documentID, isLike, isHate)}
+        >
           {isHate ? (
             <ThumbsDownIcon size="1.7rem" color={theme.palette.blue} />
           ) : (
@@ -218,7 +241,7 @@ const YourFightsBoard = ({
 
   const getYourFights = (yourFights: IDocType) => {
     return yourFights.map((fight, index) => {
-      const { createdAt, data, writer, isLike, isHate } = fight;
+      const { documentID, createdAt, data, writer, isLike, isHate } = fight;
       const { content, optionList, likes } = data;
       const { uid, nickname } = writer;
 
@@ -233,12 +256,14 @@ const YourFightsBoard = ({
             />
             <Wrapper style={{ marginLeft: "0.8rem" }}>
               <Nickname>{nickname}</Nickname>
-              <Date color={theme.palette.gray}>{DateFormat(createdAt)}</Date>
+              <Date color={theme.palette.gray}>
+                {DateFormat(createdAt.toString())}
+              </Date>
             </Wrapper>
           </Profile>
           <Content>{content}</Content>
           {getOptionList(optionList)}
-          {getEmpathy(likes, isLike, isHate)}
+          {getEmpathy(documentID, likes, isLike, isHate)}
         </Board>
       );
     });
