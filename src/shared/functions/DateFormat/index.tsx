@@ -1,7 +1,6 @@
-const DateFormat = (date: string) => {
+const DateFormat = (date: number) => {
   const today = new Date();
   const timeValue = new Date(date);
-
   const betweenTime = Math.floor(
     (today.getTime() - timeValue.getTime()) / 1000 / 60,
   );

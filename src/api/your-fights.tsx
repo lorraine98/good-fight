@@ -183,14 +183,13 @@ export const getYourFightsLimitData = async (count: number) => {
 };
 
 export const postLike = async (documentID: string) => {
-  try {
-    const uid = getUID();
-    const documentRef = doc(db, "yourFights", documentID);
-
-    await updateDoc(documentRef, {});
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  //   const uid = getUID();
+  //   const documentRef = doc(db, "yourFights", documentID);
+  //   await updateDoc(documentRef, {});
+  // } catch (error) {
+  //   console.error(error);
+  // }
 };
 
 export const postHate = async (documentID: string) => {};

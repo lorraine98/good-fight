@@ -256,9 +256,7 @@ const YourFightsBoard = ({
             />
             <Wrapper style={{ marginLeft: "0.8rem" }}>
               <Nickname>{nickname}</Nickname>
-              <Date color={theme.palette.gray}>
-                {DateFormat(createdAt.toString())}
-              </Date>
+              <Date color={theme.palette.gray}>{DateFormat(createdAt)}</Date>
             </Wrapper>
           </Profile>
           <Content>{content}</Content>
