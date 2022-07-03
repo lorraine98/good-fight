@@ -12,19 +12,14 @@ import {
   limit,
   addDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { app } from "src/shared/FireBase";
-
-interface LimitedDataType {
-  content: string;
-  state: fightStatusType;
-}
-export interface ILimitedDataType extends Array<LimitedDataType> {}
+import { getUID } from "./auth-google-login";
 
 const db = getFirestore(app);
-const auth = getAuth();
-const uid = auth.currentUser?.uid ?? "";
+const uid = getUID();
 
 export const deleteMyFightsData = (id: string) => {
   return deleteDoc(doc(db, "myFights", id));
@@ -36,41 +31,33 @@ export const getMyFightsAllData = async (): Promise<getMyFightsProps[]> => {
     "myFights",
   ) as CollectionReference<getMyFightsProps>;
 
-  const myFightsQuery = query(myFightsRef, orderBy("data.date", "desc"));
+  const myFightsQuery = query(
+    myFightsRef,
+    orderBy("data.date", "desc"),
+    where("uid", "==", uid),
+  );
   const result = await getDocs(myFightsQuery);
 
   return result.docs.map((doc) => ({ ...doc.data(), docId: doc.id }));
 };
 
 export const getMyFightsLimitData = async (count: number) => {
-  try {
-    const myFightsRef = collection(
-      db,
-      "myFights",
-    ) as CollectionReference<getMyFightsProps>;
+  const myFightsRef = collection(
+    db,
+    "myFights",
+  ) as CollectionReference<getMyFightsProps>;
 
-    const myFightsQuery = query(
-      myFightsRef,
-      orderBy("data.date", "desc"),
-      limit(count),
-    );
-    const data = await getDocs(myFightsQuery);
-    const result: ILimitedDataType = [];
+  const myFightsQuery = query(
+    myFightsRef,
+    where("uid", "==", uid),
+    orderBy("data.date", "desc"),
+    limit(count),
+  );
+  const result = await getDocs(myFightsQuery);
 
-    data.forEach((doc) => {
-      const { data } = doc.data();
-      const { content, solved } = data;
-
-      result.push({
-        content,
-        state: solved,
-      });
-    });
-
-    return result;
-  } catch (e) {
-    console.error("Error to get limited data!", e);
-  }
+  return result.docs.map((doc) => ({
+    ...doc.data().data,
+  }));
 };
 
 export const getMyFightsData = async (id: string) => {

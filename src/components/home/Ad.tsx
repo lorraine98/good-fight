@@ -1,9 +1,9 @@
 import Image from "next/image";
 
-const Banner = () => {
+const Ad = () => {
   return (
     <>
-      <div className="banner">
+      <div className="ad">
         <Image
           src="/static/adv.jpg"
           alt="광고"
@@ -13,7 +13,7 @@ const Banner = () => {
         />
       </div>
       <style jsx>{`
-        .banner {
+        .ad {
           position: relative;
           border-radius: 0.375rem;
           width: 100%;
@@ -27,4 +27,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default Ad;

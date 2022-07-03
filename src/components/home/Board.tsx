@@ -3,8 +3,10 @@ import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import { useTheme } from "@mui/system";
 import Spinner from "src/shared/spinner";
-import { FightsInfo } from "..";
+
 import { useAuth } from "src/pages/auth/hook/useAuth";
+import { FightsInfo } from "src/pages/home";
+import LoginTextButton from "../common/LoginTextButton";
 
 interface Props {
   content: string;
@@ -25,9 +27,7 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           <div className="more-btn">더보기 &gt;</div>
         </div>
         {!isAuthorized && content === "내쌈" ? (
-          <div className="login-wrapper" onClick={onClick}>
-            <span className="login-text">로그인 하기</span>
-          </div>
+          <LoginTextButton style={{ marginTop: "2.3rem" }} />
         ) : (
           <div className="board-list">
             <ul className="ul">
@@ -50,13 +50,23 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
                               <p>{list.hates}</p>
                             </div>
                           </div>
+<<<<<<< HEAD:src/pages/home/components/Board.tsx
                         )}
                       {list.state && (
+=======
+                          <div className="box">
+                            <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
+                            <p>{list.hates}</p>
+                          </div>
+                        </div>
+                      )}
+                      {list.solved && (
+>>>>>>> ce26b9ca01496e2f330655301993ff6431ba8bcc:src/components/home/Board.tsx
                         <div className="group">
                           <div className="box">
                             <MyFightsStatusIcon
                               size="small"
-                              state={list.state}
+                              state={list.solved}
                             />
                           </div>
                         </div>
@@ -128,17 +138,6 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           margin: 0 auto;
           justify-content: center;
           align-items: center;
-        }
-
-        .login-wrapper {
-          text-align: center;
-          margin-top: 2.3rem;
-          color: ${theme.palette.custom.gray};
-          cursor: pointer;
-        }
-
-        .login-text {
-          text-decoration: underline;
         }
       `}</style>
     </>

@@ -23,8 +23,8 @@ export const getDesignToken = (mode: PaletteMode) => ({
           height: "2.625rem",
         },
         small: {
-          width: "1.625rem",
-          height: "1.625rem",
+          width: "1.3rem",
+          height: "1.3rem",
         },
       },
       fontSize: {
