@@ -1,4 +1,4 @@
-const DateFormat = (date: Date) => {
+const DateFormat = (date: string) => {
   const today = new Date();
   const timeValue = new Date(date);
 

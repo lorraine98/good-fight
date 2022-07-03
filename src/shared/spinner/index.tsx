@@ -4,14 +4,15 @@ import { TailSpin } from "react-loader-spinner";
 interface Props {
   size: string | number | undefined;
   color?: string;
+  style?: object;
 }
 
-const Spinner = ({ size, color }: Props) => {
+const Spinner = ({ size, color, style }: Props) => {
   const theme = useTheme();
 
   return (
     <>
-      <div className="spinner-wrapper">
+      <div className="spinner-wrapper" style={style}>
         <TailSpin
           color={color ?? theme.palette.custom.brown}
           height={size}

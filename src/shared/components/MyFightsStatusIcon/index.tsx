@@ -7,7 +7,7 @@ import styled from "@emotion/styled";
 export type fightStatusType = "solved" | "willSolve" | "unsolved";
 
 interface Props {
-  state: fightStatusType;
+  state?: fightStatusType;
   size: "small" | "medium" | "large";
 }
 

@@ -38,12 +38,22 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
                   <li key={index}>
                     <div className="wrapper">
                       <p>{list.content}</p>
-                      {list.likes && list.hates && (
-                        <div className="group">
-                          <div className="box">
-                            <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
-                            <p>{list.likes}</p>
+                      {typeof list.likes === "number" &&
+                        typeof list.hates === "number" && (
+                          <div className="group">
+                            <div className="box">
+                              <ThumbUpOffAltIcon sx={{ fontSize: "1rem" }} />
+                              <p>{list.likes}</p>
+                            </div>
+                            <div className="box">
+                              <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
+                              <p>{list.hates}</p>
+                            </div>
                           </div>
+<<<<<<< HEAD:src/pages/home/components/Board.tsx
+                        )}
+                      {list.state && (
+=======
                           <div className="box">
                             <ThumbDownOffAltIcon sx={{ fontSize: "1rem" }} />
                             <p>{list.hates}</p>
@@ -51,6 +61,7 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
                         </div>
                       )}
                       {list.solved && (
+>>>>>>> ce26b9ca01496e2f330655301993ff6431ba8bcc:src/components/home/Board.tsx
                         <div className="group">
                           <div className="box">
                             <MyFightsStatusIcon
