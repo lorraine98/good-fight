@@ -12,6 +12,7 @@ import { getMyFightsLimitData } from "src/api/my-fights";
 import { useTheme } from "@mui/system";
 import { useAuth } from "../auth/hook/useAuth";
 import LoginTextButton from "src/components/common/LoginTextButton";
+import BottomSheet from "src/components/common/BottomSheet";
 
 export interface FightsInfo {
   content: string;
@@ -24,6 +25,12 @@ const index = () => {
   const theme = useTheme();
   const isAuthorized = useAuth();
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
+
   const {
     isLoading,
     data: myFightsData,
@@ -90,7 +97,7 @@ const index = () => {
             style={{
               position: "absolute",
               top: "240px",
-              left: "200px",
+              left: "calc(50% - 36px)",
               color: "black",
             }}
           />
@@ -118,6 +125,12 @@ const index = () => {
           data={getMyFightsData()}
           isLoading={isLoading}
         />
+        <BottomSheet
+          open={open}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+        />
+        <button onClick={toggleDrawer(true)}>Open</button>
       </Container>
       <style jsx>{`
         .overlay {
