@@ -3,10 +3,39 @@ import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";
 import shortUUID from "short-uuid";
+import { useRef } from "react";
+import { useSnackbar } from "notistack";
+import { SnackbarOrigin } from "@mui/material";
 
 const UserShareCode = () => {
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
   const uuid = shortUUID.generate();
+  const codeRef = useRef<HTMLSpanElement>(null);
+
+  const anchorOrigin: SnackbarOrigin = {
+    vertical: "bottom",
+    horizontal: "center",
+  };
+
+  const copyCode = async () => {
+    const value = codeRef?.current?.textContent;
+    if (!value) {
+      enqueueSnackbar("다시 시도해주세요.", { variant: "error", anchorOrigin });
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(value);
+      enqueueSnackbar("복사 되었습니다.", {
+        variant: "success",
+        anchorOrigin,
+        autoHideDuration: 1500,
+      });
+    } catch (error) {
+      enqueueSnackbar(error, { variant: "error", anchorOrigin });
+    }
+  };
 
   return (
     <>
@@ -15,8 +44,12 @@ const UserShareCode = () => {
       </div>
       <p className="title">공유 코드예요!</p>
       <p className="desc">아래 코드로 상대방과 연결할 수 있어요.</p>
-      <span className="code">{uuid}</span>
-      <Button style={{ width: "268px" }}>복사하기</Button>
+      <span className="code" ref={codeRef}>
+        {uuid}
+      </span>
+      <Button onClick={copyCode} style={{ width: "268px" }}>
+        복사하기
+      </Button>
       <button className="know-code">상대방의 코드를 알고 있어요!</button>
       <style jsx>{`
         .img {

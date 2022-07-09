@@ -8,6 +8,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { getDesignToken } from "../styles/theme";
 import CssBaseLine from "@mui/material/CssBaseline";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { SnackbarProvider } from "notistack";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const theme = createTheme(getDesignToken("light"));
@@ -20,17 +21,19 @@ const App = ({ Component, pageProps }: AppProps) => {
         <link rel="shortcut icon" href="/static/favicon.ico" />
         <title>good fight</title>
       </Head>
-      <RecoilRoot>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider client={queryClient}>
-            <Layout>
-              <PrivateRoute>
-                <Component {...pageProps} />
-              </PrivateRoute>
-            </Layout>
-          </QueryClientProvider>
-        </ThemeProvider>
-      </RecoilRoot>
+      <SnackbarProvider>
+        <RecoilRoot>
+          <ThemeProvider theme={theme}>
+            <QueryClientProvider client={queryClient}>
+              <Layout>
+                <PrivateRoute>
+                  <Component {...pageProps} />
+                </PrivateRoute>
+              </Layout>
+            </QueryClientProvider>
+          </ThemeProvider>
+        </RecoilRoot>
+      </SnackbarProvider>
     </>
   );
 };
