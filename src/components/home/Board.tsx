@@ -6,7 +6,7 @@ import Spinner from "src/shared/spinner";
 
 import { useAuth } from "src/pages/auth/hook/useAuth";
 import { FightsInfo } from "src/pages/home";
-import LoginTextButton from "../common/LoginTextButton";
+import LoginTextButton from "../../shared/components/button/LoginTextButton";
 
 interface Props {
   content: string;

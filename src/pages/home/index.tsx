@@ -11,9 +11,9 @@ import { useQuery } from "react-query";
 import { getMyFightsLimitData } from "src/api/my-fights";
 import { useTheme } from "@mui/system";
 import { useAuth } from "../auth/hook/useAuth";
-import LoginTextButton from "src/components/common/LoginTextButton";
-import BottomSheet from "src/components/common/BottomSheet";
-import Button from "src/shared/components/button";
+import LoginTextButton from "src/shared/components/button/LoginTextButton";
+import BottomSheet from "src/shared/components/bottom-sheet";
+import UserShareCode from "src/components/common/userShareCode";
 
 export interface FightsInfo {
   content: string;
@@ -130,13 +130,7 @@ const index = () => {
           onClose={toggleDrawer(false)}
           onOpen={toggleDrawer(true)}
         >
-          <>
-            <p>공유 코드예요!</p>
-            <p>아래 코드를 공유해보세요.</p>
-            <div>s8dg9sd9f9</div>
-            <Button>복사하기</Button>
-            <button>상대방의 코드를 알고 있어요!</button>
-          </>
+          <UserShareCode />
         </BottomSheet>
         <button onClick={toggleDrawer(true)}>Open</button>
       </Container>

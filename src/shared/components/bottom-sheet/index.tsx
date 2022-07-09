@@ -1,7 +1,5 @@
-import { Global } from "@emotion/react";
-import styled from "@emotion/styled";
 import { SwipeableDrawer } from "@mui/material";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import { useNextDom } from "src/shared/hooks/useRootDom";
 
 interface Props {
