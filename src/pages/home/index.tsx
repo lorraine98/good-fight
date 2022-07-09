@@ -13,7 +13,7 @@ import { useTheme } from "@mui/system";
 import { useAuth } from "../auth/hook/useAuth";
 import LoginTextButton from "src/shared/components/button/LoginTextButton";
 import BottomSheet from "src/shared/components/bottom-sheet";
-import UserShareCode from "src/components/common/userShareCode";
+import UserShareCode from "src/components/common/UserShareCode";
 
 export interface FightsInfo {
   content: string;

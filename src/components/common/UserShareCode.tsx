@@ -1,13 +1,42 @@
 import Button from "src/shared/components/button";
+import logo from "src/shared/img/logo.png";
+import Image from "next/image";
+import { useTheme } from "@mui/system";
 
 const UserShareCode = () => {
+  const theme = useTheme();
+
   return (
     <>
-      <p>공유 코드예요!</p>
-      <p>아래 코드를 공유해보세요.</p>
-      <div>s8dg9sd9f9</div>
-      <Button>복사하기</Button>
-      <button>상대방의 코드를 알고 있어요!</button>
+      <div className="img">
+        <Image src={logo} alt="logo" width={80} height={80} />
+      </div>
+      <p className="title">공유 코드예요!</p>
+      <p className="desc">아래 코드로 상대방과 연결할 수 있어요.</p>
+      <div className="code">s8dg9sd9f9</div>
+      <Button style={{ width: "216px" }}>복사하기</Button>
+      <button className="know-code">상대방의 코드를 알고 있어요!</button>
+      <style jsx>{`
+        .img {
+          margin-top: 28px;
+        }
+        .title {
+          font-size: 1.125rem;
+          font-weight: 600;
+          margin: 24px 0;
+        }
+        .code {
+          border: 1px solid ${theme.palette.custom.gray};
+          border-radius: 8px;
+          padding: 18px 64px;
+          margin: 24px 0 12px 0;
+        }
+        .know-code {
+          text-decoration: underline;
+          color: ${theme.palette.custom.gray};
+          margin-top: 36px;
+        }
+      `}</style>
     </>
   );
 };
