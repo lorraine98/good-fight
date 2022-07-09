@@ -6,9 +6,11 @@ import shortUUID from "short-uuid";
 import { useRef } from "react";
 import { useSnackbar } from "notistack";
 import { SnackbarOrigin } from "@mui/material";
+import Router from "next/router";
 
 const UserShareCode = () => {
   const theme = useTheme();
+  const { push } = Router;
   const { enqueueSnackbar } = useSnackbar();
   const uuid = shortUUID.generate();
   const codeRef = useRef<HTMLSpanElement>(null);
@@ -50,7 +52,9 @@ const UserShareCode = () => {
       <Button onClick={copyCode} style={{ width: "268px" }}>
         복사하기
       </Button>
-      <button className="know-code">상대방의 코드를 알고 있어요!</button>
+      <button className="know-code" onClick={() => push("link-user")}>
+        상대방의 코드를 알고 있어요!
+      </button>
       <style jsx>{`
         .img {
           margin-top: 28px;

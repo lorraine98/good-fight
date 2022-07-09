@@ -10,10 +10,10 @@ import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { useQuery } from "react-query";
 import { getMyFightsLimitData } from "src/api/my-fights";
 import { useTheme } from "@mui/system";
-import { useAuth } from "../auth/hook/useAuth";
 import LoginTextButton from "src/shared/components/button/LoginTextButton";
 import BottomSheet from "src/shared/components/bottom-sheet";
 import UserShareCode from "src/components/common/UserShareCode";
+import { useAuth } from "src/shared/hooks/useAuth";
 
 export interface FightsInfo {
   content: string;

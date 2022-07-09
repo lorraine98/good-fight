@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { useAuth } from "src/pages/auth/hook/useAuth";
+import { useAuth } from "src/shared/hooks/useAuth";
 import AuthPage from "../pages/auth";
 
 interface Props {

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { getHomeBannerImageByUID, postImageToStorage } from "src/api/home";
 import { useQuery } from "react-query";
 import { FileUpload } from "@mui/icons-material";
-import { useAuth } from "src/pages/auth/hook/useAuth";
+import { useAuth } from "src/shared/hooks/useAuth";
 
 const Photo = () => {
   const isAuthorized = useAuth();

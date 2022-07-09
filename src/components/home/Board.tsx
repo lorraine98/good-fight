@@ -4,7 +4,7 @@ import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import { useTheme } from "@mui/system";
 import Spinner from "src/shared/spinner";
 
-import { useAuth } from "src/pages/auth/hook/useAuth";
+import { useAuth } from "src/shared/hooks/useAuth";
 import { FightsInfo } from "src/pages/home";
 import LoginTextButton from "../../shared/components/button/LoginTextButton";
 
