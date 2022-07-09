@@ -2,6 +2,7 @@ import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { SwipeableDrawer } from "@mui/material";
 import { ReactElement, useEffect, useState } from "react";
+import { useNextDom } from "src/shared/hooks/useRootDom";
 
 interface Props {
   open: boolean;
@@ -11,9 +12,9 @@ interface Props {
 }
 
 const BottomSheet = ({ open, onClose, onOpen, children }: Props) => {
-  const [container, setContainer] = useState<HTMLElement | null>();
-  const drawerBleeding = 24;
+  const rootDom = useNextDom();
 
+  const drawerBleeding = 24;
   const swipeableDrawerStyle = {
     display: "flex",
     justifyContent: "center",
@@ -28,15 +29,11 @@ const BottomSheet = ({ open, onClose, onOpen, children }: Props) => {
     },
   };
 
-  useEffect(() => {
-    setContainer(document.getElementById("__next"));
-  }, []);
-
   return (
     <>
       <SwipeableDrawer
         sx={{ ...swipeableDrawerStyle }}
-        container={container}
+        container={rootDom}
         anchor="bottom"
         open={open}
         onClose={onClose}
