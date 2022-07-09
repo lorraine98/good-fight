@@ -13,6 +13,7 @@ import { useTheme } from "@mui/system";
 import { useAuth } from "../auth/hook/useAuth";
 import LoginTextButton from "src/components/common/LoginTextButton";
 import BottomSheet from "src/components/common/BottomSheet";
+import Button from "src/shared/components/button";
 
 export interface FightsInfo {
   content: string;
@@ -92,26 +93,25 @@ const index = () => {
   return (
     <>
       <Container marginX={1}>
-        {!isAuthorized && (
-          <LoginTextButton
-            style={{
-              position: "absolute",
-              top: "240px",
-              left: "calc(50% - 36px)",
-              color: "black",
-            }}
-          />
-        )}
-        <div
-          className={isAuthorized ? "" : "overlay"}
-          style={{ position: "relative" }}
-        >
-          <Photo />
-          <RecentFightBox
-            style={{ position: "absolute", bottom: "0" }}
-            content={recentMyFightsData?.content || "로그인해서 확인하기."}
-            solved={recentMyFightsData?.solved || "willSolve"}
-          />
+        <div style={{ position: "relative" }}>
+          {!isAuthorized && (
+            <LoginTextButton
+              style={{
+                position: "absolute",
+                top: "160px",
+                left: "calc(50% - 36px)",
+                color: "black",
+              }}
+            />
+          )}
+          <div className={isAuthorized ? "" : "overlay"}>
+            <Photo />
+            <RecentFightBox
+              style={{ position: "absolute", bottom: "0" }}
+              content={recentMyFightsData?.content || "로그인해서 확인하기."}
+              solved={recentMyFightsData?.solved || "willSolve"}
+            />
+          </div>
         </div>
         <Ad />
         <Board
@@ -129,7 +129,15 @@ const index = () => {
           open={open}
           onClose={toggleDrawer(false)}
           onOpen={toggleDrawer(true)}
-        />
+        >
+          <>
+            <p>공유 코드예요!</p>
+            <p>아래 코드를 공유해보세요.</p>
+            <div>s8dg9sd9f9</div>
+            <Button>복사하기</Button>
+            <button>상대방의 코드를 알고 있어요!</button>
+          </>
+        </BottomSheet>
         <button onClick={toggleDrawer(true)}>Open</button>
       </Container>
       <style jsx>{`
