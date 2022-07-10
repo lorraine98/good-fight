@@ -1,19 +1,27 @@
 import Button from "src/shared/components/button";
 import Container from "src/shared/components/container";
-import { loginGoogle } from "src/api/auth-google-login";
+import { loginGoogle, setUser } from "src/api/auth";
 import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "src/shared/hooks/useAuth";
 
 export default function AuthPage() {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState(false);
+  const { isAuthorized, currentUser } = useAuth();
 
   const handleClick = () => {
     setIsLoading(true); //단순히 여기서만 true로 처리하고 넘어가도 될지?
     loginGoogle();
   };
+
+  useEffect(() => {
+    if (isAuthorized) {
+      setUser(currentUser?.uid ?? "");
+    }
+  }, [isAuthorized]);
 
   return (
     <>

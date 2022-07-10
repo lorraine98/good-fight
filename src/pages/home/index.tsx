@@ -47,11 +47,11 @@ const index = () => {
     Router.push("/my-fights");
   };
 
-  useEffect(() => {
-    if (isAuthorized) {
-      refetch();
-    }
-  }, [isAuthorized]);
+  // useEffect(() => {
+  //   if (isAuthorized) {
+  //     refetch();
+  //   }
+  // }, [isAuthorized]);
 
   // API async await 필요
   const getYourFightsData = () => {
@@ -86,6 +86,7 @@ const index = () => {
     }));
   };
 
+  console.log("home render");
   useEffect(() => {
     setYourFightsData(getYourFightsData());
   }, []);

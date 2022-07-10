@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import getRandomNickname from "./get-random-nickname";
-import { getUID } from "./auth-google-login";
+import { getUID } from "./auth";
 
 const db = getFirestore(app);
 const auth = getAuth();

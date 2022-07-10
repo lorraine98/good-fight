@@ -16,10 +16,9 @@ import {
 } from "firebase/firestore";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { app } from "src/shared/FireBase";
-import { getUID } from "./auth-google-login";
+import { useAuth } from "src/shared/hooks/useAuth";
 
 const db = getFirestore(app);
-const uid = getUID();
 
 export const deleteMyFightsData = (id: string) => {
   return deleteDoc(doc(db, "myFights", id));
@@ -34,7 +33,7 @@ export const getMyFightsAllData = async (): Promise<getMyFightsProps[]> => {
   const myFightsQuery = query(
     myFightsRef,
     orderBy("data.date", "desc"),
-    where("uid", "==", uid),
+    // where("uid", "==", uid),
   );
   const result = await getDocs(myFightsQuery);
 
@@ -49,7 +48,7 @@ export const getMyFightsLimitData = async (count: number) => {
 
   const myFightsQuery = query(
     myFightsRef,
-    where("uid", "==", uid),
+    // where("uid", "==", uid),
     orderBy("data.date", "desc"),
     limit(count),
   );
@@ -84,10 +83,11 @@ export const postMyFightsData = async ({
   solved,
   target,
 }: postMyFightsProps) => {
+  const { currentUser } = useAuth();
   try {
     await addDoc(collection(db, "myFights"), {
       user: {
-        uid,
+        uid: currentUser?.uid,
       },
       data: {
         content,

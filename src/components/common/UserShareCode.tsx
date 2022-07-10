@@ -2,23 +2,34 @@ import Button from "src/shared/components/button";
 import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";
-import shortUUID from "short-uuid";
-import { useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSnackbar } from "notistack";
 import { SnackbarOrigin } from "@mui/material";
 import Router from "next/router";
+import { getLinkCode } from "src/api/auth";
+import { useAuth } from "src/shared/hooks/useAuth";
+import { useQuery } from "react-query";
 
 const UserShareCode = () => {
   const theme = useTheme();
   const { push } = Router;
   const { enqueueSnackbar } = useSnackbar();
-  const uuid = shortUUID.generate();
   const codeRef = useRef<HTMLSpanElement>(null);
+  const { currentUser, isAuthorized } = useAuth();
+  const [linkCode, setLinkCode] = useState();
 
   const anchorOrigin: SnackbarOrigin = {
     vertical: "bottom",
     horizontal: "center",
   };
+
+  useEffect(() => {
+    (async () => {
+      const linkCode = await getLinkCode(currentUser?.uid ?? "");
+      console.log(linkCode);
+      setLinkCode(linkCode);
+    })();
+  }, [isAuthorized]);
 
   const copyCode = async () => {
     const value = codeRef?.current?.textContent;
@@ -47,7 +58,7 @@ const UserShareCode = () => {
       <p className="title">공유 코드예요!</p>
       <p className="desc">아래 코드로 상대방과 연결할 수 있어요.</p>
       <span className="code" ref={codeRef}>
-        {uuid}
+        {linkCode}
       </span>
       <Button onClick={copyCode} style={{ width: "268px" }}>
         복사하기
