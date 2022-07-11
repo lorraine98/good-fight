@@ -43,9 +43,7 @@ const YourFightsAddForm = () => {
       ...extraOption.map((option) => optionFactory(option.value)),
     ];
 
-    const likes = { like: 0, hate: 0 };
-
-    postYourFightsForm({ content, optionList, likes }).then(() =>
+    postYourFightsForm({ content, optionList }).then(() =>
       push("/your-fights"),
     );
   };

@@ -25,34 +25,20 @@ interface option {
   votes: number;
 }
 
-export type LikesType = {
-  like: number;
-  hate: number;
-};
-
 type OptionListType = {
   optionValue: string;
   votes: number;
 };
 
-type WriterType = {
+interface DocType {
+  pid: string;
+  createdAt: number;
   uid: string;
   nickname: string;
-};
-
-type DataType = {
   content: string;
-  likes: LikesType;
   optionList: IOptionListType;
-};
-
-interface DocType {
-  documentID: string;
-  createdAt: number;
-  data: DataType;
-  writer: WriterType;
-  isLike: boolean;
-  isHate: boolean;
+  likes: number;
+  hates: number;
 }
 
 interface LimitedDataType {
@@ -68,30 +54,20 @@ export interface ILimitedDataType extends Array<LimitedDataType> {}
 interface Props {
   content: string;
   optionList: option[];
-  likes: LikesType;
 }
 
-export const postYourFightsForm = async ({
-  content,
-  optionList,
-  likes,
-}: Props) => {
+export const postYourFightsForm = async ({ content, optionList }: Props) => {
   try {
     const nickname = await getRandomNickname();
 
     await addDoc(collection(db, "yourFights"), {
       createdAt: Date.now(),
-      writer: {
-        uid,
-        nickname,
-      },
-      data: {
-        content,
-        optionList,
-        likes,
-      },
-      likingUser: {},
-      hatingUser: {},
+      uid,
+      nickname,
+      content,
+      optionList,
+      likes: 0,
+      hates: 0,
     });
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -105,17 +81,18 @@ export const getYourFightsOrderByDate = async () => {
     const result: IDocType = [];
 
     data.forEach((doc) => {
-      const { createdAt, data, writer, likingUser, hatingUser } = doc.data();
-      const isLike = likingUser.hasOwnProperty(uid);
-      const isHate = hatingUser.hasOwnProperty(uid);
+      const { createdAt, uid, nickname, content, optionList, likes, hates } =
+        doc.data();
 
       result.push({
-        documentID: doc.id,
+        pid: doc.id,
         createdAt,
-        data,
-        writer,
-        isLike,
-        isHate,
+        uid,
+        nickname,
+        content,
+        optionList,
+        likes,
+        hates,
       });
     });
 
@@ -135,17 +112,18 @@ export const getYourFightsOrderByPopularity = async (count?: number) => {
     const result: IDocType = [];
 
     data.forEach((doc) => {
-      const { createdAt, data, writer, likingUser, hatingUser } = doc.data();
-      const isLike = likingUser.hasOwnProperty(uid);
-      const isHate = hatingUser.hasOwnProperty(uid);
+      const { createdAt, uid, nickname, content, optionList, likes, hates } =
+        doc.data();
 
       result.push({
-        documentID: doc.id,
+        pid: doc.id,
         createdAt,
-        data,
-        writer,
-        isLike,
-        isHate,
+        uid,
+        nickname,
+        content,
+        optionList,
+        likes,
+        hates,
       });
     });
 
@@ -182,14 +160,21 @@ export const getYourFightsLimitData = async (count: number) => {
   }
 };
 
-export const postLike = async (documentID: string) => {
-  // try {
-  //   const uid = getUID();
-  //   const documentRef = doc(db, "yourFights", documentID);
-  //   await updateDoc(documentRef, {});
-  // } catch (error) {
-  //   console.error(error);
-  // }
+export const postLike = async (pid: string, likes: number, hates: number) => {
+  try {
+    const uid = getUID();
+
+    await addDoc(collection(db, "postLike"), {
+      uid,
+      pid,
+    });
+
+    await updateDoc(doc(db, "yourFights", pid), {
+      likes: likes + 1,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const postHate = async (documentID: string) => {};

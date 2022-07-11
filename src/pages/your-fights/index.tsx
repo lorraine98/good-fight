@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const resultsOrderByDate = await getYourFightsOrderByDate();
   const resultsOrderByPopularity = resultsOrderByDate
     ?.slice(0)
-    .sort((a, b) => b.data.likes.like - a.data.likes.like);
+    .sort((a, b) => b.likes - a.likes);
 
   return {
     props: {
