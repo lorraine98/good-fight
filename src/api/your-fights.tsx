@@ -11,6 +11,9 @@ import {
   CollectionReference,
   limit,
   where,
+  increment,
+  getDoc,
+  setDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import getRandomNickname from "./get-random-nickname";
@@ -30,7 +33,7 @@ type OptionListType = {
   votes: number;
 };
 
-interface DocType {
+export interface DocType {
   pid: string;
   createdAt: number;
   uid: string;
@@ -160,17 +163,31 @@ export const getYourFightsLimitData = async (count: number) => {
   }
 };
 
-export const postLike = async (pid: string, likes: number, hates: number) => {
+export const getUserLikingPost = async (pid: string, uid: string) => {
   try {
-    const uid = getUID();
+    const ref = doc(db, "postLike", pid + uid);
+    const snap = await getDoc(ref);
 
-    await addDoc(collection(db, "postLike"), {
-      uid,
+    return snap.exists();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const postLike = async (pid: string, uid: string) => {
+  try {
+    if (await getUserLikingPost(pid, uid)) {
+      return;
+    }
+    const ref = collection(db, "postLike");
+
+    await setDoc(doc(ref, pid + uid), {
       pid,
+      uid,
     });
 
     await updateDoc(doc(db, "yourFights", pid), {
-      likes: likes + 1,
+      likes: increment(1),
     });
   } catch (error) {
     console.error(error);
