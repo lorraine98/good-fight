@@ -83,11 +83,11 @@ export const postMyFightsData = async ({
   solved,
   target,
 }: postMyFightsProps) => {
-  const { currentUser } = useAuth();
+  const { uid } = useAuth();
   try {
     await addDoc(collection(db, "myFights"), {
       user: {
-        uid: currentUser?.uid,
+        uid,
       },
       data: {
         content,
@@ -136,8 +136,7 @@ export const updateMyFightsData = ({
   target,
 }: updateMyFightsProps) => {
   const db = getFirestore(app);
-  const auth = getAuth();
-  const uid = auth.currentUser?.uid ?? "";
+  const { uid } = useAuth();
 
   const myFightsRef = doc(db, "myFights", docId);
 

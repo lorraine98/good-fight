@@ -2,31 +2,24 @@ import Button from "src/shared/components/button";
 import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSnackbar } from "notistack";
-import { SnackbarOrigin } from "@mui/material";
 import Router from "next/router";
 import { getLinkCode } from "src/api/auth";
 import { useAuth } from "src/shared/hooks/useAuth";
-import { useQuery } from "react-query";
+import { anchorOrigin } from "src/constants/bottomSheet";
 
 const UserShareCode = () => {
   const theme = useTheme();
   const { push } = Router;
   const { enqueueSnackbar } = useSnackbar();
   const codeRef = useRef<HTMLSpanElement>(null);
-  const { currentUser, isAuthorized } = useAuth();
+  const { isAuthorized, uid } = useAuth();
   const [linkCode, setLinkCode] = useState();
-
-  const anchorOrigin: SnackbarOrigin = {
-    vertical: "bottom",
-    horizontal: "center",
-  };
 
   useEffect(() => {
     (async () => {
-      const linkCode = await getLinkCode(currentUser?.uid ?? "");
-      console.log(linkCode);
+      const linkCode = await getLinkCode(uid);
       setLinkCode(linkCode);
     })();
   }, [isAuthorized]);

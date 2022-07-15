@@ -12,7 +12,6 @@ export const loginGoogle = () => {
   signInWithRedirect(auth, provider);
 };
 
-//short uuid
 export const getLinkCode = async (UID: string) => {
   const data = await getUser(UID);
   return data?.linkCode;
@@ -39,7 +38,6 @@ export const getUser = async (UID: string) => {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log(docSnap.data());
     return docSnap.data();
   } else {
     return null;

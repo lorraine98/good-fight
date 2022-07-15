@@ -11,8 +11,6 @@ import { useQuery } from "react-query";
 import { getMyFightsLimitData } from "src/api/my-fights";
 import { useTheme } from "@mui/system";
 import LoginTextButton from "src/shared/components/button/LoginTextButton";
-import BottomSheet from "src/shared/components/bottom-sheet";
-import UserShareCode from "src/components/common/UserShareCode";
 import { useAuth } from "src/shared/hooks/useAuth";
 
 export interface FightsInfo {
@@ -24,19 +22,12 @@ export interface FightsInfo {
 
 const index = () => {
   const theme = useTheme();
-  const isAuthorized = useAuth();
+  const { isAuthorized } = useAuth();
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
-  const [open, setOpen] = useState(false);
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
-
-  const {
-    isLoading,
-    data: myFightsData,
-    refetch,
-  } = useQuery("myFightsLimitData", () => getMyFightsLimitData(3));
+  const { isLoading, data: myFightsData } = useQuery("myFightsLimitData", () =>
+    getMyFightsLimitData(3),
+  );
   const recentMyFightsData = Object.values(myFightsData ?? "")[0];
 
   const handleYourFightClick = () => {
@@ -46,12 +37,6 @@ const index = () => {
   const handleMyFightClick = () => {
     Router.push("/my-fights");
   };
-
-  // useEffect(() => {
-  //   if (isAuthorized) {
-  //     refetch();
-  //   }
-  // }, [isAuthorized]);
 
   // API async await 필요
   const getYourFightsData = () => {
@@ -86,7 +71,6 @@ const index = () => {
     }));
   };
 
-  console.log("home render");
   useEffect(() => {
     setYourFightsData(getYourFightsData());
   }, []);
@@ -126,14 +110,6 @@ const index = () => {
           data={getMyFightsData()}
           isLoading={isLoading}
         />
-        <BottomSheet
-          open={open}
-          onClose={toggleDrawer(false)}
-          onOpen={toggleDrawer(true)}
-        >
-          <UserShareCode />
-        </BottomSheet>
-        <button onClick={toggleDrawer(true)}>Open</button>
       </Container>
       <style jsx>{`
         .overlay {

@@ -5,7 +5,7 @@ import { FileUpload } from "@mui/icons-material";
 import { useAuth } from "src/shared/hooks/useAuth";
 
 const Photo = () => {
-  const isAuthorized = useAuth();
+  const { isAuthorized } = useAuth();
   const { data, refetch } = useQuery(
     "homeBannerImage",
     getHomeBannerImageByUID,

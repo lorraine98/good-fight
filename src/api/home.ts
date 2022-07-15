@@ -23,10 +23,10 @@ export const postImageToStorage = async (file: File) => {
 };
 
 export const postImageUrlWithUID = async (file: string) => {
-  const { currentUser } = useAuth();
+  const { uid } = useAuth();
   try {
     await addDoc(collection(db, "homeBannerImage"), {
-      uid: currentUser?.uid,
+      uid,
       file,
       date: Date.now(),
     });
@@ -38,8 +38,7 @@ export const postImageUrlWithUID = async (file: string) => {
 export const getHomeBannerImageByUID: () => Promise<
   string | undefined
 > = async () => {
-  const { currentUser } = useAuth();
-  const uid = currentUser?.uid;
+  const { uid } = useAuth();
   const homeBannerImageRef = collection(db, "homeBannerImage");
   const q = query(homeBannerImageRef, where("uid", "==", uid));
   const querySnapshot = await getDocs(q);

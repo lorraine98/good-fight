@@ -8,10 +8,10 @@ export const useAuth = () => {
   const [isAuthorized, setIsAuthorized] = useRecoilState(authUserState);
   const auth = getAuth(app);
   const { currentUser } = auth;
+  const uid = currentUser?.uid ?? "";
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log("call onAuthStateChanged");
       if (user) {
         setIsAuthorized(true);
       } else {
@@ -20,5 +20,5 @@ export const useAuth = () => {
     });
   }, []);
 
-  return { isAuthorized, currentUser };
+  return { isAuthorized, currentUser, uid };
 };

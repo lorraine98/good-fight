@@ -17,7 +17,7 @@ interface Props {
 
 const Board = ({ content, onClick, data, isLoading }: Props) => {
   const theme = useTheme();
-  const isAuthorized = useAuth();
+  const { isAuthorized } = useAuth();
 
   return (
     <>
