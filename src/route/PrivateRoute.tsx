@@ -9,16 +9,16 @@ interface Props {
 
 const PrivateRoute = ({ children }: Props) => {
   const { pathname } = useRouter();
-  const { isAuthorized } = useAuth();
+  const { uid } = useAuth();
 
   const isLoginRequiredPage =
     pathname !== "/home" && pathname !== "/your-fights";
 
-  if (!isAuthorized && isLoginRequiredPage) {
+  if (!uid && isLoginRequiredPage) {
     return <AuthPage />;
   }
 
-  if (isAuthorized || (!isAuthorized && !isLoginRequiredPage)) {
+  if (uid || (!uid && !isLoginRequiredPage)) {
     return <>{children}</>;
   }
 

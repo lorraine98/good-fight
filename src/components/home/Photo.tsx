@@ -5,7 +5,7 @@ import { FileUpload } from "@mui/icons-material";
 import { useAuth } from "src/shared/hooks/useAuth";
 
 const Photo = () => {
-  const { isAuthorized } = useAuth();
+  const { uid } = useAuth();
   const { data, refetch } = useQuery(
     "homeBannerImage",
     getHomeBannerImageByUID,
@@ -33,7 +33,7 @@ const Photo = () => {
                 <FileUpload fontSize="large" />
                 <p>대표 사진을 등록해보세요.</p>
               </div>
-              {isAuthorized && (
+              {uid && (
                 <input
                   type="file"
                   accept="image/*"

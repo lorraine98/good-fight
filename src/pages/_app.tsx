@@ -1,5 +1,4 @@
 import type { AppProps } from "next/app";
-import { RecoilRoot } from "recoil";
 import Head from "next/head";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
@@ -22,17 +21,15 @@ const App = ({ Component, pageProps }: AppProps) => {
         <title>good fight</title>
       </Head>
       <SnackbarProvider>
-        <RecoilRoot>
-          <ThemeProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>
-              <Layout>
-                <PrivateRoute>
-                  <Component {...pageProps} />
-                </PrivateRoute>
-              </Layout>
-            </QueryClientProvider>
-          </ThemeProvider>
-        </RecoilRoot>
+        <ThemeProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
+            <Layout>
+              <PrivateRoute>
+                <Component {...pageProps} />
+              </PrivateRoute>
+            </Layout>
+          </QueryClientProvider>
+        </ThemeProvider>
       </SnackbarProvider>
     </>
   );

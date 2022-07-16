@@ -17,7 +17,7 @@ interface Props {
 
 const Board = ({ content, onClick, data, isLoading }: Props) => {
   const theme = useTheme();
-  const { isAuthorized } = useAuth();
+  const { uid } = useAuth();
 
   return (
     <>
@@ -26,7 +26,7 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           <p className="content">{content}</p>
           <div className="more-btn">더보기 &gt;</div>
         </div>
-        {!isAuthorized && content === "내쌈" ? (
+        {!uid && content === "내쌈" ? (
           <LoginTextButton style={{ marginTop: "2.3rem" }} />
         ) : (
           <div className="board-list">

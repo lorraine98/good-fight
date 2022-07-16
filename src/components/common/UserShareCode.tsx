@@ -14,7 +14,7 @@ const UserShareCode = () => {
   const { push } = Router;
   const { enqueueSnackbar } = useSnackbar();
   const codeRef = useRef<HTMLSpanElement>(null);
-  const { isAuthorized, uid } = useAuth();
+  const { uid } = useAuth();
   const [linkCode, setLinkCode] = useState();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const UserShareCode = () => {
       const linkCode = await getLinkCode(uid);
       setLinkCode(linkCode);
     })();
-  }, [isAuthorized]);
+  }, [uid]);
 
   const copyCode = async () => {
     const value = codeRef?.current?.textContent;

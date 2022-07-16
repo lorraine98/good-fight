@@ -8,15 +8,12 @@ import { useEffect, useState } from "react";
 import { useAuth } from "src/shared/hooks/useAuth";
 import BottomSheet from "src/shared/components/bottom-sheet";
 import UserShareCode from "src/components/common/UserShareCode";
-import { useSnackbar } from "notistack";
-import { anchorOrigin } from "src/constants/bottomSheet";
 
 export default function AuthPage() {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState(false);
-  const { isAuthorized, uid } = useAuth();
+  const { uid } = useAuth();
   const [open, setOpen] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -28,14 +25,10 @@ export default function AuthPage() {
   };
 
   useEffect(() => {
-    if (isAuthorized) {
-      enqueueSnackbar("유저 정보를 저장 중입니다.", {
-        variant: "default",
-        anchorOrigin,
-      });
+    if (uid) {
       setUser(uid).then(() => setOpen(true));
     }
-  }, [isAuthorized]);
+  }, [uid]);
 
   return (
     <>

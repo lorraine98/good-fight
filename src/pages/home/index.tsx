@@ -22,7 +22,7 @@ export interface FightsInfo {
 
 const index = () => {
   const theme = useTheme();
-  const { isAuthorized } = useAuth();
+  const { uid } = useAuth();
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
 
   const { isLoading, data: myFightsData } = useQuery("myFightsLimitData", () =>
@@ -79,7 +79,7 @@ const index = () => {
     <>
       <Container marginX={1}>
         <div style={{ position: "relative" }}>
-          {!isAuthorized && (
+          {!uid && (
             <LoginTextButton
               style={{
                 position: "absolute",
@@ -89,7 +89,7 @@ const index = () => {
               }}
             />
           )}
-          <div className={isAuthorized ? "" : "overlay"}>
+          <div className={uid ? "" : "overlay"}>
             <Photo />
             <RecentFightBox
               style={{ position: "absolute", bottom: "0" }}
