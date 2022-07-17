@@ -14,6 +14,7 @@ import {
   increment,
   getDoc,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import getRandomNickname from "./get-random-nickname";
@@ -174,12 +175,26 @@ export const getUserLikingPost = async (pid: string, uid: string) => {
   }
 };
 
+export const getUserHatingPost = async (pid: string, uid: string) => {
+  try {
+    const ref = doc(db, "postHate", pid + uid);
+    const snap = await getDoc(ref);
+
+    return snap.exists();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const postLike = async (pid: string, uid: string) => {
   try {
-    if (await getUserLikingPost(pid, uid)) {
-      return;
-    }
     const ref = collection(db, "postLike");
+
+    if (await getUserLikingPost(pid, uid)) {
+      postCancelLike(pid, uid);
+
+      return false;
+    }
 
     await setDoc(doc(ref, pid + uid), {
       pid,
@@ -189,13 +204,66 @@ export const postLike = async (pid: string, uid: string) => {
     await updateDoc(doc(db, "yourFights", pid), {
       likes: increment(1),
     });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+
+    return false;
+  }
+};
+
+export const postHate = async (pid: string, uid: string) => {
+  try {
+    const ref = collection(db, "postHate");
+
+    if (await getUserHatingPost(pid, uid)) {
+      postCancelHate(pid, uid);
+
+      return false;
+    }
+
+    await setDoc(doc(ref, pid + uid), {
+      pid,
+      uid,
+    });
+
+    await updateDoc(doc(db, "yourFights", pid), {
+      hates: increment(1),
+    });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+
+    return false;
+  }
+};
+
+export const postCancelLike = async (pid: string, uid: string) => {
+  try {
+    const ref = collection(db, "postLike");
+
+    await deleteDoc(doc(ref, pid + uid));
+
+    await updateDoc(doc(db, "yourFights", pid), {
+      likes: increment(-1),
+    });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const postHate = async (documentID: string) => {};
+export const postCancelHate = async (pid: string, uid: string) => {
+  try {
+    const ref = collection(db, "postHate");
 
-export const postCancelLike = async (documentID: string) => {};
+    await deleteDoc(doc(ref, pid + uid));
 
-export const postCancelHate = async (documentID: string) => {};
+    await updateDoc(doc(db, "yourFights", pid), {
+      hates: increment(-1),
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
