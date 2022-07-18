@@ -43,7 +43,8 @@ const Content = styled.p`
 
 const Board = ({ data }: Props) => {
   const theme = useTheme();
-  const { pid, createdAt, uid, nickname, content, optionList } = data;
+  const { pid, createdAt, likes, hates, uid, nickname, content, optionList } =
+    data;
 
   return (
     <Container backgroundColor={theme.palette.custom.white}>
@@ -61,7 +62,7 @@ const Board = ({ data }: Props) => {
       </Profile>
       <Content>{content}</Content>
       <OptionLists lists={optionList} />
-      <Feeling pid={pid} uid={uid} />
+      <Feeling pid={pid} uid={uid} likes={likes} hates={hates} />
     </Container>
   );
 };

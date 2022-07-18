@@ -5,6 +5,8 @@ import { useTheme } from "@mui/system";
 import {
   getUserHatingPost,
   getUserLikingPost,
+  postCancelHate,
+  postCancelLike,
   postHate,
   postLike,
 } from "src/api/your-fights";
@@ -13,6 +15,8 @@ import { useEffect, useState } from "react";
 type Props = {
   pid: string;
   uid: string;
+  likes: number;
+  hates: number;
 };
 
 const Container = styled.div`
@@ -31,24 +35,24 @@ const Wrapper = styled.div`
   }
 `;
 
-const Feeling = ({ pid, uid }: Props) => {
+const Feeling = ({ pid, uid, likes, hates }: Props) => {
   const theme = useTheme();
-  const [postLikes, setPostLikes] = useState(0);
-  const [postHates, setPostHates] = useState(0);
+  const [postLikes, setPostLikes] = useState(likes);
+  const [postHates, setPostHates] = useState(hates);
   const [isLiking, setIsLiking] = useState(false);
   const [isHating, setIsHating] = useState(false);
 
   useEffect(() => {
-    const isUserLiking = async () => {
-      await getUserLikingPost(pid, uid).then((res) => {
+    const isUserLiking = () => {
+      getUserLikingPost(pid, uid).then((res) => {
         if (res) {
           setIsLiking(res);
         }
       });
     };
 
-    const isUserHating = async () => {
-      await getUserHatingPost(pid, uid).then((res) => {
+    const isUserHating = () => {
+      getUserHatingPost(pid, uid).then((res) => {
         if (res) {
           setIsHating(res);
         }
@@ -60,13 +64,23 @@ const Feeling = ({ pid, uid }: Props) => {
   }, []);
 
   const handleClickLike = async () => {
-    await postLike(pid, uid).then((res) => {
+    await postLike(pid, uid).then(async (res) => {
+      if (isHating) {
+        await postCancelHate(pid, uid);
+        setIsHating(false);
+      }
+
       setIsLiking(res);
     });
   };
 
   const handleClickHate = async () => {
-    await postHate(pid, uid).then((res) => {
+    await postHate(pid, uid).then(async (res) => {
+      if (isLiking) {
+        await postCancelLike(pid, uid);
+        setIsLiking(false);
+      }
+
       setIsHating(res);
     });
   };

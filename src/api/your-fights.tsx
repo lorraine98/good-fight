@@ -8,9 +8,7 @@ import {
   getDocs,
   query,
   orderBy,
-  CollectionReference,
   limit,
-  where,
   increment,
   getDoc,
   setDoc,
@@ -18,9 +16,10 @@ import {
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import getRandomNickname from "./get-random-nickname";
-import { getUID } from "./auth-google-login";
+import { getDatabase, ref, set } from "firebase/database";
 
 const db = getFirestore(app);
+const realtimeDB = getDatabase(app);
 const auth = getAuth();
 const uid = auth.currentUser?.uid ?? "";
 
@@ -62,16 +61,19 @@ interface Props {
 
 export const postYourFightsForm = async ({ content, optionList }: Props) => {
   try {
-    const nickname = await getRandomNickname();
-
-    await addDoc(collection(db, "yourFights"), {
-      createdAt: Date.now(),
-      uid,
-      nickname,
-      content,
-      optionList,
-      likes: 0,
-      hates: 0,
+    await getRandomNickname().then(async (nickname) => {
+      await addDoc(collection(db, "yourFights"), {
+        createdAt: Date.now(),
+        uid,
+        nickname,
+        content,
+        optionList,
+      }).then(async (res) => {
+        await set(ref(realtimeDB, res.id), {
+          likes: 0,
+          hates: 0,
+        });
+      });
     });
   } catch (e) {
     console.error("Error adding document: ", e);
