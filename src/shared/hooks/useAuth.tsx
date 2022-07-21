@@ -8,9 +8,9 @@ export const useAuth = () => {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // setIsAuthorized(true);
+      //login logic
     } else {
-      // setIsAuthorized(false);
+      // logout logic
     }
   });
 

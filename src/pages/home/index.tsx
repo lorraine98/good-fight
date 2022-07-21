@@ -20,7 +20,7 @@ export interface FightsInfo {
   solved?: fightStatusType;
 }
 
-const index = () => {
+const Home = () => {
   const theme = useTheme();
   const { uid } = useAuth();
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
@@ -111,6 +111,7 @@ const index = () => {
           isLoading={isLoading}
         />
       </Container>
+
       <style jsx>{`
         .overlay {
           height: 21rem;
@@ -121,4 +122,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Home;

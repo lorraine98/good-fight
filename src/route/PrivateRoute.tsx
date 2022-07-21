@@ -18,7 +18,7 @@ const PrivateRoute = ({ children }: Props) => {
     return <AuthPage />;
   }
 
-  if (uid || (!uid && !isLoginRequiredPage)) {
+  if (uid || !isLoginRequiredPage) {
     return <>{children}</>;
   }
 

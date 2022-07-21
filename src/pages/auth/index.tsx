@@ -1,6 +1,6 @@
 import Button from "src/shared/components/button";
 import Container from "src/shared/components/container";
-import { loginGoogle, setUser } from "src/api/auth";
+import { getUser, loginGoogle, setUser } from "src/api/auth";
 import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";
@@ -15,19 +15,25 @@ export default function AuthPage() {
   const { uid } = useAuth();
   const [open, setOpen] = useState(false);
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
-
   const handleClick = () => {
     setIsLoading(true); //단순히 여기서만 true로 처리하고 넘어가도 될지?
     loginGoogle();
   };
 
-  useEffect(() => {
-    if (uid) {
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
+
+  const setUserTable = async () => {
+    const user = await getUser(uid);
+
+    if (uid && !user) {
       setUser(uid).then(() => setOpen(true));
     }
+  };
+
+  useEffect(() => {
+    setUserTable();
   }, [uid]);
 
   return (
@@ -49,14 +55,14 @@ export default function AuthPage() {
         <Button onClick={handleClick} isLoading={isLoading}>
           구글로 로그인하기
         </Button>
-        <BottomSheet
-          open={open}
-          onClose={toggleDrawer(false)}
-          onOpen={toggleDrawer(true)}
-        >
-          <UserShareCode />
-        </BottomSheet>
       </Container>
+      <BottomSheet
+        open={open}
+        onClose={toggleDrawer(false)}
+        onOpen={toggleDrawer(true)}
+      >
+        <UserShareCode />
+      </BottomSheet>
       <style jsx>{`
         .spacing {
           margin-top: 20rem;

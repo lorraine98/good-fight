@@ -1,4 +1,3 @@
-import { getAuth } from "firebase/auth";
 import {
   doc,
   getFirestore,
@@ -60,8 +59,7 @@ export const getMyFightsLimitData = async (count: number) => {
 };
 
 export const getMyFightsData = async (id: string) => {
-  const myFightsRef = doc(db, "myFights", id);
-  const result = await getDoc(myFightsRef);
+  const result = await getDoc(doc(db, "myFights", id));
 
   return result.data();
 };
@@ -138,9 +136,7 @@ export const updateMyFightsData = ({
   const db = getFirestore(app);
   const { uid } = useAuth();
 
-  const myFightsRef = doc(db, "myFights", docId);
-
-  return updateDoc(myFightsRef, {
+  return updateDoc(doc(db, "myFights", docId), {
     user: {
       uid,
     },

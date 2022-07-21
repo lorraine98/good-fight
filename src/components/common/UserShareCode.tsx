@@ -2,12 +2,13 @@ import Button from "src/shared/components/button";
 import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useSnackbar } from "notistack";
 import Router from "next/router";
 import { getLinkCode } from "src/api/auth";
 import { useAuth } from "src/shared/hooks/useAuth";
 import { anchorOrigin } from "src/constants/bottomSheet";
+import { useQuery } from "react-query";
 
 const UserShareCode = () => {
   const theme = useTheme();
@@ -15,19 +16,19 @@ const UserShareCode = () => {
   const { enqueueSnackbar } = useSnackbar();
   const codeRef = useRef<HTMLSpanElement>(null);
   const { uid } = useAuth();
-  const [linkCode, setLinkCode] = useState();
 
-  useEffect(() => {
-    (async () => {
-      const linkCode = await getLinkCode(uid);
-      setLinkCode(linkCode);
-    })();
-  }, [uid]);
+  const { data: linkCode } = useQuery("linkCode", () => {
+    getLinkCode(uid);
+  });
 
   const copyCode = async () => {
     const value = codeRef?.current?.textContent;
     if (!value) {
-      enqueueSnackbar("다시 시도해주세요.", { variant: "error", anchorOrigin });
+      enqueueSnackbar("다시 시도해주세요.", {
+        variant: "error",
+        anchorOrigin,
+        autoHideDuration: 1500,
+      });
       return;
     }
 

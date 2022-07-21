@@ -13,6 +13,9 @@ export const loginGoogle = () => {
 };
 
 export const getLinkCode = async (UID: string) => {
+  if (!UID) {
+    return;
+  }
   const data = await getUser(UID);
   return data?.linkCode;
 };
@@ -28,14 +31,15 @@ export const setUser = async (UID: string) => {
       linkedUser: "",
       linkCode: uuid,
     });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getUser = async (UID: string) => {
-  const docRef = doc(db, "users", `${UID}`);
-  const docSnap = await getDoc(docRef);
+  if (!UID) {
+    return;
+  }
+
+  const docSnap = await getDoc(doc(db, "users", `${UID}`));
 
   if (docSnap.exists()) {
     return docSnap.data();
