@@ -5,21 +5,15 @@ import { useTheme } from "@mui/system";
 import { useRef } from "react";
 import { useSnackbar } from "notistack";
 import Router from "next/router";
-import { getLinkCode } from "src/api/auth";
 import { useAuth } from "src/shared/hooks/useAuth";
 import { anchorOrigin } from "src/constants/bottomSheet";
-import { useQuery } from "react-query";
 
 const UserShareCode = () => {
   const theme = useTheme();
   const { push } = Router;
   const { enqueueSnackbar } = useSnackbar();
   const codeRef = useRef<HTMLSpanElement>(null);
-  const { uid } = useAuth();
-
-  const { data: linkCode } = useQuery("linkCode", () => {
-    getLinkCode(uid);
-  });
+  const { linkCode } = useAuth();
 
   const copyCode = async () => {
     const value = codeRef?.current?.textContent;

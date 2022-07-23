@@ -12,33 +12,32 @@ export const loginGoogle = () => {
   signInWithRedirect(auth, provider);
 };
 
-export const getLinkCode = async (UID: string) => {
-  if (!UID) {
-    return;
-  }
-  const data = await getUser(UID);
-  return data?.linkCode;
-};
+interface UserDataState {
+  name: string;
+  linkedUser: string;
+  linkCode: string;
+}
 
-export const setUser = async (UID: string) => {
+export const createUser = async (
+  UID: string,
+): Promise<UserDataState | undefined> => {
   const data = await getUser(UID);
   if (data) {
     return;
   }
   try {
-    await setDoc(doc(db, "users", `${UID}`), {
+    const userData = {
       name: "test",
       linkedUser: "",
       linkCode: uuid,
-    });
+    };
+    await setDoc(doc(db, "users", `${UID}`), userData);
+
+    return userData;
   } catch (error) {}
 };
 
 export const getUser = async (UID: string) => {
-  if (!UID) {
-    return;
-  }
-
   const docSnap = await getDoc(doc(db, "users", `${UID}`));
 
   if (docSnap.exists()) {
