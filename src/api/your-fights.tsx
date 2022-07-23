@@ -163,12 +163,26 @@ export const getYourFightsLimitData = async (count: number) => {
   }
 };
 
+export const getLikesAndHates = async (pid: string) => {
+  try {
+    const ref = doc(db, "yourFights", pid);
+    const result = await getDoc(ref);
+
+    return {
+      likes: result?.data()?.likes || 0,
+      hates: result?.data()?.hates || 0,
+    };
+  } catch (e) {
+    console.error("Error to get likes and hates!", e);
+  }
+};
+
 export const getUserLikingPost = async (pid: string, uid: string) => {
   try {
     const ref = doc(db, "postLike", pid + uid);
-    const snap = await getDoc(ref);
+    const data = await getDoc(ref);
 
-    return snap.exists();
+    return data.exists();
   } catch (error) {
     console.error(error);
   }
@@ -177,9 +191,9 @@ export const getUserLikingPost = async (pid: string, uid: string) => {
 export const getUserHatingPost = async (pid: string, uid: string) => {
   try {
     const ref = doc(db, "postHate", pid + uid);
-    const snap = await getDoc(ref);
+    const data = await getDoc(ref);
 
-    return snap.exists();
+    return data.exists();
   } catch (error) {
     console.error(error);
   }

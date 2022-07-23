@@ -3,6 +3,7 @@ import ThumbsDownIcon from "src/shared/components/ThumbsDownIcon";
 import styled from "@emotion/styled";
 import { useTheme } from "@mui/system";
 import {
+  getLikesAndHates,
   getUserHatingPost,
   getUserLikingPost,
   postCancelHate,
@@ -64,7 +65,12 @@ const Feeling = ({ pid, uid, likes, hates }: Props) => {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {}, 10000);
+    const timer = setInterval(() => {
+      getLikesAndHates(pid).then((res) => {
+        setPostLikes(res?.likes);
+        setPostHates(res?.hates);
+      });
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [postLikes, postHates]);
@@ -74,9 +80,11 @@ const Feeling = ({ pid, uid, likes, hates }: Props) => {
       if (isHating) {
         await postCancelHate(pid, uid);
         setIsHating(false);
+        setPostHates(postHates - 1);
       }
 
       setIsLiking(res);
+      setPostLikes(postLikes + (res ? 1 : -1));
     });
   };
 
@@ -85,9 +93,11 @@ const Feeling = ({ pid, uid, likes, hates }: Props) => {
       if (isLiking) {
         await postCancelLike(pid, uid);
         setIsLiking(false);
+        setPostLikes(postLikes - 1);
       }
 
       setIsHating(res);
+      setPostHates(postHates + (res ? 1 : -1));
     });
   };
 
