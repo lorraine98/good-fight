@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [authState, setAuthState] = useState(defaultAuthState);
 
   useEffect(() => {
+    console.log("useAuth useEffect called");
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthState({

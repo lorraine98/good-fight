@@ -1,3 +1,4 @@
+import { getAuth } from "firebase/auth";
 import {
   doc,
   getFirestore,
@@ -15,9 +16,9 @@ import {
 } from "firebase/firestore";
 import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { app } from "src/shared/FireBase";
-import { useAuth } from "src/shared/hooks/useAuth";
 
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 export const deleteMyFightsData = (id: string) => {
   return deleteDoc(doc(db, "myFights", id));
@@ -81,7 +82,7 @@ export const postMyFightsData = async ({
   solved,
   target,
 }: postMyFightsProps) => {
-  const { uid } = useAuth();
+  const uid = auth.currentUser?.uid;
   try {
     await addDoc(collection(db, "myFights"), {
       user: {
@@ -134,7 +135,7 @@ export const updateMyFightsData = ({
   target,
 }: updateMyFightsProps) => {
   const db = getFirestore(app);
-  const { uid } = useAuth();
+  const uid = auth.currentUser?.uid;
 
   return updateDoc(doc(db, "myFights", docId), {
     user: {

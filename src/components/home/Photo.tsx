@@ -6,9 +6,8 @@ import { useAuth } from "src/shared/hooks/useAuth";
 
 const Photo = () => {
   const { uid } = useAuth();
-  const { data, refetch } = useQuery(
-    "homeBannerImage",
-    getHomeBannerImageByUID,
+  const { data, refetch } = useQuery("homeBannerImage", () =>
+    getHomeBannerImageByUID(uid),
   );
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +17,7 @@ const Photo = () => {
 
     const file = event.target.files[0];
 
-    postImageToStorage(file).then(() => refetch());
+    postImageToStorage({ file, uid }).then(() => refetch());
   };
 
   return (

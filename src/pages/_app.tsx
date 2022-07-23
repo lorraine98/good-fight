@@ -21,19 +21,19 @@ const App = ({ Component, pageProps }: AppProps) => {
         <link rel="shortcut icon" href="/static/favicon.ico" />
         <title>good fight</title>
       </Head>
-      <AuthProvider>
-        <SnackbarProvider>
-          <ThemeProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>
+      <SnackbarProvider>
+        <ThemeProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
               <Layout>
                 <PrivateRoute>
                   <Component {...pageProps} />
                 </PrivateRoute>
               </Layout>
-            </QueryClientProvider>
-          </ThemeProvider>
-        </SnackbarProvider>
-      </AuthProvider>
+            </AuthProvider>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </SnackbarProvider>
     </>
   );
 };
