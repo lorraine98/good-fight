@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { useAuth } from "src/pages/auth/hook/useAuth";
+import { useAuth } from "src/shared/hooks/useAuth";
 import AuthPage from "../pages/auth";
 
 interface Props {
@@ -9,16 +9,16 @@ interface Props {
 
 const PrivateRoute = ({ children }: Props) => {
   const { pathname } = useRouter();
-  const isAuthorized = useAuth();
+  const { hasAuth } = useAuth();
 
-  const isloginRequiredPage =
+  const isLoginRequiredPage =
     pathname !== "/home" && pathname !== "/your-fights";
 
-  if (!isAuthorized && isloginRequiredPage) {
+  if (!hasAuth && isLoginRequiredPage) {
     return <AuthPage />;
   }
 
-  if (isAuthorized || (!isAuthorized && !isloginRequiredPage)) {
+  if (hasAuth || !isLoginRequiredPage) {
     return <>{children}</>;
   }
 

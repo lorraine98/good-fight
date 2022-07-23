@@ -12,13 +12,11 @@ import {
   limit,
   where,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import getRandomNickname from "./get-random-nickname";
-import { getUID } from "./auth-google-login";
+import { useAuth } from "src/shared/hooks/useAuth";
 
 const db = getFirestore(app);
-const auth = getAuth();
-const uid = auth.currentUser?.uid ?? "";
+const { uid } = useAuth();
 
 interface option {
   optionValue: string;

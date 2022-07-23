@@ -1,6 +1,6 @@
 import Button from "src/shared/components/button";
 import Container from "src/shared/components/container";
-import { loginGoogle } from "src/api/auth-google-login";
+import { loginGoogle } from "src/api/auth";
 import logo from "src/shared/img/logo.png";
 import Image from "next/image";
 import { useTheme } from "@mui/system";
@@ -35,6 +35,7 @@ export default function AuthPage() {
           구글로 로그인하기
         </Button>
       </Container>
+
       <style jsx>{`
         .spacing {
           margin-top: 20rem;
