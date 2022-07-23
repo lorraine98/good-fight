@@ -1,6 +1,7 @@
 import { useTheme } from "@mui/system";
 import React from "react";
 import Spinner from "src/shared/spinner";
+import { Button as MuiButton } from "@mui/material";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -16,36 +17,35 @@ const Button = ({
   ...props
 }: Props) => {
   const theme = useTheme();
+  const buttonStyle = {
+    background: `${theme.palette.custom.brown}`,
+    width: "100%",
+    height: "2.7rem",
+    border: "none",
+    borderRadius: "0.4rem",
+    color: `${theme.palette.custom.white}`,
+    fontSize: "1rem",
+    fontWeight: "600",
+    cursor: "pointer",
+    ...props,
+    "&:hover": {
+      background: `${theme.palette.custom.brown}`,
+    },
+  };
 
   return (
-    <>
-      <button
-        className="button"
-        type={type}
-        style={{ ...props.style }}
-        onClick={onClick}
-        {...props}
-      >
-        {isLoading ? (
-          <Spinner size={25} color={theme.palette.custom.white} />
-        ) : (
-          children
-        )}
-      </button>
-      <style jsx>{`
-        .button {
-          background: ${theme.palette.custom.brown};
-          width: 100%;
-          height: 2.7rem;
-          border: none;
-          border-radius: 0.4rem;
-          color: ${theme.palette.custom.white};
-          font-size: 1rem;
-          font-weight: 600;
-          cursor: pointer;
-        }
-      `}</style>
-    </>
+    <MuiButton
+      type={type}
+      style={{ ...props.style }}
+      onClick={onClick}
+      sx={{ ...buttonStyle }}
+    >
+      {isLoading ? (
+        <Spinner size={25} color={theme.palette.custom.white} />
+      ) : (
+        children
+      )}
+    </MuiButton>
   );
 };
 

@@ -4,9 +4,9 @@ import MyFightsStatusIcon from "src/shared/components/MyFightsStatusIcon";
 import { useTheme } from "@mui/system";
 import Spinner from "src/shared/spinner";
 
-import { useAuth } from "src/pages/auth/hook/useAuth";
+import { useAuth } from "src/shared/hooks/useAuth";
 import { FightsInfo } from "src/pages/home";
-import LoginTextButton from "../common/LoginTextButton";
+import LoginTextButton from "../../shared/components/button/LoginTextButton";
 
 interface Props {
   content: string;
@@ -17,7 +17,7 @@ interface Props {
 
 const Board = ({ content, onClick, data, isLoading }: Props) => {
   const theme = useTheme();
-  const isAuthorized = useAuth();
+  const { uid } = useAuth();
 
   return (
     <>
@@ -26,7 +26,7 @@ const Board = ({ content, onClick, data, isLoading }: Props) => {
           <p className="content">{content}</p>
           <div className="more-btn">더보기 &gt;</div>
         </div>
-        {!isAuthorized && content === "내쌈" ? (
+        {!uid && content === "내쌈" ? (
           <LoginTextButton style={{ marginTop: "2.3rem" }} />
         ) : (
           <div className="board-list">

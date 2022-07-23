@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import OrderByHeader from "./components/OrderByHeader";
-import YourFightsBoard from "./components/YourFightsBoard";
+import OrderByHeader from "src/components/your-fights/OrderByHeader";
+import YourFightsBoard from "src/components/your-fights/YourFightsBoard";
 import AddButton from "src/shared/components/add-button";
 import { useState } from "react";
 import { GetStaticProps } from "next";

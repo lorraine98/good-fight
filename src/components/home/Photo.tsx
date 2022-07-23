@@ -2,13 +2,12 @@ import Image from "next/image";
 import { getHomeBannerImageByUID, postImageToStorage } from "src/api/home";
 import { useQuery } from "react-query";
 import { FileUpload } from "@mui/icons-material";
-import { useAuth } from "src/pages/auth/hook/useAuth";
+import { useAuth } from "src/shared/hooks/useAuth";
 
 const Photo = () => {
-  const isAuthorized = useAuth();
-  const { data, refetch } = useQuery(
-    "homeBannerImage",
-    getHomeBannerImageByUID,
+  const { uid } = useAuth();
+  const { data, refetch } = useQuery("homeBannerImage", () =>
+    getHomeBannerImageByUID(uid),
   );
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +17,7 @@ const Photo = () => {
 
     const file = event.target.files[0];
 
-    postImageToStorage(file).then(() => refetch());
+    postImageToStorage({ file, uid }).then(() => refetch());
   };
 
   return (
@@ -33,7 +32,7 @@ const Photo = () => {
                 <FileUpload fontSize="large" />
                 <p>대표 사진을 등록해보세요.</p>
               </div>
-              {isAuthorized && (
+              {uid && (
                 <input
                   type="file"
                   accept="image/*"

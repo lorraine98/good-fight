@@ -10,8 +10,8 @@ import { fightStatusType } from "src/shared/components/MyFightsStatusIcon";
 import { useQuery } from "react-query";
 import { getMyFightsLimitData } from "src/api/my-fights";
 import { useTheme } from "@mui/system";
-import { useAuth } from "../auth/hook/useAuth";
-import LoginTextButton from "src/components/common/LoginTextButton";
+import LoginTextButton from "src/shared/components/button/LoginTextButton";
+import { useAuth } from "src/shared/hooks/useAuth";
 
 export interface FightsInfo {
   content: string;
@@ -20,15 +20,14 @@ export interface FightsInfo {
   solved?: fightStatusType;
 }
 
-const index = () => {
+const Home = () => {
   const theme = useTheme();
-  const isAuthorized = useAuth();
+  const { uid } = useAuth();
   const [yourFightsData, setYourFightsData] = useState<FightsInfo[]>([]);
-  const {
-    isLoading,
-    data: myFightsData,
-    refetch,
-  } = useQuery("myFightsLimitData", () => getMyFightsLimitData(3));
+
+  const { isLoading, data: myFightsData } = useQuery("myFightsLimitData", () =>
+    getMyFightsLimitData(3),
+  );
   const recentMyFightsData = Object.values(myFightsData ?? "")[0];
 
   const handleYourFightClick = () => {
@@ -38,12 +37,6 @@ const index = () => {
   const handleMyFightClick = () => {
     Router.push("/my-fights");
   };
-
-  useEffect(() => {
-    if (isAuthorized) {
-      refetch();
-    }
-  }, [isAuthorized]);
 
   // API async await 필요
   const getYourFightsData = () => {
@@ -85,26 +78,25 @@ const index = () => {
   return (
     <>
       <Container marginX={1}>
-        {!isAuthorized && (
-          <LoginTextButton
-            style={{
-              position: "absolute",
-              top: "240px",
-              left: "200px",
-              color: "black",
-            }}
-          />
-        )}
-        <div
-          className={isAuthorized ? "" : "overlay"}
-          style={{ position: "relative" }}
-        >
-          <Photo />
-          <RecentFightBox
-            style={{ position: "absolute", bottom: "0" }}
-            content={recentMyFightsData?.content || "로그인해서 확인하기."}
-            solved={recentMyFightsData?.solved || "willSolve"}
-          />
+        <div style={{ position: "relative" }}>
+          {!uid && (
+            <LoginTextButton
+              style={{
+                position: "absolute",
+                top: "160px",
+                left: "calc(50% - 36px)",
+                color: "black",
+              }}
+            />
+          )}
+          <div className={uid ? "" : "overlay"}>
+            <Photo />
+            <RecentFightBox
+              style={{ position: "absolute", bottom: "0" }}
+              content={recentMyFightsData?.content || "로그인해서 확인하기."}
+              solved={recentMyFightsData?.solved || "willSolve"}
+            />
+          </div>
         </div>
         <Ad />
         <Board
@@ -119,6 +111,7 @@ const index = () => {
           isLoading={isLoading}
         />
       </Container>
+
       <style jsx>{`
         .overlay {
           height: 21rem;
@@ -129,4 +122,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Home;

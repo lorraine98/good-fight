@@ -14,14 +14,11 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import getRandomNickname from "./get-random-nickname";
-import { getDatabase, ref, set } from "firebase/database";
+import { getAuth } from "firebase/auth";
 
 const db = getFirestore(app);
-const realtimeDB = getDatabase(app);
-const auth = getAuth();
-const uid = auth.currentUser?.uid ?? "";
+const uid = getAuth(app).currentUser?.uid;
 
 interface option {
   optionValue: string;

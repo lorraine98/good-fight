@@ -23,6 +23,7 @@ const Header = () => {
     "/my-fights": "내쌈",
     "/my-fights/update-form": "수정하기",
     "/my-page": "마이 페이지",
+    "/link-user": "연결하기",
   };
 
   const currentRoute = title[pathname];
