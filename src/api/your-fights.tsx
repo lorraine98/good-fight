@@ -68,11 +68,8 @@ export const postYourFightsForm = async ({ content, optionList }: Props) => {
         nickname,
         content,
         optionList,
-      }).then(async (res) => {
-        await set(ref(realtimeDB, res.id), {
-          likes: 0,
-          hates: 0,
-        });
+        likes: 0,
+        hates: 0,
       });
     });
   } catch (e) {

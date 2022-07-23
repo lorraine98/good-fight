@@ -63,6 +63,12 @@ const Feeling = ({ pid, uid, likes, hates }: Props) => {
     isUserHating();
   }, []);
 
+  useEffect(() => {
+    const timer = setInterval(() => {}, 10000);
+
+    return () => clearInterval(timer);
+  }, [postLikes, postHates]);
+
   const handleClickLike = async () => {
     await postLike(pid, uid).then(async (res) => {
       if (isHating) {
