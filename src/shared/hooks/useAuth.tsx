@@ -1,18 +1,49 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { createContext, useContext, useEffect, useState } from "react";
 import { app } from "../FireBase";
 
-export const useAuth = () => {
+interface Props {
+  children: React.ReactNode;
+}
+
+interface AuthState {
+  uid: string;
+  hasAuth: boolean;
+}
+
+const defaultAuthState: AuthState = {
+  uid: "",
+  hasAuth: false,
+};
+
+const AuthContext = createContext(defaultAuthState);
+
+export const AuthProvider = ({ children }: Props) => {
   const auth = getAuth(app);
-  const { currentUser } = auth;
-  const uid = currentUser?.uid ?? "";
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      //login logic
-    } else {
-      // logout logic
-    }
-  });
+  const [authState, setAuthState] = useState(defaultAuthState);
 
-  return { currentUser, uid };
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthState({
+          uid: user.uid,
+          hasAuth: true,
+        });
+      } else {
+        setAuthState({
+          uid: "",
+          hasAuth: false,
+        });
+      }
+    });
+  }, []);
+
+  return (
+    <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
