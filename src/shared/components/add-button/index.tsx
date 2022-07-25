@@ -15,7 +15,7 @@ const AddButton = ({ onClick }: Props) => {
             color: theme.palette.custom.brown,
             fontSize: 80,
             borderRadius: 50,
-            zIndex: 3,
+            zIndex: 100,
             cursor: "pointer",
             position: "absolute",
             bottom: 80,
@@ -29,6 +29,7 @@ const AddButton = ({ onClick }: Props) => {
           bottom: 87px;
           right: 37px;
           background-color: white;
+          z-index: 100;
           width: 66px;
           height: 66px;
           border-radius: 50%;
