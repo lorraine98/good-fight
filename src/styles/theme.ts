@@ -32,6 +32,10 @@ export const getDesignToken = (mode: PaletteMode) => ({
         medium: "2rem",
         small: "1rem",
       },
+      progressBar: {
+        light: "#308FE8",
+        dark: "#DBEFFE",
+      },
     },
   },
 });
