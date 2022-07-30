@@ -5,24 +5,22 @@ import {
   getVotedIndex,
   postClickOption,
 } from "src/api/your-fights";
-import { styled as mStyled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
-import { useTheme } from "@mui/system";
+import { useTheme, styled as mStyled } from "@mui/system";
 import Wrapper from "./Wrapper";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 
 const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
   width: "100%",
   height: 40,
   borderRadius: 3,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    border: "2px solid #759bc8",
-    backgroundColor: "white",
-  },
   [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 3,
-    backgroundColor: theme.palette.mode === "light" ? "#dbeffe" : "#308fe8",
+    backgroundColor:
+      theme.palette.mode === "light"
+        ? theme.palette.custom.progressBar.light
+        : theme.palette.custom.progressBar.dark,
   },
 }));
 
@@ -36,6 +34,8 @@ const OptionBox = styled.div`
 `;
 
 const Value = styled.p`
+  display: flex;
+  align-items: center;
   font-size: 1rem;
   position: absolute;
   left: 0.7rem;
@@ -67,14 +67,18 @@ type Props = {
 
 const OptionLists = ({ lists, votes, pid, uid }: Props) => {
   const theme = useTheme();
-  const [votedIndex, setVotedIndex] = useState(getVotedIndex(pid, uid));
+  const [votedIndex, setVotedIndex] = useState(null);
   const [allVotes, setAllVotes] = useState(votes);
   const [total, setTotal] = useState(
-    lists?.reduce((acc, _, index) => (acc += votes[index]), 0),
+    votes.reduce((acc, curr) => (acc += curr), 0),
   );
   const handleClick = (index: number) => {
-    postClickOption(pid, uid, index);
+    postClickOption(pid, uid, index).then((res) => {
+      setAllVotes(res);
+      setTotal(res?.reduce((acc: number, curr: number) => (acc += curr), 0));
+    });
   };
+
   const linearProgressBar = () => {
     return (
       <>
@@ -88,7 +92,10 @@ const OptionLists = ({ lists, votes, pid, uid }: Props) => {
                 variant="determinate"
                 value={numberOfVotes}
               />
-              <Value>{optionValue}</Value>
+              <Value>
+                {index === votedIndex ? <CheckRoundedIcon /> : ""}
+                {optionValue}
+              </Value>
               <Percentage>{numberOfVotes}%</Percentage>
             </OptionBox>
           );
@@ -96,6 +103,12 @@ const OptionLists = ({ lists, votes, pid, uid }: Props) => {
       </>
     );
   };
+
+  useEffect(() => {
+    (async () => {
+      setVotedIndex(await getVotedIndex(pid, uid));
+    })();
+  }, [allVotes, total]);
 
   useEffect(() => {
     const timer = setInterval(() => {

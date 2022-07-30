@@ -210,7 +210,7 @@ export const getUserHatingPost = async (pid: string, uid: string) => {
 
 export const getVotedIndex = async (pid: string, uid: string) => {
   try {
-    const ref = doc(db, "postVoted", pid + uid);
+    const ref = doc(db, "votedPost", pid + uid);
     const data = await getDoc(ref);
 
     if (data.exists()) {
@@ -341,7 +341,7 @@ export const postClickOption = async (
 
         await deleteDoc(votedPostRef);
 
-        return;
+        return updatedVotes;
       }
 
       await updateDoc(votedPostRef, {
@@ -358,6 +358,8 @@ export const postClickOption = async (
     await updateDoc(yourFightsRef, {
       votes: updatedVotes,
     });
+
+    return updatedVotes;
   } catch (error) {
     console.error(error);
   }
