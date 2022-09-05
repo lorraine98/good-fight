@@ -9,7 +9,6 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import { useTheme, styled as mStyled } from "@mui/system";
-import Wrapper from "./Wrapper";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 
 const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
@@ -23,6 +22,12 @@ const BorderLinearProgress = mStyled(LinearProgress)(({ theme }) => ({
         : theme.palette.custom.progressBar.dark,
   },
 }));
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 
 const OptionBox = styled.div`
   display: flex;

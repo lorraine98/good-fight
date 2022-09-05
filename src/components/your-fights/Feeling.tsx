@@ -1,5 +1,6 @@
 import ThumbsUpIcon from "src/shared/components/ThumbsUpIcon";
 import ThumbsDownIcon from "src/shared/components/ThumbsDownIcon";
+import Container from "src/shared/components/container";
 import styled from "@emotion/styled";
 import { useTheme } from "@mui/system";
 import {
@@ -19,12 +20,6 @@ type Props = {
   likes: number;
   hates: number;
 };
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 1rem;
-`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -102,7 +97,10 @@ const Feeling = ({ pid, uid, likes, hates }: Props) => {
   };
 
   return (
-    <Container>
+    <Container
+      marginY={0}
+      style={{ display: "flex", alignItems: "center", marginTop: "1rem" }}
+    >
       <Wrapper onClick={() => handleClickLike()}>
         {isLiking ? (
           <ThumbsUpIcon size="1.7rem" color={theme.palette.custom.blue} />
