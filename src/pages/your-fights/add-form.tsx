@@ -32,20 +32,13 @@ const YourFightsAddForm = () => {
   const submitFormData: SubmitHandler<Props> = (data) => {
     const { content, defaultOption0, defaultOption1, extraOption } = data;
 
-    const optionFactory = (value: string) => ({
-      optionValue: value,
-      votes: 0,
-    });
-
     const optionList = [
-      optionFactory(defaultOption0),
-      optionFactory(defaultOption1),
-      ...extraOption.map((option) => optionFactory(option.value)),
+      defaultOption0,
+      defaultOption1,
+      ...extraOption.map((option) => option.value),
     ];
 
-    const likes = { like: 0, hate: 0 };
-
-    postYourFightsForm({ content, optionList, likes }).then(() =>
+    postYourFightsForm({ content, optionList }).then(() =>
       push("/your-fights"),
     );
   };
