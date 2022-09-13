@@ -8,23 +8,24 @@ import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import ThumbsUpDownOutlinedIcon from "@mui/icons-material/ThumbsUpDownOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/system";
 
 const NavBar = () => {
-  const router = useRouter();
+  const { pathname } = useRouter();
   const theme = useTheme();
+  const parentPath = pathname.split("/").filter((path) => path !== "")[0];
 
   return (
     <nav>
-      <Link href="/">
+      <Link href="/home">
         <a>
-          {router.pathname === "/" ? <HomeIcon /> : <HomeOutlinedIcon />}
+          {parentPath === "home" ? <HomeIcon /> : <HomeOutlinedIcon />}
           <h3 className="title">홈</h3>
         </a>
       </Link>
       <Link href="/your-fights">
         <a>
-          {router.pathname === "/your-fights" ? (
+          {parentPath === "your-fights" ? (
             <ThumbsUpDownIcon />
           ) : (
             <ThumbsUpDownOutlinedIcon />
@@ -34,7 +35,7 @@ const NavBar = () => {
       </Link>
       <Link href="/my-fights">
         <a>
-          {router.pathname === "/my-fights" ? (
+          {parentPath === "my-fights" ? (
             <LibraryBooksIcon />
           ) : (
             <LibraryBooksOutlinedIcon />
@@ -44,7 +45,7 @@ const NavBar = () => {
       </Link>
       <Link href="/my-page">
         <a>
-          {router.pathname === "/my-page" ? (
+          {parentPath === "my-page" ? (
             <PersonIcon />
           ) : (
             <PersonOutlineOutlinedIcon />
@@ -64,7 +65,7 @@ const NavBar = () => {
           justify-content: space-around;
           align-items: center;
           max-width: 30rem;
-          background: ${theme.colors.white};
+          background: ${theme.palette.custom.white};
           box-shadow: 0 -1px 3px rgba(57, 63, 72, 0.1);
         }
 

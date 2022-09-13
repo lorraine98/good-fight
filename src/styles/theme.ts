@@ -1,11 +1,41 @@
-export const lightTheme = {
-  colors: {
-    background: "#F6F6F6",
-    text: "#212124",
-    brown: "#C1A089",
-    softBrown: "#D9C3B0",
-    yellow: "#F4BB6C",
-    white: "#FFFFFF",
-    gray: "#868B94",
+import { PaletteMode } from "@mui/material";
+
+export const getDesignToken = (mode: PaletteMode) => ({
+  palette: {
+    mode,
+    custom: {
+      background: mode === "light" ? "#F6F6F6" : "#212124",
+      text: mode === "light" ? "#212124" : "#F6F6F6",
+      brown: "#C1A089",
+      softBrown: "#D9C3B0",
+      yellow: "#F4BB6C",
+      white: "#FFFFFF",
+      gray: "#868B94",
+      lightGreen: "#27c255",
+      blue: "#427AA1",
+      iconSize: {
+        large: {
+          width: "3.625rem",
+          height: "3.625rem",
+        },
+        medium: {
+          width: "2.625rem",
+          height: "2.625rem",
+        },
+        small: {
+          width: "1.3rem",
+          height: "1.3rem",
+        },
+      },
+      fontSize: {
+        large: "3rem",
+        medium: "2rem",
+        small: "1rem",
+      },
+      progressBar: {
+        light: "#308FE8",
+        dark: "#DBEFFE",
+      },
+    },
   },
-};
+});

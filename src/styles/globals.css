@@ -21,3 +21,23 @@ a {
 * {
   box-sizing: border-box;
 }
+
+button {
+  border: none;
+  background-color: transparent;
+}
+
+input,
+select,
+textarea {
+  border: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+}
+textarea {
+  resize: none;
+}

@@ -1,25 +1,41 @@
 import type { AppProps } from "next/app";
-import { RecoilRoot } from "recoil";
 import Head from "next/head";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
-import { ThemeProvider } from "@emotion/react";
-import { lightTheme } from "../styles/theme";
+import PrivateRoute from "../route/PrivateRoute";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { getDesignToken } from "../styles/theme";
+import CssBaseLine from "@mui/material/CssBaseline";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { SnackbarProvider } from "notistack";
+import { AuthProvider } from "src/shared/hooks/useAuth";
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
+  const theme = createTheme(getDesignToken("light"));
+  const queryClient = new QueryClient();
+
   return (
     <>
+      <CssBaseLine />
       <Head>
         <link rel="shortcut icon" href="/static/favicon.ico" />
         <title>good fight</title>
       </Head>
-      <RecoilRoot>
-        <ThemeProvider theme={lightTheme}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+      <SnackbarProvider>
+        <ThemeProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+              <Layout>
+                <PrivateRoute>
+                  <Component {...pageProps} />
+                </PrivateRoute>
+              </Layout>
+            </AuthProvider>
+          </QueryClientProvider>
         </ThemeProvider>
-      </RecoilRoot>
+      </SnackbarProvider>
     </>
   );
-}
+};
+
+export default App;
